@@ -62,6 +62,34 @@
                     ></v-date-picker>
                   </v-menu>
                 </v-col>
+                <v-col
+                  cols="12"
+                  md="6"
+                >
+                  <v-select
+                    v-model="fields.gender"
+                    :items="genders"
+                    item-text="desc"
+                    item-value="id"
+                    label="Gender"
+                    return-object
+                    solo
+                  ></v-select>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col
+                  cols="12"
+                  md="12"
+                >
+                  <v-text-field
+                    v-model="fields.email"
+                    prepend-inner-icon="mdi-email"
+                    label="Email"
+                    placeholder="Email"
+                    solo
+                  ></v-text-field>
+                </v-col>
               </v-row>
               <v-row>
                 <v-col
@@ -196,6 +224,7 @@
                   rounded
                   large
                   color="primary"
+                  type="submit"
                 >
                   Register
                 </v-btn>
@@ -217,7 +246,7 @@ export default {
       fields: {
         firstName: '',
         lastName: '',
-        birthDate: '',
+        birthDate: new Date().toISOString().substr(0, 10),
         address: '',
         city: '',
         province: '',
@@ -226,8 +255,11 @@ export default {
         phone: '',
         username: '',
         password: '',
-        cPassword: ''
+        cPassword: '',
+        email: '',
+        gender: 0
       },
+      genders: [{ id: 1, desc: 'Male'}, { id: 0, desc: 'Female'}, { id: 3, desc: 'Other'} ]
     }
   },
   head() {
