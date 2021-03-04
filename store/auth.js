@@ -50,7 +50,8 @@ export  const actions = {
       // console.log("RESPONSE_APOLLO", resp);
       dispatch('setAuthUserData', registerUser);
     }catch(err){
-      console.log(err)
+      let errors = err.message.split(': ')[1].split(',');
+      console.log(errors)
     }
   },
   async setAuthUserData({ commit }, payload) {
