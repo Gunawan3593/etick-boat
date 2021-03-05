@@ -20,6 +20,9 @@
                     placeholder="First Name"
                     solo
                   ></v-text-field>
+                  <div class="text-left caption" v-for="(error,index) in errors.firstName" :key="index">
+                    <span class="red--text">{{ error[0] }}</span>
+                  </div>
                 </v-col>
                 <v-col
                   cols="12"
@@ -32,6 +35,9 @@
                     placeholder="Last Name"
                     solo
                   ></v-text-field>
+                  <div class="text-left caption" v-for="(error,index) in errors.lastName" :key="index">
+                    <span class="red--text">{{ error[0] }}</span>
+                  </div>
                 </v-col>
               </v-row>
               <v-row>
@@ -61,6 +67,9 @@
                       v-model="fields.birthDate"
                     ></v-date-picker>
                   </v-menu>
+                  <div class="text-left caption" v-for="(error,index) in errors.birthDate" :key="index">
+                    <span class="red--text">{{ error[0] }}</span>
+                  </div>
                 </v-col>
                 <v-col
                   cols="12"
@@ -75,6 +84,9 @@
                     return-object
                     solo
                   ></v-select>
+                  <div class="text-left caption" v-for="(error,index) in errors.gender" :key="index">
+                    <span class="red--text">{{ error[0] }}</span>
+                  </div>
                 </v-col>
               </v-row>
               <v-row>
@@ -89,6 +101,9 @@
                     placeholder="Email"
                     solo
                   ></v-text-field>
+                  <div class="text-left caption" v-for="(error,index) in errors.email" :key="index">
+                    <span class="red--text">{{ error[0] }}</span>
+                  </div>
                 </v-col>
               </v-row>
               <v-row>
@@ -104,6 +119,9 @@
                     label="Address"
                     placeholder="Address"
                   ></v-textarea>
+                  <div class="text-left caption" v-for="(error,index) in errors.address" :key="index">
+                    <span class="red--text">{{ error[0] }}</span>
+                  </div>
                 </v-col>
               </v-row>
               <v-row>
@@ -182,6 +200,9 @@
                     placeholder="Username"
                     solo
                   ></v-text-field>
+                  <div class="text-left caption" v-for="(error,index) in errors.username" :key="index">
+                    <span class="red--text">{{ error[0] }}</span>
+                  </div>
                 </v-col>
               </v-row>
               <v-row>
@@ -196,6 +217,9 @@
                     placeholder="Password"
                     solo
                   ></v-text-field>
+                  <div class="text-left caption" v-for="(error,index) in errors.password" :key="index">
+                    <span class="red--text">{{ error[0] }}</span>
+                  </div>
                 </v-col>
                 <v-col
                   cols="12"
@@ -208,6 +232,9 @@
                     placeholder="Confirm Password"
                     solo
                   ></v-text-field>
+                  <div class="text-left caption" v-for="(error,index) in errors.cPassword" :key="index">
+                    <span class="red--text">{{ error[0] }}</span>
+                  </div>
                 </v-col>
               </v-row>
               <v-card-actions>
@@ -239,7 +266,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapMutations } from 'vuex';
 export default {
   data() {
     return {
@@ -274,7 +301,12 @@ export default {
     signUpUser() {
       this.registerUser(this.fields);
     }
-  }
+  },
+  computed: {
+    errors () {
+      return this.$store.state.auth.errors
+    }
+  },
 }
 </script>
 

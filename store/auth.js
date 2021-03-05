@@ -13,12 +13,14 @@ export const state = () => ({
   authStatus: false,
   user: {},
   token: ls || null,
+  errors: {}
 });
 
 export const getters = {
   user: state => state.user,
   isAuth: state => !!state.token,
-  authStatus: state => state.authStatus
+  authStatus: state => state.authStatus,
+  errors: state=> state.errors
 };
 
 export  const actions = {
@@ -39,7 +41,7 @@ export  const actions = {
       }
   },
   async registerUser({
-      dispatch
+      dispatch, commit
   }, userData) {
     try{
       let apolloClient = this.app.apolloProvider.defaultClient;
@@ -50,8 +52,19 @@ export  const actions = {
       // console.log("RESPONSE_APOLLO", resp);
       dispatch('setAuthUserData', registerUser);
     }catch(err){
-      let errors = err.message.split(': ')[1].split(',');
-      console.log(errors)
+        let errors = err.message.split(': ')[1].split(',');
+        let resErrors = [];
+        if(errors){
+            errors.forEach(error =>  {
+                let res = error.split(':');
+                if(resErrors[res[0]] == undefined){ 
+                    resErrors[res[0]] = []
+                }
+                resErrors[res[0]].push([res[1]]);
+            })
+        }
+        resErrors = Object.assign({}, resErrors);
+        commit('SET_ERROR',resErrors);
     }
   },
   async setAuthUserData({ commit }, payload) {
@@ -104,5 +117,8 @@ export const mutations = {
       state.authStatus = false;
       state.user = {};
       state.token = null;
+  },
+  SET_ERROR(state, payload){
+      state.errors = payload;
   }
 };
