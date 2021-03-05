@@ -28,7 +28,11 @@
 </template>
 
 <script>
-export default {}
+export default {
+  async created(){
+    await this.$store.dispatch('auth/getAuthUser')
+  }
+}
 </script>
 
 <style>

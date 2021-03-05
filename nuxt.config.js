@@ -36,7 +36,8 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
-    '@nuxtjs/apollo'
+    '@nuxtjs/apollo',
+    'nuxt-sweetalert2'
   ],
 
   apollo: {
@@ -61,3 +62,4 @@ export default {
   build: {
   }
 }
+

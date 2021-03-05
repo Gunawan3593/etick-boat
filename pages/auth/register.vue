@@ -21,7 +21,7 @@
                     solo
                   ></v-text-field>
                   <div class="text-left caption" v-for="(error,index) in errors.firstName" :key="index">
-                    <span class="red--text">{{ error[0] }}</span>
+                    <span class="red--text"><v-icon color="error" small class="pb-1">mdi-alert-decagram</v-icon> {{ error[0] }}</span>
                   </div>
                 </v-col>
                 <v-col
@@ -36,7 +36,7 @@
                     solo
                   ></v-text-field>
                   <div class="text-left caption" v-for="(error,index) in errors.lastName" :key="index">
-                    <span class="red--text">{{ error[0] }}</span>
+                    <span class="red--text"><v-icon color="error" small class="pb-1">mdi-alert-decagram</v-icon> {{ error[0] }}</span>
                   </div>
                 </v-col>
               </v-row>
@@ -68,7 +68,7 @@
                     ></v-date-picker>
                   </v-menu>
                   <div class="text-left caption" v-for="(error,index) in errors.birthDate" :key="index">
-                    <span class="red--text">{{ error[0] }}</span>
+                    <span class="red--text"><v-icon color="error" small class="pb-1">mdi-alert-decagram</v-icon> {{ error[0] }}</span>
                   </div>
                 </v-col>
                 <v-col
@@ -85,7 +85,7 @@
                     solo
                   ></v-select>
                   <div class="text-left caption" v-for="(error,index) in errors.gender" :key="index">
-                    <span class="red--text">{{ error[0] }}</span>
+                    <span class="red--text"><v-icon color="error" small class="pb-1">mdi-alert-decagram</v-icon> {{ error[0] }}</span>
                   </div>
                 </v-col>
               </v-row>
@@ -102,7 +102,7 @@
                     solo
                   ></v-text-field>
                   <div class="text-left caption" v-for="(error,index) in errors.email" :key="index">
-                    <span class="red--text">{{ error[0] }}</span>
+                    <span class="red--text"><v-icon color="error" small class="pb-1">mdi-alert-decagram</v-icon> {{ error[0] }}</span>
                   </div>
                 </v-col>
               </v-row>
@@ -120,7 +120,7 @@
                     placeholder="Address"
                   ></v-textarea>
                   <div class="text-left caption" v-for="(error,index) in errors.address" :key="index">
-                    <span class="red--text">{{ error[0] }}</span>
+                    <span class="red--text"><v-icon color="error" small class="pb-1">mdi-alert-decagram</v-icon> {{ error[0] }}</span>
                   </div>
                 </v-col>
               </v-row>
@@ -201,7 +201,7 @@
                     solo
                   ></v-text-field>
                   <div class="text-left caption" v-for="(error,index) in errors.username" :key="index">
-                    <span class="red--text">{{ error[0] }}</span>
+                    <span class="red--text"><v-icon color="error" small class="pb-1">mdi-alert-decagram</v-icon> {{ error[0] }}</span>
                   </div>
                 </v-col>
               </v-row>
@@ -216,9 +216,12 @@
                     label="Password"
                     placeholder="Password"
                     solo
+                    :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
+                    :type="showPass ? 'text' : 'password'"
+                    @click:append="showPass = !showPass"
                   ></v-text-field>
                   <div class="text-left caption" v-for="(error,index) in errors.password" :key="index">
-                    <span class="red--text">{{ error[0] }}</span>
+                    <span class="red--text"><v-icon color="error" small class="pb-1">mdi-alert-decagram</v-icon> {{ error[0] }}</span>
                   </div>
                 </v-col>
                 <v-col
@@ -231,9 +234,12 @@
                     label="Confirm Password"
                     placeholder="Confirm Password"
                     solo
+                    :append-icon="showcPass ? 'mdi-eye' : 'mdi-eye-off'"
+                    :type="showcPass ? 'text' : 'password'"
+                    @click:append="showcPass = !showcPass"
                   ></v-text-field>
                   <div class="text-left caption" v-for="(error,index) in errors.cPassword" :key="index">
-                    <span class="red--text">{{ error[0] }}</span>
+                    <span class="red--text"><v-icon color="error" small class="pb-1">mdi-alert-decagram</v-icon> {{ error[0] }}</span>
                   </div>
                 </v-col>
               </v-row>
@@ -266,7 +272,7 @@
 </template>
 
 <script>
-import { mapActions, mapMutations } from 'vuex';
+import { mapActions } from 'vuex';
 export default {
   data() {
     return {
@@ -286,7 +292,9 @@ export default {
         email: '',
         gender: 0
       },
-      genders: [{ id: 1, desc: 'Male'}, { id: 0, desc: 'Female'}, { id: 3, desc: 'Other'} ]
+      genders: [{ id: 1, desc: 'Male'}, { id: 0, desc: 'Female'}, { id: 3, desc: 'Other'} ],
+      showPass: false,
+      showcPass: false
     }
   },
   head() {

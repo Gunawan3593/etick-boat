@@ -30,4 +30,7 @@ a {
   text-decoration: none;
   color: white !important;
 }
+.swal2-popup {
+    font-family: "Roboto", sans-serif !important;
+  }
 </style>

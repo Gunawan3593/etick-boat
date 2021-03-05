@@ -16,6 +16,8 @@ export const state = () => ({
   errors: {}
 });
 
+import { Toast } from '../plugins/swal';
+
 export const getters = {
   user: state => state.user,
   isAuth: state => !!state.token,
@@ -24,7 +26,7 @@ export const getters = {
 };
 
 export  const actions = {
-  async loginUser({ dispatch }, userData) {
+  async loginUser({ commit, dispatch }, userData) {
       try {
           let apolloClient = this.app.apolloProvider.defaultClient;
           let { data: { authenticateUser } } = await apolloClient.query({
@@ -33,11 +35,19 @@ export  const actions = {
           });
           dispatch('setAuthUserData', authenticateUser);
       } catch (err) {
-          // eslint-disable-next-line
-          Toast.fire({
-              icon: 'error',
-              html: "<div class='text-left text-danger pl-2'>"+err.message.split(': ')[1]+"</div>"
-          });
+        let errors = err.message.split(': ')[1].split(',');
+        let resErrors = [];
+        if(errors){
+            errors.forEach(error =>  {
+                let res = error.split(':');
+                if(resErrors[res[0]] == undefined){ 
+                    resErrors[res[0]] = []
+                }
+                resErrors[res[0]].push([res[1]]);
+            })
+        }
+        resErrors = Object.assign({}, resErrors);
+        commit('SET_ERROR',resErrors);
       }
   },
   async registerUser({
@@ -73,15 +83,15 @@ export  const actions = {
       //Set token in local storage
       localStorage.setItem('apollo-token', payload.token.split(' ')[1]);
       //Redirect the user to the dashboard
-      router.push('/dashboard');
-      // eslint-disable-next-line
       Toast.fire({
-          icon: 'success',
-          title: 'You are now logged in.'
-      });
+        type: 'success',
+        title: 'Login successfully'
+      })
+      this.$router.push('/about');
   },
   async getAuthUser({ commit, dispatch }) {
       try {
+          let apolloClient = this.app.apolloProvider.defaultClient;
           let {
               data: { authUserProfile }
           } = await apolloClient.query({
@@ -89,18 +99,21 @@ export  const actions = {
           });
           commit('LOGIN_USER', { user: authUserProfile });
       } catch (err) {
-          dispatch('logoutUser')
+          console.log(err);
+          //dispatch('logoutUser')
       }
   },
   logoutUser({ commit, state }) {
       if (state.token) {
           // eslint-disable-next-line
           Toast.fire({
-              icon: 'success',
+              type: 'success',
               title: 'You are now logged out.'
           });
       }
-      localStorage.removeItem('apollo-token');
+      if (process.browser) {
+        localStorage.removeItem('apollo-token');
+      }
       commit('LOGOUT_USER');
   }
 };

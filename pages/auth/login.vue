@@ -7,18 +7,22 @@
             <v-card-title class="display-1">Login</v-card-title>
             <v-divider class="mx-4"></v-divider>
             <v-card-text>
-              <v-form>
+              <v-form @submit.prevent="authenticateUser">
                 <v-row>
                   <v-col
                     cols="12"
                     md="12"
                   >
                     <v-text-field
+                      v-model="fields.username"
                       prepend-inner-icon="mdi-account"
                       label="Username"
                       placeholder="Username"
                       solo
                     ></v-text-field>
+                    <div class="text-left caption" v-for="(error,index) in errors.username" :key="index">
+                      <span class="red--text"><v-icon color="error" small class="pb-1">mdi-alert-decagram</v-icon> {{ error[0] }}</span>
+                    </div>
                   </v-col>
                 </v-row>
                 <v-row>
@@ -27,11 +31,18 @@
                     md="12"
                   >
                     <v-text-field
+                      v-model="fields.password"
                       prepend-inner-icon="mdi-lock"
                       label="Password"
                       placeholder="Password"
                       solo
+                      :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
+                      :type="showPass ? 'text' : 'password'"
+                      @click:append="showPass = !showPass"
                     ></v-text-field>
+                    <div class="text-left caption" v-for="(error,index) in errors.password" :key="index">
+                      <span class="red--text"><v-icon color="error" small class="pb-1">mdi-alert-decagram</v-icon> {{ error[0] }}</span>
+                    </div>
                   </v-col>
                 </v-row>
                 <v-card-actions>
@@ -48,6 +59,7 @@
                     rounded
                     large
                     color="primary"
+                    type="submit"
                   >
                     Login
                   </v-btn>
@@ -62,11 +74,33 @@
 </template>
 
 <script>
+import { mapActions, mapMutations } from 'vuex';
 export default {
-  
+  data() {
+    return {
+      fields: {
+        username: '',
+        password: ''
+      },
+      showPass: false
+    }
+  },
+  methods: {
+    ...mapActions({
+      loginUser: 'auth/loginUser'
+    }),
+    async authenticateUser() {
+      await this.loginUser(this.fields);
+    }
+  },
+  computed: {
+    errors () {
+      return this.$store.state.auth.errors
+    }
+  }
 }
 </script>
 
 <style>
-
+  
 </style>

@@ -18,6 +18,7 @@ export const REGISTER_USER = gql`
     $active: Boolean
     $role: Int
     $state: String
+    $cPassword: String
   ) {
   registerUser(
     newUser: {
@@ -37,6 +38,7 @@ export const REGISTER_USER = gql`
       active: $active
       role: $role
       birthDate: $birthDate
+      cPassword: $cPassword
     }
   ) {
     token
