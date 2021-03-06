@@ -274,6 +274,7 @@
 <script>
 import { mapActions } from 'vuex';
 export default {
+  middleware: 'unauthenticated',
   data() {
     return {
       fields: {
@@ -304,7 +305,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      registerUser : 'auth/registerUser',
+      registerUser : 'auth/registerUser', refreshError: 'auth/refreshError'
     }),
     signUpUser() {
       this.registerUser(this.fields);
@@ -315,6 +316,9 @@ export default {
       return this.$store.state.auth.errors
     }
   },
+  created(){
+    return this.refreshError();
+  }
 }
 </script>
 

@@ -74,8 +74,9 @@
 </template>
 
 <script>
-import { mapActions, mapMutations } from 'vuex';
+import { mapActions } from 'vuex';
 export default {
+  middleware: 'unauthenticated',
   data() {
     return {
       fields: {
@@ -87,7 +88,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      loginUser: 'auth/loginUser'
+      loginUser: 'auth/loginUser', refreshError: 'auth/refreshError'
     }),
     async authenticateUser() {
       await this.loginUser(this.fields);
@@ -97,6 +98,9 @@ export default {
     errors () {
       return this.$store.state.auth.errors
     }
+  },
+  created(){
+    return this.refreshError();
   }
 }
 </script>

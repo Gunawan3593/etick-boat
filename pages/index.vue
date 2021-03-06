@@ -29,9 +29,7 @@
 
 <script>
 export default {
-  async created(){
-    await this.$store.dispatch('auth/getAuthUser')
-  }
+  
 }
 </script>
 

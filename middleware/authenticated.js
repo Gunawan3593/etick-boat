@@ -1,6 +1,6 @@
-export default function ({ store, redirect }) {
-    // If the user is not authenticated
-    if (!store.state.auth.authStatus) {
+export default function ({ app, redirect }) {
+    const hasToken = !!app.$apolloHelpers.getToken();
+    if (!hasToken) {
       return redirect('/auth/login')
     }
-  }
+}

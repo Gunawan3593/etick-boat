@@ -4,19 +4,14 @@ import {
   AUTHENTICATE_USER
 } from '../gql';
 
-let ls = null;
-if (process.browser) {
-  ls = localStorage.getItem('apollo-token')
-}
+import { Toast } from '../plugins/swal';
 
 export const state = () => ({
   authStatus: false,
   user: {},
-  token: ls || null,
+  token: null,
   errors: {}
 });
-
-import { Toast } from '../plugins/swal';
 
 export const getters = {
   user: state => state.user,
@@ -82,12 +77,13 @@ export  const actions = {
       commit('SET_TOKEN', payload);
       //Set token in local storage
       localStorage.setItem('apollo-token', payload.token.split(' ')[1]);
+      this.$apolloHelpers.onLogin(payload.token.split(' ')[1]);
       //Redirect the user to the dashboard
       Toast.fire({
         type: 'success',
         title: 'Login successfully'
       })
-      this.$router.push('/about');
+      this.$router.push('/dashboard');
   },
   async getAuthUser({ commit, dispatch }) {
       try {
@@ -97,7 +93,8 @@ export  const actions = {
           } = await apolloClient.query({
               query: AUTHENTICATED_USER
           });
-          commit('LOGIN_USER', { user: authUserProfile });
+          let token = this.$apolloHelpers.getToken();
+          commit('LOGIN_USER', { user: authUserProfile, token: token });
       } catch (err) {
           console.log(err);
           //dispatch('logoutUser')
@@ -113,14 +110,20 @@ export  const actions = {
       }
       if (process.browser) {
         localStorage.removeItem('apollo-token');
+        this.$apolloHelpers.onLogout();
+        this.$router.push('/auth/login');
       }
       commit('LOGOUT_USER');
+  },
+  refreshError({ commit }){
+      commit('REFRESH_ERROR');
   }
 };
 
 export const mutations = {
   LOGIN_USER(state, payload) {
       state.user = payload.user;
+      state.token = payload.token;
       state.authStatus = true;
   },
   SET_TOKEN(state, payload) {
@@ -133,5 +136,8 @@ export const mutations = {
   },
   SET_ERROR(state, payload){
       state.errors = payload;
+  },
+  REFRESH_ERROR(state){
+        state.errors = {}
   }
 };
