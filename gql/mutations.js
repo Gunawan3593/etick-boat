@@ -53,3 +53,38 @@ export const REGISTER_USER = gql`
     }
   }
 `
+export const CREATE_NEW_VENDOR = gql`
+mutation CREATE_NEW_VENDOR(
+  $name: String!
+  $descriptions: String!
+) {
+  createNewVendor(
+    newVendor: { 
+        name: $name, 
+        descriptions: $descriptions
+    }
+  ) {
+    name
+    descriptions
+  }
+}`;
+
+export const EDIT_VENDOR_BY_ID = gql`
+mutation EDIT_VENDOR_BY_ID($id: ID!, $updatedVendor: VendorInput!) {
+  editVendorByID(updatedVendor: $updatedVendor, id: $id) {
+    id
+    name
+    descriptions
+    updatedAt
+    createdAt
+  }
+}`;
+
+export const DELETE_VENDOR_BY_ID = gql`
+mutation DELETE_VENDOR_BY_ID($id: ID!){
+  deleteVendorById(id:$id){
+    id
+    message
+    success
+  }
+}`;

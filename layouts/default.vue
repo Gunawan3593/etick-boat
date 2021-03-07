@@ -36,7 +36,7 @@
             </v-list-item-title>
           </v-list-item>
         </nuxt-link>
-        <nuxt-link to="/vendor">
+        <nuxt-link to="/admin/vendor">
           <v-list-item link>
             <v-list-item-title>
               Vendor
@@ -120,4 +120,8 @@ a {
 .swal2-popup {
     font-family: "Roboto", sans-serif !important;
   }
+
+.container {
+  min-height: 0px !important;
+}
 </style>

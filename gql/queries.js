@@ -30,3 +30,25 @@ query AUTHENTICATE_USER(
       token
     }
 }`;
+
+export const GET_ALL_VENDORS = gql`
+query GET_ALL_VENDORS {
+  getAllVendors {
+    id
+    name
+    descriptions
+    createdAt
+    updatedAt
+  }
+}`;
+
+export const VENDOR_BY_ID = gql`
+query VENDOR_BY_ID($id: ID!) {
+  getVendorById(id:$id) {
+    id
+    name
+    descriptions
+    updatedAt
+    createdAt
+  }
+}`;
