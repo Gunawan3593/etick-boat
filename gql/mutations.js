@@ -57,26 +57,33 @@ export const CREATE_NEW_VENDOR = gql`
 mutation CREATE_NEW_VENDOR(
   $name: String!
   $descriptions: String!
+  $active: Boolean
 ) {
   createNewVendor(
     newVendor: { 
         name: $name, 
         descriptions: $descriptions
+        active: $active
     }
   ) {
+    id
     name
     descriptions
+    active
   }
 }`;
 
 export const EDIT_VENDOR_BY_ID = gql`
-mutation EDIT_VENDOR_BY_ID($id: ID!, $updatedVendor: VendorInput!) {
-  editVendorByID(updatedVendor: $updatedVendor, id: $id) {
+mutation EDIT_VENDOR_BY_ID($id: ID!, $name:String!, $descriptions:String!, $active:Boolean) {
+  editVendorByID(updatedVendor: {
+    name : $name,
+    descriptions : $descriptions,
+    active : $active
+  }, id: $id) {
     id
     name
     descriptions
-    updatedAt
-    createdAt
+    active
   }
 }`;
 

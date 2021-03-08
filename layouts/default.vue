@@ -87,7 +87,7 @@
         class="text-center"
         cols="12"
       >
-        {{ new Date().getFullYear() }} &copy; <strong>AnonimX Pro</strong>
+        {{ new Date().getFullYear() }} &copy; AnonimX Pro
       </v-col>
     </v-footer>
   </v-app>

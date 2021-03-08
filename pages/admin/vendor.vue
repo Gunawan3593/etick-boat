@@ -4,7 +4,7 @@
       <v-row class="justify-center">
         <v-col cols="12">
           <v-card elevation="2" > 
-            <v-card-title class="display-1">Vendor List<v-spacer></v-spacer><v-btn text small @click="dialog=true"><v-icon color="green">mdi-plus</v-icon></v-btn></v-card-title>
+            <v-card-title class="display-1">Vendor List<v-spacer></v-spacer><v-btn text small @click="addData()"><v-icon color="green">mdi-plus</v-icon></v-btn></v-card-title>
             <v-divider class="mx-4"></v-divider>
             <v-card-text>
               <v-simple-table dense>
@@ -33,8 +33,62 @@
                     >
                     <td class="text-left">{{ item.name }}</td>
                     <td class="text-left">{{ item.descriptions }}</td>
-                    <td class="text-left">{{ item.active }}</td>
-                    <td><v-btn text>Delete</v-btn></td>
+                    <td>
+                      <v-tooltip top>
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-icon
+                            class="mr-2"
+                            v-on="on"
+                            v-bind="attrs"
+                            v-if="item.active"
+                            color="green"
+                          >
+                            mdi-checkbox-marked-circle
+                          </v-icon>
+                          <v-icon
+                            class="mr-2"
+                            v-on="on"
+                            v-bind="attrs"
+                            v-if="!item.active"
+                            color="red"
+                          >
+                            mdi-close-circle
+                          </v-icon>
+                        </template>
+                        <span v-if="item.active">Active</span>
+                        <span v-if="!item.active">Non Active</span>
+                      </v-tooltip>
+                    </td>
+                    <td>
+                      <v-tooltip top>
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-icon
+                            small
+                            class="mr-2"
+                            @click="editItem(item.id)"
+                            v-on="on"
+                            v-bind="attrs"
+                          >
+                            mdi-pencil
+                          </v-icon>
+                        </template>
+                        <span>Edit</span>
+                      </v-tooltip>
+                      <v-tooltip top>
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-icon
+                            small
+                            class="mr-2"
+                            @click="deleteItem(item)"
+                            v-on="on"
+                            v-bind="attrs"
+                          >
+                            mdi-delete
+                          </v-icon>
+                        </template>
+                        <span>Delete</span>
+                      </v-tooltip>
+                    </td>
                     </tr>
                 </tbody>
                 </template>
@@ -78,7 +132,7 @@
                 >
                   <v-textarea
                     v-model="fields.descriptions"
-                    prepend-inner-icon="mdi-map-marker"
+                    prepend-inner-icon="mdi-notebook-outline"
                     solo
                     name="input-7-4"
                     label="Descriptions"
@@ -126,7 +180,7 @@
 import { mapActions } from 'vuex';
 export default {
   middleware: 'authenticated',
-  data() {
+  async asyncData() {
       return {
           fields: {
               id: false,
@@ -140,26 +194,36 @@ export default {
   },
   methods: {
     ...mapActions({
-      getVendors: 'vendor/getAllVendors', refreshError: 'vendor/refreshError', newVendor: 'vendor/newVendor'
+      getVendors: 'vendor/getAllVendors', refreshError: 'vendor/refreshError', newVendor: 'vendor/newVendor', vendorById: 'vendor/getVendorById', updateVendor: 'vendor/updateVendor'
     }),
+    addData(){
+      this.dialog = true;
+      this.fields = {}
+    },
     async getData(){
-        await this.getVendors();
-        let data = this.$store.state.vendor.vendors;
-        this.vendors = [];
-        data.forEach(vendor => {
-            this.vendors.push(vendor);
-        });
+        let data = await this.getVendors();
+        this.vendors = data;
     },
     async saveData(){
         if(!this.fields.id){
             let data = await this.newVendor(this.fields);
             if(data){
-                this.getData();
-                this.dialog = false;
+              this.dialog = false;
             }
         }else{
-
+            let data = await this.updateVendor(this.fields);
+            if(data){
+              this.dialog = false;
+            }
         }
+    },
+    async editItem(id){
+      await this.vendorById(id);
+      let data = {...this.$store.state.vendor.currentVendor};
+      if(data){
+        this.fields = data;
+        this.dialog = true;
+      }
     }
   },
   computed: {

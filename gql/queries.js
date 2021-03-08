@@ -37,8 +37,7 @@ query GET_ALL_VENDORS {
     id
     name
     descriptions
-    createdAt
-    updatedAt
+    active
   }
 }`;
 
@@ -48,7 +47,6 @@ query VENDOR_BY_ID($id: ID!) {
     id
     name
     descriptions
-    updatedAt
-    createdAt
+    active
   }
 }`;
