@@ -96,8 +96,7 @@ export  const actions = {
           let token = this.$apolloHelpers.getToken();
           commit('LOGIN_USER', { user: authUserProfile, token: token });
       } catch (err) {
-          console.log(err);
-          //dispatch('logoutUser')
+          dispatch('logoutUser')
       }
   },
   logoutUser({ commit, state }) {

@@ -50,3 +50,29 @@ query VENDOR_BY_ID($id: ID!) {
     active
   }
 }`;
+
+export const VENDOR_BY_LIMIT_PAGE = gql`
+query VENDOR_BY_LIMIT_PAGE($page: Int!, $limit: Int!, $search: String) {
+  getVendorsByLimitAndPage(
+    page: $page,
+    limit: $limit,
+    search: $search
+  ){
+    vendors{
+      id,
+      name,
+      descriptions,
+      active
+    }
+    paginator{
+      currentPage,
+      pageCount,
+      prev,
+      next,
+      hasPrevPage
+      hasNextPage
+      perPage
+      vendorCount
+    }
+  }
+}`;

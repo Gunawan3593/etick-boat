@@ -1,5 +1,5 @@
 import {
-    GET_ALL_VENDORS,
+    VENDOR_BY_LIMIT_PAGE,
     VENDOR_BY_ID,
     CREATE_NEW_VENDOR,
     EDIT_VENDOR_BY_ID,
@@ -21,13 +21,14 @@ import {
   };
   
   export  const actions = {
-    async getAllVendors({ commit }) {
+    async getAllVendors({ commit }, pages) {
         try {
             let apolloClient = this.app.apolloProvider.defaultClient;
             let data = await apolloClient.query({
-                query: GET_ALL_VENDORS
+                query: VENDOR_BY_LIMIT_PAGE,
+                variables: pages
             });
-            let res = data.data.getAllVendors;
+            let res = data.data.getVendorsByLimitAndPage;
             commit('SET_VENDOR',res);
             return res;
         } catch (err) {
@@ -98,7 +99,6 @@ import {
             }
             return res;
         } catch (err) {
-            console.log(err);
             let errors = err.message.split(': ')[1].split(',');
             let resErrors = [];
             if(errors){
@@ -114,6 +114,26 @@ import {
             commit('SET_ERROR',resErrors);
         }
     },
+    async deleteVendor({ commit }, id){
+        try {
+            let apolloClient = this.app.apolloProvider.defaultClient;
+            let data = await apolloClient.mutate({
+                mutation: DELETE_VENDOR_BY_ID,
+                variables: { id: id }
+            });
+            let res = data.data.deleteVendorById;
+            if(res.success){
+                Toast.fire({
+                    type: 'success',
+                    title: 'Vendor deleted successfully'
+                });
+                commit('DELETE_VENDOR',res);
+            }
+            return res;
+        } catch (err) {
+          console.log(err.message.split(': ')[1]);
+        }
+    },
     refreshError({ commit }){
         commit('REFRESH_ERROR');
     }
@@ -121,7 +141,7 @@ import {
   
   export const mutations = {
     SET_VENDOR(state, payload) {
-        state.vendors = payload;
+        state.vendors = payload.vendors;
     },
     ADD_VENDOR(state, payload) {
         state.vendors.push(payload);
@@ -136,6 +156,13 @@ import {
             dt[index].name = payload.name;
             dt[index].descriptions = payload.descriptions;
             dt[index].active = payload.active;
+        }
+    },
+    DELETE_VENDOR(state, payload){
+        let id = payload.id;
+        if(id){
+            let index = state.vendors.findIndex(vendor => vendor.id === payload.id);
+            state.vendors.splice(index, 1);
         }
     },
     SET_ERROR(state, payload){

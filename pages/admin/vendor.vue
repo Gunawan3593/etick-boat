@@ -4,7 +4,15 @@
       <v-row class="justify-center">
         <v-col cols="12">
           <v-card elevation="2" > 
-            <v-card-title class="display-1">Vendor List<v-spacer></v-spacer><v-btn text small @click="addData()"><v-icon color="green">mdi-plus</v-icon></v-btn></v-card-title>
+            <v-card-title class="display-1">Vendor List<v-spacer></v-spacer><v-spacer></v-spacer>
+            <v-text-field
+              v-model="search"
+              append-icon="mdi-magnify"
+              label="Search"
+              single-line
+              hide-details
+            ></v-text-field>
+            <v-btn text class="mt-2" @click="addData()"><v-icon color="green">mdi-plus</v-icon></v-btn></v-card-title>
             <v-divider class="mx-4"></v-divider>
             <v-card-text>
               <v-simple-table dense>
@@ -34,30 +42,8 @@
                     <td class="text-left">{{ item.name }}</td>
                     <td class="text-left">{{ item.descriptions }}</td>
                     <td>
-                      <v-tooltip top>
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-icon
-                            class="mr-2"
-                            v-on="on"
-                            v-bind="attrs"
-                            v-if="item.active"
-                            color="green"
-                          >
-                            mdi-checkbox-marked-circle
-                          </v-icon>
-                          <v-icon
-                            class="mr-2"
-                            v-on="on"
-                            v-bind="attrs"
-                            v-if="!item.active"
-                            color="red"
-                          >
-                            mdi-close-circle
-                          </v-icon>
-                        </template>
-                        <span v-if="item.active">Active</span>
-                        <span v-if="!item.active">Non Active</span>
-                      </v-tooltip>
+                      <v-icon v-if="item.active" color="green" dark>mdi-check-circle</v-icon>
+                      <v-icon v-if="!item.active" color="red" dark>mdi-minus-circle</v-icon>
                     </td>
                     <td>
                       <v-tooltip top>
@@ -79,7 +65,7 @@
                           <v-icon
                             small
                             class="mr-2"
-                            @click="deleteItem(item)"
+                            @click="deleteItem(item.id)"
                             v-on="on"
                             v-bind="attrs"
                           >
@@ -93,11 +79,28 @@
                 </tbody>
                 </template>
             </v-simple-table>
+            <v-card-actions>
+            <v-spacer></v-spacer>
+              <div class="caption">Row per Page</div>
+              <v-select class="caption col-2 mt-4" dense
+                v-model="limit"
+                :items="perPages"
+              ></v-select>
+            </v-card-actions>
             </v-card-text>
           </v-card>
         </v-col>
+        <v-col cols="12">
+          <div class="text-center">
+            <v-pagination
+              v-model="curpage"
+              :length="totalpage"
+              :total-visible="7"
+              circle
+            ></v-pagination>
+          </div>
+        </v-col>
       </v-row>
-      
     <v-dialog
     v-model="dialog"
     persistent
@@ -180,8 +183,13 @@
 import { mapActions } from 'vuex';
 export default {
   middleware: 'authenticated',
-  async asyncData() {
+  asyncData() {
       return {
+          curpage: 1,
+          search: '',
+          limit: 10,
+          totalpage: 0,
+          perPages: [5,10,25,50,100],
           fields: {
               id: false,
               name: '',
@@ -194,15 +202,21 @@ export default {
   },
   methods: {
     ...mapActions({
-      getVendors: 'vendor/getAllVendors', refreshError: 'vendor/refreshError', newVendor: 'vendor/newVendor', vendorById: 'vendor/getVendorById', updateVendor: 'vendor/updateVendor'
+      getVendors: 'vendor/getAllVendors', refreshError: 'vendor/refreshError', newVendor: 'vendor/newVendor', vendorById: 'vendor/getVendorById', updateVendor: 'vendor/updateVendor', deleteVendor: 'vendor/deleteVendor'
     }),
     addData(){
       this.dialog = true;
-      this.fields = {}
+      this.fields = {
+        id: false,
+        name: '',
+        descriptions: '',
+        active: true
+      }
     },
     async getData(){
-        let data = await this.getVendors();
-        this.vendors = data;
+        let data = await this.getVendors({ page : this.curpage, limit : this.limit, search : this.search});
+        this.vendors = data.vendors;
+        this.totalpage = data.paginator.pageCount;
     },
     async saveData(){
         if(!this.fields.id){
@@ -224,6 +238,10 @@ export default {
         this.fields = data;
         this.dialog = true;
       }
+    },
+    async deleteItem(id){
+      await this.deleteVendor(id);
+      this.getData();
     }
   },
   computed: {
@@ -231,8 +249,19 @@ export default {
       return this.$store.state.vendor.errors
     }
   },
-  created(){
+  watch: {
+    curpage() {
       this.getData();
+    },
+    search() {
+      this.getData();
+    },
+    limit() {
+      this.getData();
+    }
+  },
+  created(){
+    this.getData();
   }
 }
 </script>
