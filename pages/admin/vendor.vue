@@ -83,7 +83,7 @@
             <v-row class="justify-right">
               <v-spacer></v-spacer>
               <div class="caption mt-5">Row per Page</div>
-              <v-col cols="2">
+              <v-col cols="3" md="2">
                 <v-select class="caption" dense
                   v-model="limit"
                   :items="perPages"

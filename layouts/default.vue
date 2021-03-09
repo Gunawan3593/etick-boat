@@ -3,6 +3,7 @@
       <v-app-bar
         color="green"
         dark
+        app
       >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>etick-boat</v-toolbar-title>
