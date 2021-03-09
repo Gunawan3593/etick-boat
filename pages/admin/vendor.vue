@@ -12,7 +12,7 @@
               single-line
               hide-details
             ></v-text-field>
-            <v-btn text class="mt-2" @click="addData()"><v-icon color="green">mdi-plus</v-icon></v-btn></v-card-title>
+            <v-btn text class="mt-4" @click="addData()"><v-icon color="green">mdi-plus</v-icon></v-btn></v-card-title>
             <v-divider class="mx-4"></v-divider>
             <v-card-text>
               <v-simple-table dense>
@@ -80,26 +80,31 @@
                 </template>
             </v-simple-table>
             <v-card-actions>
-            <v-spacer></v-spacer>
-              <div class="caption">Row per Page</div>
-              <v-select class="caption col-2 mt-4" dense
-                v-model="limit"
-                :items="perPages"
-              ></v-select>
+            <v-row class="justify-right">
+              <v-spacer></v-spacer>
+              <div class="caption mt-5">Row per Page</div>
+              <v-col cols="2">
+                <v-select class="caption" dense
+                  v-model="limit"
+                  :items="perPages"
+                ></v-select>
+              </v-col>
+            </v-row>
             </v-card-actions>
+            <v-col cols="12">
+              <div class="text-center">
+                <v-pagination
+                  v-model="curpage"
+                  :length="totalpage"
+                  :total-visible="7"
+                  circle
+                ></v-pagination>
+              </div>
+            </v-col>
             </v-card-text>
           </v-card>
         </v-col>
-        <v-col cols="12">
-          <div class="text-center">
-            <v-pagination
-              v-model="curpage"
-              :length="totalpage"
-              :total-visible="7"
-              circle
-            ></v-pagination>
-          </div>
-        </v-col>
+        
       </v-row>
     <v-dialog
     v-model="dialog"
@@ -168,6 +173,7 @@
             <v-btn
                 color="blue darken-1"
                 text
+                :disabled="isloading"
                 @click="saveData()"
             >
                 Save
@@ -197,7 +203,8 @@ export default {
               active: true
           },
           dialog: false,
-          vendors: []
+          vendors: [],
+          isloading: false
       }
   },
   methods: {
@@ -205,6 +212,8 @@ export default {
       getVendors: 'vendor/getAllVendors', refreshError: 'vendor/refreshError', newVendor: 'vendor/newVendor', vendorById: 'vendor/getVendorById', updateVendor: 'vendor/updateVendor', deleteVendor: 'vendor/deleteVendor'
     }),
     addData(){
+      this.isloading = false;
+      this.refreshError();
       this.dialog = true;
       this.fields = {
         id: false,
@@ -219,6 +228,7 @@ export default {
         this.totalpage = data.paginator.pageCount;
     },
     async saveData(){
+        this.isloading = true;
         if(!this.fields.id){
             let data = await this.newVendor(this.fields);
             if(data){
@@ -232,6 +242,7 @@ export default {
         }
     },
     async editItem(id){
+      this.addData();
       await this.vendorById(id);
       let data = {...this.$store.state.vendor.currentVendor};
       if(data){
@@ -267,5 +278,15 @@ export default {
 </script>
 
 <style>
-  
+  @media screen and (max-width: 375px) {
+    body {
+      max-width: 375px;
+    }
+    .v-card {
+      max-width: 350px;
+    }
+    .v-card__text {
+      min-width: 330px;
+    }
+  }
 </style>
