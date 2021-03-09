@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+
 export const AUTHENTICATED_USER = gql`
 query AUTH_USER {
     authUserProfile{
@@ -10,6 +11,7 @@ query AUTH_USER {
         avatarImage
     }
 }`;
+
 export const AUTHENTICATE_USER = gql`
 query AUTHENTICATE_USER(
     $username: String!
@@ -76,3 +78,52 @@ query VENDOR_BY_LIMIT_PAGE($page: Int!, $limit: Int!, $search: String) {
     }
   }
 }`;
+
+export const GET_ALL_ROUTES = gql`
+  query GET_ALL_ROUTES {
+    getAllRoutes {
+      id
+      name
+      descriptions
+      active
+    }
+  }
+`;
+
+export const ROUTE_BY_ID = gql`
+  query ROUTE_BY_ID($id: ID!) {
+    getRouteById(id:$id) {
+      id
+      name
+      descriptions
+      active
+    }
+  }
+`;
+
+export const ROUTE_BY_LIMIT_PAGE = gql`
+  query ROUTE_BY_LIMIT_PAGE($page: Int!, $limit: Int!, $search: String) {
+    getRoutesByLimitAndPage(
+      page: $page,
+      limit: $limit,
+      search: $search
+    ){
+      routes{
+        id,
+        name,
+        descriptions,
+        active
+      }
+      paginator{
+        currentPage,
+        pageCount,
+        prev,
+        next,
+        hasPrevPage
+        hasNextPage
+        perPage
+        routeCount
+      }
+    }
+  }
+`;

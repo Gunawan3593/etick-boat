@@ -95,3 +95,49 @@ mutation DELETE_VENDOR_BY_ID($id: ID!){
     success
   }
 }`;
+
+export const CREATE_NEW_ROUTE = gql`
+  mutation CREATE_NEW_ROUTE(
+    $name: String!
+    $descriptions: String!
+    $active: Boolean
+  ) {
+    createNewRoute(
+      newRoute: { 
+          name: $name, 
+          descriptions: $descriptions
+          active: $active
+      }
+    ) {
+      id
+      name
+      descriptions
+      active
+    }
+  }
+`;
+
+export const EDIT_ROUTE_BY_ID = gql`
+  mutation EDIT_ROUTE_BY_ID($id: ID!, $name:String!, $descriptions:String!, $active:Boolean) {
+    editRouteByID(updatedRoute: {
+      name : $name,
+      descriptions : $descriptions,
+      active : $active
+    }, id: $id) {
+      id
+      name
+      descriptions
+      active
+    }
+  }
+`;
+
+export const DELETE_ROUTE_BY_ID = gql`
+  mutation DELETE_ROUTE_BY_ID($id: ID!){
+    deleteRouteById(id:$id){
+      id
+      message
+      success
+    }
+  }
+`;

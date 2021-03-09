@@ -83,7 +83,7 @@ export  const actions = {
         type: 'success',
         title: 'Login successfully'
       })
-      this.$router.push('/dashboard');
+      this.$router.push('/admin/dashboard');
   },
   async getAuthUser({ commit, dispatch }) {
       try {

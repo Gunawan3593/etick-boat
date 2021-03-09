@@ -4,7 +4,7 @@
       <v-row class="justify-center">
         <v-col cols="12">
           <v-card elevation="2" > 
-            <v-card-title class="display-1">Vendor List<v-spacer></v-spacer><v-spacer></v-spacer>
+            <v-card-title class="display-1">Route List<v-spacer></v-spacer><v-spacer></v-spacer>
             <v-text-field
               v-model="search"
               append-icon="mdi-magnify"
@@ -34,9 +34,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-if="vendors.length == 0"><td colspan="4" class="text-center">No Data was found.</td></tr>
+                    <tr v-if="routes.length == 0"><td colspan="4" class="text-center">No Data was found.</td></tr>
                     <tr
-                    v-for="item in vendors"
+                    v-for="item in routes"
                     :key="item.id"
                     >
                     <td class="text-left">{{ item.name }}</td>
@@ -113,7 +113,7 @@
     >
         <v-card>
             <v-card-title>
-            <span class="headline"><span v-if="!fields.id">New</span><span v-else>Edit</span> Vendor</span>
+            <span class="headline"><span v-if="!fields.id">New</span><span v-else>Edit</span> Route</span>
             </v-card-title>
             <v-divider class="mx-4 mb-4"></v-divider>
             <v-card-text>
@@ -203,13 +203,13 @@ export default {
               active: true
           },
           dialog: false,
-          vendors: [],
+          routes: [],
           isloading: false
       }
   },
   methods: {
     ...mapActions({
-      getVendors: 'vendor/getAllVendors', refreshError: 'vendor/refreshError', newVendor: 'vendor/newVendor', vendorById: 'vendor/getVendorById', updateVendor: 'vendor/updateVendor', deleteVendor: 'vendor/deleteVendor'
+      getRoutes: 'route/getAllRoutes', refreshError: 'route/refreshError', newRoute: 'route/newRoute', routeById: 'route/getRouteById', updateRoute: 'route/updateRoute', deleteRoute: 'route/deleteRoute'
     }),
     addData(){
       this.isloading = false;
@@ -223,45 +223,45 @@ export default {
       }
     },
     async getData(){
-        let data = await this.getVendors({ page : this.curpage, limit : this.limit, search : this.search});
-        this.vendors = data.vendors;
+        let data = await this.getRoutes({ page : this.curpage, limit : this.limit, search : this.search});
+        this.routes = data.routes;
         this.totalpage = data.paginator.pageCount;
     },
     async saveData(){
         this.isloading = true;
         if(!this.fields.id){
-            let data = await this.newVendor(this.fields);
+            let data = await this.newRoute(this.fields);
             if(data){
               this.dialog = false;
             }else{
-              this.isloading = false;
+              this.isloading = false
             }
         }else{
-            let data = await this.updateVendor(this.fields);
+            let data = await this.updateRoute(this.fields);
             if(data){
               this.dialog = false;
             }else{
-              this.isloading = false;
+              this.isloading = false
             }
         }
     },
     async editItem(id){
       this.addData();
-      await this.vendorById(id);
-      let data = {...this.$store.state.vendor.currentVendor};
+      await this.routeById(id);
+      let data = {...this.$store.state.route.currentRoute};
       if(data){
         this.fields = data;
         this.dialog = true;
       }
     },
     async deleteItem(id){
-      await this.deleteVendor(id);
+      await this.deleteRoute(id);
       this.getData();
     }
   },
   computed: {
     errors () {
-      return this.$store.state.vendor.errors
+      return this.$store.state.route.errors
     }
   },
   watch: {

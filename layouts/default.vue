@@ -7,6 +7,7 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>etick-boat</v-toolbar-title>
       <v-spacer></v-spacer>
+      Hallo {{ user.firstName }} <v-icon small class="ml-1">mdi-emoticon-happy-outline</v-icon>
       <v-btn icon>
         <v-icon>mdi-dots-vertical</v-icon>
       </v-btn>
@@ -17,7 +18,6 @@
       temporary
       dark
       src="https://cdn.vuetifyjs.com/images/backgrounds/bg-2.jpg"
-      :overflow="true"
       >
       <v-list-item>
         <v-list-item-content>
@@ -34,152 +34,92 @@
         :value="true"
         color="white"
         prepend-icon="mdi-account-supervisor-circle"
+        v-if="isAuth"
       >
         <template v-slot:activator>
             <v-list-item-title>Admin</v-list-item-title>
         </template>
-        <v-list-item link>
-            <v-list-item-title>Dashboard</v-list-item-title>
-            <v-list-item-icon>
-              <v-icon v-text="icon">mdi-view-grid</v-icon>
-            </v-list-item-icon>
-        </v-list-item>
-        <v-list-item link>
-            <v-list-item-title>Vendor</v-list-item-title>
-            <v-list-item-icon>
-              <v-icon v-text="icon">mdi-sail-boat</v-icon>
-            </v-list-item-icon>
-        </v-list-item>
+        <nuxt-link to="/admin/dashboard">
+          <v-list-item link>
+              <v-list-item-title>Dashboard</v-list-item-title>
+              <v-list-item-icon>
+                <v-icon >mdi-view-grid</v-icon>
+              </v-list-item-icon>
+          </v-list-item>
+        </nuxt-link>
+        <nuxt-link to="/admin/vendor">
+          <v-list-item link>
+              <v-list-item-title>Vendor</v-list-item-title>
+              <v-list-item-icon>
+                <v-icon >mdi-sail-boat</v-icon>
+              </v-list-item-icon>
+          </v-list-item>
+        </nuxt-link>
+        <nuxt-link to="/admin/routing">
+          <v-list-item link>
+              <v-list-item-title>Routing</v-list-item-title>
+              <v-list-item-icon>
+                <v-icon >mdi-routes</v-icon>
+              </v-list-item-icon>
+          </v-list-item>
+        </nuxt-link>
         <v-list-item link>
             <v-list-item-title>Banking</v-list-item-title>
             <v-list-item-icon>
-              <v-icon v-text="icon">mdi-piggy-bank</v-icon>
+              <v-icon >mdi-piggy-bank</v-icon>
             </v-list-item-icon>
         </v-list-item>
         <v-list-item link>
             <v-list-item-title>Pricing</v-list-item-title>
             <v-list-item-icon>
-              <v-icon v-text="icon">mdi-tag-plus</v-icon>
+              <v-icon >mdi-tag-plus</v-icon>
             </v-list-item-icon>
         </v-list-item>
         <v-list-item link>
             <v-list-item-title>Booking</v-list-item-title>
             <v-list-item-icon>
-              <v-icon v-text="icon">mdi-clipboard-edit-outline</v-icon>
+              <v-icon >mdi-clipboard-edit-outline</v-icon>
             </v-list-item-icon>
         </v-list-item>
         <v-list-item link>
             <v-list-item-title>Payment</v-list-item-title>
             <v-list-item-icon>
-              <v-icon v-text="icon">mdi-cash-register</v-icon>
+              <v-icon >mdi-cash-register</v-icon>
             </v-list-item-icon>
         </v-list-item>
       </v-list-group>
-      <v-list-item link>
+      <nuxt-link to="/">
+        <v-list-item link>
+          <v-list-item-icon>
+            <v-icon >mdi-home</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>Home</v-list-item-title>
+        </v-list-item>
+      </nuxt-link>
+      <nuxt-link to="/about">
+        <v-list-item link>
+          <v-list-item-icon>
+            <v-icon >mdi-web</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>About</v-list-item-title>
+        </v-list-item>
+      </nuxt-link>
+      <nuxt-link to="/auth/login" v-if="!isAuth">
+        <v-list-item link>
+          <v-list-item-icon>
+            <v-icon >mdi-login</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>Login</v-list-item-title>
+        </v-list-item>
+      </nuxt-link>
+      <v-list-item @click="logout" link v-if="isAuth">
         <v-list-item-icon>
-          <v-icon v-text="icon">mdi-home</v-icon>
-        </v-list-item-icon>
-        <v-list-item-title>Home</v-list-item-title>
-      </v-list-item>
-      <v-list-item link>
-        <v-list-item-icon>
-          <v-icon v-text="icon">mdi-web</v-icon>
-        </v-list-item-icon>
-        <v-list-item-title>About</v-list-item-title>
-      </v-list-item>
-      <v-list-item link>
-        <v-list-item-icon>
-          <v-icon v-text="icon">mdi-login</v-icon>
-        </v-list-item-icon>
-        <v-list-item-title>Login</v-list-item-title>
-      </v-list-item>
-      <v-list-item link>
-        <v-list-item-icon>
-          <v-icon v-text="icon">mdi-logout</v-icon>
+          <v-icon >mdi-logout</v-icon>
         </v-list-item-icon>
         <v-list-item-title>Logout</v-list-item-title>
       </v-list-item>
     </v-navigation-drawer>
     <v-main>
-    <v-toolbar color="green" dark dense>
-    <v-toolbar-title>etick-boat</v-toolbar-title>
-    <v-toolbar-items v-if="isAuth"><span class="caption pl-1 pt-1"> Hallo {{ user.firstName }} <v-icon small>mdi-emoticon-happy-outline</v-icon></span> </v-toolbar-items>
-    <v-spacer></v-spacer>
-    <v-menu
-      open-on-hover
-      bottom
-      offset-y
-      v-if="isAuth"
-    >
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          text
-          dark
-          v-bind="attrs"
-          v-on="on"
-        >
-          Admin
-        <v-icon small class="pb-1">mdi-chevron-down</v-icon>
-        </v-btn>
-      </template>
-
-      <v-list nav dense>
-        <nuxt-link to="/dashboard">
-          <v-list-item link>
-            <v-list-item-title>
-              Dashboard
-            </v-list-item-title>
-          </v-list-item>
-        </nuxt-link>
-        <nuxt-link to="/admin/vendor">
-          <v-list-item link>
-            <v-list-item-title>
-              Vendor
-            </v-list-item-title>
-          </v-list-item>
-        </nuxt-link>
-        <nuxt-link to="/bank">
-          <v-list-item link>
-            <v-list-item-title>
-              Banking
-            </v-list-item-title>
-          </v-list-item>
-        </nuxt-link>
-        <nuxt-link to="/pricing">
-          <v-list-item link>
-            <v-list-item-title>
-              Pricing
-            </v-list-item-title>
-          </v-list-item>
-        </nuxt-link>
-        <nuxt-link to="/booking">
-          <v-list-item link>
-            <v-list-item-title>
-              Booking
-            </v-list-item-title>
-          </v-list-item>
-        </nuxt-link>
-      </v-list>
-    </v-menu>
-    <v-btn text>
-      <nuxt-link to="/">
-        Home
-      </nuxt-link>
-    </v-btn>
-    <v-btn text v-if="isAuth">
-      <nuxt-link to="/about">
-        About
-      </nuxt-link>
-    </v-btn>
-    <v-btn text v-if="!isAuth">
-      <nuxt-link to="/auth/login">
-        Login
-      </nuxt-link>
-    </v-btn>
-    <v-btn text @click="logout" v-if="isAuth">
-        Logout
-    </v-btn>
-    </v-toolbar>
     <Nuxt />
     </v-main>
     <v-footer padless color="green" dark>
@@ -218,6 +158,17 @@ export default {
 </script>
 
 <style>
+@media screen and (max-width: 375px) {
+  body {
+    max-width: 375px;
+  }
+  .v-card {
+    max-width: 350px;
+  }
+  .v-card__text {
+    min-width: 330px;
+  }
+}
 a {
   text-decoration: none;
   color: white !important;
