@@ -127,3 +127,58 @@ export const ROUTE_BY_LIMIT_PAGE = gql`
     }
   }
 `;
+
+export const GET_ALL_BANKS = gql`
+  query GET_ALL_BANKS {
+    getAllBanks {
+      id
+      name
+      itno
+      account
+      active
+      notes
+    }
+  }
+`;
+
+export const BANK_BY_ID = gql`
+  query BANK_BY_ID($id: ID!) {
+    getBankById(id:$id) {
+      id
+      name
+      itno
+      account
+      active
+      notes
+    }
+  }
+`;
+
+export const BANK_BY_LIMIT_PAGE = gql`
+  query BANK_BY_LIMIT_PAGE($page: Int!, $limit: Int!, $search: String) {
+    getBanksByLimitAndPage(
+      page: $page,
+      limit: $limit,
+      search: $search
+    ){
+      banks{
+        id
+        name
+        itno
+        account
+        active
+        notes
+      }
+      paginator{
+        currentPage,
+        pageCount,
+        prev,
+        next,
+        hasPrevPage
+        hasNextPage
+        perPage
+        bankCount
+      }
+    }
+  }
+`;

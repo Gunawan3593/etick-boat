@@ -141,3 +141,59 @@ export const DELETE_ROUTE_BY_ID = gql`
     }
   }
 `;
+
+export const CREATE_NEW_BANK = gql`
+  mutation CREATE_NEW_BANK(
+    $name: String! 
+    $itno: String! 
+    $account: String! 
+    $active: Boolean 
+    $notes: String
+  ){
+    createNewBank(
+      newBank : {
+        name: $name,
+        itno: $itno,
+        account: $account,
+        active: $active,
+        notes: $notes
+      }
+    ){
+      id
+      name
+      itno
+      account
+      active
+      notes
+    }
+  }
+`;
+
+export const EDIT_BANK_BY_ID = gql`
+  mutation EDIT_BANK_BY_ID($id: ID!, $name:String!, $itno:String!, $account:String!, $active:Boolean, $notes:String) {
+    editBankByID(updatedBank: {
+      name : $name,
+      itno : $itno,
+      account : $account
+      notes: $notes
+      active : $active
+    }, id: $id) {
+      id
+      name
+      itno
+      account
+      active
+      notes
+    }
+  }
+`;
+
+export const DELETE_BANK_BY_ID = gql`
+  mutation DELETE_BANK_BY_ID($id: ID!){
+    deleteBankById(id:$id){
+      id
+      message
+      success
+    }
+  }
+`;

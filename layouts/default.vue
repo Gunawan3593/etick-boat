@@ -64,12 +64,14 @@
               </v-list-item-icon>
           </v-list-item>
         </nuxt-link>
-        <v-list-item link>
-            <v-list-item-title>Banking</v-list-item-title>
-            <v-list-item-icon>
-              <v-icon >mdi-piggy-bank</v-icon>
-            </v-list-item-icon>
-        </v-list-item>
+        <nuxt-link to="/admin/banking">
+          <v-list-item link>
+              <v-list-item-title>Banking</v-list-item-title>
+              <v-list-item-icon>
+                <v-icon >mdi-piggy-bank</v-icon>
+              </v-list-item-icon>
+          </v-list-item>
+        </nuxt-link>
         <v-list-item link>
             <v-list-item-title>Pricing</v-list-item-title>
             <v-list-item-icon>
