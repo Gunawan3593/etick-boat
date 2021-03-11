@@ -226,6 +226,39 @@
                 <v-col
                   cols="12"
                 >
+                  <input
+                    v-model="fields.imagePath"
+                    label="Image Path"
+                    placeholder="Image Path"
+                    type="hidden"
+                  >
+                  <v-file-input
+                    v-model="imageUploader"
+                    prepend-inner-icon="mdi-camera"
+                    accept="image/*"
+                    label="Image Upload"
+                    @change="uploadImage"
+                    prepend-icon
+                    solo
+                  ></v-file-input>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col
+                  cols="12"
+                  class="text-center"
+                >
+                  <v-img
+                    max-height="150"
+                    max-width="250"
+                    :src="(fields.imagePath) ? fields.imagePath : 'https://p2t.jatimprov.go.id/assets/upload/berita/default-cover.png'"
+                  ></v-img>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col
+                  cols="12"
+                >
                   <v-textarea
                     v-model="fields.descriptions"
                     prepend-inner-icon="mdi-notebook-outline"
@@ -290,17 +323,19 @@ export default {
               vendor: '',
               routeFrom: '',
               routeTo: '',
+              imagePath: '',
               active: true
           },
           units: ['Pax','Other'],
           dialog: false,
           prices: [],
-          isloading: false
+          isloading: false,
+          imageUploader: []
       }
   },
   methods: {
     ...mapActions({
-      getPrices: 'price/getAllPrices', listVendors: 'vendor/getListVendors', listRoutes: 'route/getListRoutes', refreshError: 'price/refreshError', newPrice: 'price/newPrice', priceById: 'price/getPriceById', updatePrice: 'price/updatePrice', deletePrice: 'price/deletePrice'
+      getPrices: 'price/getAllPrices', listVendors: 'vendor/getListVendors', listRoutes: 'route/getListRoutes', refreshError: 'price/refreshError', newPrice: 'price/newPrice', priceById: 'price/getPriceById', updatePrice: 'price/updatePrice', deletePrice: 'price/deletePrice', imageUpload: 'price/uploadPriceImage'
     }),
     addData(){
       this.isloading = false;
@@ -315,6 +350,7 @@ export default {
           vendor: '',
           routeFrom: '',
           routeTo: '',
+          imagePath: '',
           active: true
       }
     },
@@ -358,12 +394,19 @@ export default {
         dt.unit = data.unit;
         dt.descriptions = data.descriptions; 
         dt.active = data.active;
+        dt.imagePath = data.imagePath;
         this.dialog = true;
       }
     },
     async deleteItem(id){
       await this.deletePrice(id);
       this.getData();
+    },
+    async uploadImage(){
+      let data = await this.imageUpload(this.imageUploader);
+      if(data){
+        this.fields.imagePath = data;
+      }
     }
   },
   computed: {

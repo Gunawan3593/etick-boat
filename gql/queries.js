@@ -226,6 +226,7 @@ export const PRICE_BY_ID = gql`
         name
       }
       active
+      imagePath
     }
   }
 `;

@@ -3,7 +3,8 @@ import {
     PRICE_BY_ID,
     CREATE_NEW_PRICE,
     EDIT_PRICE_BY_ID,
-    DELETE_PRICE_BY_ID
+    DELETE_PRICE_BY_ID,
+    UPLOAD_FILE
   } from '../gql';
   
   import { Toast } from '../plugins/swal';
@@ -11,13 +12,15 @@ import {
   export const state = () => ({
     prices: [],
     currentPrice: {},
-    errors: {}
+    errors: {},
+    image: ''
   });
   
   export const getters = {
     prices: state => state.prices,
     errors: state=> state.errors,
-    currentPrice: state=> state.currentPrice
+    currentPrice: state=> state.currentPrice,
+    image: state=> state.image
   };
   
   export  const actions = {
@@ -136,6 +139,26 @@ import {
     },
     refreshError({ commit }){
         commit('REFRESH_ERROR');
+    },
+    async uploadPriceImage({ commit }, image){
+        try {
+            let apolloClient = this.app.apolloProvider.defaultClient;
+            let data = await apolloClient.mutate({
+                mutation: UPLOAD_FILE,
+                variables: { file: image }
+            });
+            let res = data.data.imageUploader;
+            if(res.success){
+                Toast.fire({
+                    type: 'success',
+                    title: 'Image uploaded successfully'
+                });
+                commit('SET_IMAGE',res);
+            }
+            return res;
+        } catch (err) {
+          console.log(err.message.split(': ')[1]);
+        }
     }
   };
   
@@ -174,7 +197,10 @@ import {
         state.errors = payload;
     },
     REFRESH_ERROR(state){
-          state.errors = {}
+        state.errors = {}
+    },
+    SET_IMAGE(state, payload){
+        state.image = payload
     }
   };
   

@@ -207,7 +207,8 @@ export const CREATE_NEW_PRICE = gql`
     $vendor: String!
     $routeTo: String!
     $routeFrom: String!
-    $active: Boolean
+    $active: Boolean,
+    $imagePath: String
   ) {
     createNewPrice(
       newPrice: { 
@@ -219,6 +220,7 @@ export const CREATE_NEW_PRICE = gql`
           vendor: $vendor
           routeFrom: $routeFrom
           routeTo: $routeTo
+          imagePath: $imagePath
       }
     ) {
       id
@@ -250,7 +252,8 @@ export const EDIT_PRICE_BY_ID = gql`
       $vendor: String!
       $routeTo: String!
       $routeFrom: String!
-      $active: Boolean
+      $active: Boolean,
+      $imagePath: String
     ) {
     editPriceByID(updatedPrice: {
       name: $name, 
@@ -261,6 +264,7 @@ export const EDIT_PRICE_BY_ID = gql`
       vendor: $vendor
       routeFrom: $routeFrom
       routeTo: $routeTo
+      imagePath: $imagePath
     }, id: $id) {
       id
       name
@@ -291,6 +295,12 @@ export const DELETE_PRICE_BY_ID = gql`
       message
       success
     }
+  }
+`;
+
+export const UPLOAD_FILE = gql`
+  mutation UPLOAD_FILE($file: Upload!) {
+    imageUploader(file: $file)
   }
 `;
 
