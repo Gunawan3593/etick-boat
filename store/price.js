@@ -1,72 +1,55 @@
 import {
-    VENDOR_BY_LIMIT_PAGE,
-    VENDOR_BY_ID,
-    CREATE_NEW_VENDOR,
-    EDIT_VENDOR_BY_ID,
-    DELETE_VENDOR_BY_ID,
-    GET_ALL_VENDORS
+    PRICE_BY_LIMIT_PAGE,
+    PRICE_BY_ID,
+    CREATE_NEW_PRICE,
+    EDIT_PRICE_BY_ID,
+    DELETE_PRICE_BY_ID
   } from '../gql';
   
   import { Toast } from '../plugins/swal';
   
   export const state = () => ({
-    vendors: [],
-    currentVendor: {},
-    lists: [],
+    prices: [],
+    currentPrice: {},
     errors: {}
   });
   
   export const getters = {
-    vendors: state => state.vendors,
-    lists: state => state.lists,
+    prices: state => state.prices,
     errors: state=> state.errors,
-    currentVendor: state=> state.currentVendor
+    currentPrice: state=> state.currentPrice
   };
   
   export  const actions = {
-    async getAllVendors({ commit }, pages) {
+    async getAllPrices({ commit }, pages) {
         try {
             let apolloClient = this.app.apolloProvider.defaultClient;
             let data = await apolloClient.query({
-                query: VENDOR_BY_LIMIT_PAGE,
+                query: PRICE_BY_LIMIT_PAGE,
                 variables: pages
             });
-            let res = data.data.getVendorsByLimitAndPage;
-            commit('SET_VENDOR',res);
+            let res = data.data.getPricesByLimitAndPage;
+            commit('SET_PRICE',res);
             return res;
         } catch (err) {
           console.log(err.message.split(': ')[1]);
         }
     },
-    async getListVendors({ commit }, status) {
-        try {
-            let apolloClient = this.app.apolloProvider.defaultClient;
-            let data = await apolloClient.query({
-                query: GET_ALL_VENDORS,
-                variables: status
-            });
-            let res = data.data.getAllVendors;
-            commit('SET_LIST_VENDOR',res);
-            return res;
-        } catch (err) {
-          console.log(err.message.split(': ')[1]);
-        }
-    },
-    async newVendor({
+    async newPrice({
         commit 
     }, inputData) {
       try{
         let apolloClient = this.app.apolloProvider.defaultClient;
         let data = await apolloClient.mutate({
-            mutation: CREATE_NEW_VENDOR,
+            mutation: CREATE_NEW_PRICE,
             variables: inputData
         });
         if(data) {
             Toast.fire({
                 type: 'success',
-                title: 'Vendor added successfully'
+                title: 'Price added successfully'
             });
-            commit('ADD_VENDOR',data.data.createNewVendor)
+            commit('ADD_PRICE',data.data.createNewPrice)
         }
         return data;
       }catch(err){
@@ -85,33 +68,33 @@ import {
           commit('SET_ERROR',resErrors);
       }
     },
-    async getVendorById({ commit }, id){
+    async getPriceById({ commit }, id){
         try {
             let apolloClient = this.app.apolloProvider.defaultClient;
             let data = await apolloClient.query({
-                query: VENDOR_BY_ID,
+                query: PRICE_BY_ID,
                 variables: { id: id }
             });
-            let res = data.data.getVendorById;
-            commit('SET_CURRENT_VENDOR',res);
+            let res = data.data.getPriceById;
+            commit('SET_CURRENT_PRICE',res);
             return res;
         } catch (err) {
           console.log(err.message.split(': ')[1]);
         }
     },
-    async updateVendor({ commit }, inputData){
+    async updatePrice({ commit }, inputData){
         try {
             let apolloClient = this.app.apolloProvider.defaultClient;
             let data = await apolloClient.mutate({
-                mutation: EDIT_VENDOR_BY_ID,
+                mutation: EDIT_PRICE_BY_ID,
                 variables: inputData
             });
-            let res = data.data.editVendorByID;
+            let res = data.data.editPriceByID;
             if(res){
-                commit('UPDATE_VENDOR',res);
+                commit('UPDATE_PRICE',res);
                 Toast.fire({
                     type: 'success',
-                    title: 'Vendor updated successfully'
+                    title: 'Price updated successfully'
                 });
             }
             return res;
@@ -131,20 +114,20 @@ import {
             commit('SET_ERROR',resErrors);
         }
     },
-    async deleteVendor({ commit }, id){
+    async deletePrice({ commit }, id){
         try {
             let apolloClient = this.app.apolloProvider.defaultClient;
             let data = await apolloClient.mutate({
-                mutation: DELETE_VENDOR_BY_ID,
+                mutation: DELETE_PRICE_BY_ID,
                 variables: { id: id }
             });
-            let res = data.data.deleteVendorById;
+            let res = data.data.deletePriceById;
             if(res.success){
                 Toast.fire({
                     type: 'success',
-                    title: 'Vendor deleted successfully'
+                    title: 'Price deleted successfully'
                 });
-                commit('DELETE_VENDOR',res);
+                commit('DELETE_PRICE',res);
             }
             return res;
         } catch (err) {
@@ -157,32 +140,34 @@ import {
   };
   
   export const mutations = {
-    SET_VENDOR(state, payload) {
-        state.vendors = payload.vendors;
+    SET_PRICE(state, payload) {
+        state.prices = payload.prices;
     },
-    SET_LIST_VENDOR(state, payload) {
-        state.lists = payload;
+    ADD_PRICE(state, payload) {
+        state.prices.push(payload);
     },
-    ADD_VENDOR(state, payload) {
-        state.vendors.push(payload);
+    SET_CURRENT_PRICE(state, payload) {
+        state.currentPrice =  payload
     },
-    SET_CURRENT_VENDOR(state, payload) {
-        state.currentVendor =  payload
-    },
-    UPDATE_VENDOR(state, payload){
-        let index = state.vendors.findIndex(vendor => vendor.id == payload.id);
-        let dt = state.vendors;
+    UPDATE_PRICE(state, payload){
+        let index = state.prices.findIndex(price => price.id == payload.id);
+        let dt = state.prices;
         if(index >= 0){
             dt[index].name = payload.name;
+            dt[index].vendor.name = payload.vendor.name;
+            dt[index].routeFrom.name = payload.routeFrom.name;
+            dt[index].routeTo.name = payload.routeTo.name;
+            dt[index].price = payload.price;
+            dt[index].unit = payload.unit;
             dt[index].descriptions = payload.descriptions;
             dt[index].active = payload.active;
         }
     },
-    DELETE_VENDOR(state, payload){
+    DELETE_PRICE(state, payload){
         let id = payload.id;
         if(id){
-            let index = state.vendors.findIndex(vendor => vendor.id === payload.id);
-            state.vendors.splice(index, 1);
+            let index = state.prices.findIndex(price => price.id === payload.id);
+            state.prices.splice(index, 1);
         }
     },
     SET_ERROR(state, payload){

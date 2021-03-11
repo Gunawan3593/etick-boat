@@ -197,3 +197,100 @@ export const DELETE_BANK_BY_ID = gql`
     }
   }
 `;
+
+export const CREATE_NEW_PRICE = gql`
+  mutation CREATE_NEW_PRICE(
+    $name: String!
+    $descriptions: String!
+    $price: Int
+    $unit: String!
+    $vendor: String!
+    $routeTo: String!
+    $routeFrom: String!
+    $active: Boolean
+  ) {
+    createNewPrice(
+      newPrice: { 
+          name: $name, 
+          descriptions: $descriptions
+          price: $price
+          unit: $unit
+          active: $active
+          vendor: $vendor
+          routeFrom: $routeFrom
+          routeTo: $routeTo
+      }
+    ) {
+      id
+      name
+      descriptions
+      price
+      unit
+      vendor {
+        name
+      }
+      routeFrom {
+        name
+      }
+      routeTo {
+        name
+      }
+      active
+    }
+  }
+`;
+
+export const EDIT_PRICE_BY_ID = gql`
+  mutation EDIT_PRICE_BY_ID(
+      $id: ID!,
+      $name: String!
+      $descriptions: String!
+      $price: Int
+      $unit: String!
+      $vendor: String!
+      $routeTo: String!
+      $routeFrom: String!
+      $active: Boolean
+    ) {
+    editPriceByID(updatedPrice: {
+      name: $name, 
+      descriptions: $descriptions
+      price: $price
+      unit: $unit
+      active: $active
+      vendor: $vendor
+      routeFrom: $routeFrom
+      routeTo: $routeTo
+    }, id: $id) {
+      id
+      name
+      descriptions
+      price
+      unit
+      vendor {
+        id
+        name
+      }
+      routeFrom {
+        id
+        name
+      }
+      routeTo {
+        id
+        name
+      }
+      active
+    }
+  }
+`;
+
+export const DELETE_PRICE_BY_ID = gql`
+  mutation DELETE_PRICE_BY_ID($id: ID!){
+    deletePriceById(id:$id){
+      id
+      message
+      success
+    }
+  }
+`;
+

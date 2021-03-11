@@ -72,12 +72,14 @@
               </v-list-item-icon>
           </v-list-item>
         </nuxt-link>
+        <nuxt-link to="/admin/pricing">
         <v-list-item link>
             <v-list-item-title>Pricing</v-list-item-title>
             <v-list-item-icon>
               <v-icon >mdi-tag-plus</v-icon>
             </v-list-item-icon>
         </v-list-item>
+        </nuxt-link>
         <v-list-item link>
             <v-list-item-title>Booking</v-list-item-title>
             <v-list-item-icon>

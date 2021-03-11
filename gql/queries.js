@@ -34,8 +34,8 @@ query AUTHENTICATE_USER(
 }`;
 
 export const GET_ALL_VENDORS = gql`
-query GET_ALL_VENDORS {
-  getAllVendors {
+query GET_ALL_VENDORS($status : Boolean) {
+  getAllVendors (status : $status) {
     id
     name
     descriptions
@@ -80,8 +80,8 @@ query VENDOR_BY_LIMIT_PAGE($page: Int!, $limit: Int!, $search: String) {
 }`;
 
 export const GET_ALL_ROUTES = gql`
-  query GET_ALL_ROUTES {
-    getAllRoutes {
+  query GET_ALL_ROUTES ($status : Boolean) {
+    getAllRoutes (status : $status) {
       id
       name
       descriptions
@@ -178,6 +178,91 @@ export const BANK_BY_LIMIT_PAGE = gql`
         hasNextPage
         perPage
         bankCount
+      }
+    }
+  }
+`;
+
+export const GET_ALL_PRICES = gql`
+  query GET_ALL_PRICES {
+    getAllPrices {
+      id
+      name
+      descriptions
+      price
+      unit
+      vendor {
+        name
+      }
+      routeFrom {
+        name
+      }
+      routeTo {
+        name
+      }
+      active
+    }
+  }
+`;
+
+export const PRICE_BY_ID = gql`
+  query PRICE_BY_ID($id: ID!) {
+    getPriceById(id:$id) {
+      id
+      name
+      descriptions
+      price
+      unit
+      vendor {
+        id
+        name
+      }
+      routeFrom {
+        id
+        name
+      }
+      routeTo {
+        id
+        name
+      }
+      active
+    }
+  }
+`;
+
+export const PRICE_BY_LIMIT_PAGE = gql`
+  query PRICE_BY_LIMIT_PAGE($page: Int!, $limit: Int!, $search: String) {
+    getPricesByLimitAndPage(
+      page: $page,
+      limit: $limit,
+      search: $search
+    ){
+      prices{
+          id
+          name
+          descriptions
+          price
+          unit
+          vendor {
+            name
+          }
+          routeFrom {
+            name
+          }
+          routeTo {
+            name
+          }
+          active
+      }
+      paginator{
+        currentPage,
+        pageCount,
+        prev,
+        next,
+        hasPrevPage
+        hasNextPage
+        perPage
+        priceCount
       }
     }
   }

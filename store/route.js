@@ -3,19 +3,22 @@ import {
     ROUTE_BY_ID,
     CREATE_NEW_ROUTE,
     EDIT_ROUTE_BY_ID,
-    DELETE_ROUTE_BY_ID
+    DELETE_ROUTE_BY_ID,
+    GET_ALL_ROUTES
   } from '../gql';
   
   import { Toast } from '../plugins/swal';
   
   export const state = () => ({
     routes: [],
+    lists: [],
     currentRoute: {},
     errors: {}
   });
   
   export const getters = {
     routes: state => state.routes,
+    lists: state => state.lists,
     errors: state=> state.errors,
     currentRoute: state=> state.currentRoute
   };
@@ -30,6 +33,20 @@ import {
             });
             let res = data.data.getRoutesByLimitAndPage;
             commit('SET_ROUTE',res);
+            return res;
+        } catch (err) {
+          console.log(err.message.split(': ')[1]);
+        }
+    },
+    async getListRoutes({ commit }, status) {
+        try {
+            let apolloClient = this.app.apolloProvider.defaultClient;
+            let data = await apolloClient.query({
+                query: GET_ALL_ROUTES,
+                variables: status
+            });
+            let res = data.data.getAllRoutes;
+            commit('SET_LIST_ROUTE',res);
             return res;
         } catch (err) {
           console.log(err.message.split(': ')[1]);
@@ -142,6 +159,9 @@ import {
   export const mutations = {
     SET_ROUTE(state, payload) {
         state.routes = payload.routes;
+    },
+    SET_LIST_ROUTE(state, payload) {
+        state.lists = payload;
     },
     ADD_ROUTE(state, payload) {
         state.routes.push(payload);

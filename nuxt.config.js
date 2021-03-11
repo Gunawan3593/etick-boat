@@ -37,7 +37,28 @@ export default {
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
     '@nuxtjs/apollo',
-    'nuxt-sweetalert2'
+    'nuxt-sweetalert2',
+    ['v-currency-field/nuxt', {
+      locale: 'pt-BR',
+      decimalLength: 0,
+      autoDecimalMode: true,
+      min: null,
+      max: null,
+      defaultValue: 0,
+      valueAsInteger: false,
+      allowNegative: true
+    }],
+    'vue-currency-filter/nuxt',
+    // Or if you have custom options...
+    ['vue-currency-filter/nuxt', {
+      symbol: 'Rp',
+      thousandsSeparator: ',',
+      fractionCount: 2,
+      fractionSeparator: '.',
+      symbolPosition: 'front',
+      symbolSpacing: true,
+      avoidEmptyDecimals: undefined,
+    }],
   ],
 
   apollo: {
