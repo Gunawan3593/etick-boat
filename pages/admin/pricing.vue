@@ -353,6 +353,7 @@ export default {
           imagePath: '',
           active: true
       }
+      this.imageUploader = []
     },
     async getData(){
         let data = await this.getPrices({ page : this.curpage, limit : this.limit, search : this.search});
