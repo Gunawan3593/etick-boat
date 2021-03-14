@@ -325,12 +325,63 @@ mutation CREATE_NEW_CART(
         qtyChild: $qtyChild
         total: $total
     }
-  ) {
-    id,
-    pricing {
-      id
+  ) 
+  {
+    id
+    vendor{
+      name
     }
+    routeFrom{
+      name
+    }
+    routeTo{
+      name
+    }
+    pricing {
+      price
+      unit
+    }
+    qtyAdult
+    qtyChild
+    total  
   }
 }
+`;
+
+export const EDIT_CART_BY_ID = gql`
+mutation EDIT_CART_BY_ID($id: ID!, $qtyAdult:Int!, $qtyChild:Int, $total:Int) {
+  editCartByID(updatedCart: {
+    qtyAdult : $qtyAdult,
+    qtyChild : $qtyChild,
+    total : $total
+  }, id: $id) {
+    id
+      vendor{
+        name
+      }
+      routeFrom{
+        name
+      }
+      routeTo{
+        name
+      }
+      pricing {
+        price
+        unit
+      }
+      qtyAdult
+      qtyChild
+      total
+  }
+}`;
+
+export const DELETE_CART_BY_ID = gql`
+  mutation DELETE_CART_BY_ID($id: ID!){
+    deleteCartById(id:$id){
+      id
+      message
+      success
+    }
+  }
 `;
 

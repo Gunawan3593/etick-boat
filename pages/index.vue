@@ -231,7 +231,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      listPrices: 'price/getListPrices', priceById: 'price/getPriceById', newCart: 'cart/newCart', refreshError: 'cart/refreshError'
+      listPrices: 'price/getListPrices', priceById: 'price/getPriceById', newCart: 'cart/newCart', cartByPriceId: 'cart/cartByPriceId' ,refreshError: 'cart/refreshError'
     }),
     async getPricing(status){
       let data = await this.listPrices(status);
@@ -240,6 +240,10 @@ export default {
       }
     },
     async orderTicket(id){
+      let exists = await this.cartByPriceId(id);
+      if(exists.id != null){
+        return;
+      }
       this.refreshError();
       this.fields.qtyAdult = 0;
       this.fields.qtyChild = 0;

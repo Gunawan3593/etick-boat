@@ -295,3 +295,15 @@ export const GET_ALL_CART = gql`
     }
   }
 `;
+
+export const CART_BY_PRICE_ID = gql`
+  query CART_BY_PRICE_ID(
+    $pricing : String!
+  ){
+    getCartByPriceId(pricing : $pricing){
+      success
+      id
+      message
+    }
+  }
+`;

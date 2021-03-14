@@ -1,6 +1,9 @@
 import {
     CREATE_NEW_CART,
-    GET_ALL_CART
+    GET_ALL_CART,
+    CART_BY_PRICE_ID,
+    EDIT_CART_BY_ID,
+    DELETE_CART_BY_ID
   } from '../gql';
   
   import { Toast } from '../plugins/swal';
@@ -32,7 +35,7 @@ import {
         }
     },
     async newCart({
-        commit 
+         commit
     }, inputData) {
       try{
         let apolloClient = this.app.apolloProvider.defaultClient;
@@ -40,12 +43,13 @@ import {
             mutation: CREATE_NEW_CART,
             variables: inputData
         });
-        if(data) {
+        let res = data.data.createNewCart;
+        if(res) {
             Toast.fire({
                 type: 'success',
                 title: 'Cart added successfully'
             });
-            commit('ADD_CART',data.data.createNewCart)
+            commit('ADD_CART',res);
         }
         return data;
       }catch(err){
@@ -73,6 +77,25 @@ import {
             });
             let res = data.data.getCartById;
             commit('SET_CURRENT_CART',res);
+            return res;
+        } catch (err) {
+          console.log(err.message.split(': ')[1]);
+        }
+    },
+    async cartByPriceId({}, id){
+        try {
+            let apolloClient = this.app.apolloProvider.defaultClient;
+            let data = await apolloClient.mutate({
+                mutation: CART_BY_PRICE_ID,
+                variables: { pricing: id }
+            });
+            let res = data.data.getCartByPriceId;
+            if(res.id != null){
+                Toast.fire({
+                    type: 'error',
+                    title: 'Order item is already on Shopping Cart.'
+                });
+            }
             return res;
         } catch (err) {
           console.log(err.message.split(': ')[1]);
@@ -149,9 +172,7 @@ import {
         let index = state.carts.findIndex(cart => cart.id == payload.id);
         let dt = state.carts;
         if(index >= 0){
-            dt[index].name = payload.name;
-            dt[index].descriptions = payload.descriptions;
-            dt[index].active = payload.active;
+            dt[index] = payload;
         }
     },
     DELETE_CART(state, payload){
