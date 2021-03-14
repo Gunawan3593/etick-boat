@@ -9,13 +9,18 @@
       <v-toolbar-title>etick-boat</v-toolbar-title>
       <v-spacer></v-spacer>
       Hallo {{ user.firstName }} <v-icon small class="ml-1">mdi-emoticon-happy-outline</v-icon>
+      <nuxt-link to="/cart">
+        <v-btn icon>
+          <v-icon>mdi-cart</v-icon>
+        </v-btn>
+      </nuxt-link>
       <v-btn icon>
         <v-icon>mdi-dots-vertical</v-icon>
       </v-btn>
     </v-app-bar>
     <v-navigation-drawer 
       v-model="drawer" 
-      absolute
+      app
       temporary
       dark
       src="https://cdn.vuetifyjs.com/images/backgrounds/bg-2.jpg"

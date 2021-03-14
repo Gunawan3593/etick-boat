@@ -304,3 +304,33 @@ export const UPLOAD_FILE = gql`
   }
 `;
 
+export const CREATE_NEW_CART = gql`
+mutation CREATE_NEW_CART(
+  $pricing: String!
+  $vendor: String!
+  $routeFrom: String!
+  $routeTo: String!
+  $qtyAdult: Int!
+  $qtyChild: Int
+  $total: Int
+) {
+  createNewCart
+  (
+    newCart: {
+        pricing: $pricing
+        vendor: $vendor
+        routeFrom: $routeFrom
+        routeTo: $routeTo
+        qtyAdult: $qtyAdult
+        qtyChild: $qtyChild
+        total: $total
+    }
+  ) {
+    id,
+    pricing {
+      id
+    }
+  }
+}
+`;
+

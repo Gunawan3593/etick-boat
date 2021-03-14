@@ -4,7 +4,8 @@ import {
     CREATE_NEW_PRICE,
     EDIT_PRICE_BY_ID,
     DELETE_PRICE_BY_ID,
-    UPLOAD_FILE
+    UPLOAD_FILE,
+    GET_ALL_PRICES
   } from '../gql';
   
   import { Toast } from '../plugins/swal';
@@ -13,14 +14,16 @@ import {
     prices: [],
     currentPrice: {},
     errors: {},
-    image: ''
+    image: '',
+    lists: []
   });
   
   export const getters = {
     prices: state => state.prices,
     errors: state=> state.errors,
     currentPrice: state=> state.currentPrice,
-    image: state=> state.image
+    image: state=> state.image,
+    lists: state=> state.lists
   };
   
   export  const actions = {
@@ -33,6 +36,20 @@ import {
             });
             let res = data.data.getPricesByLimitAndPage;
             commit('SET_PRICE',res);
+            return res;
+        } catch (err) {
+          console.log(err.message.split(': ')[1]);
+        }
+    },
+    async getListPrices({ commit }, status) {
+        try {
+            let apolloClient = this.app.apolloProvider.defaultClient;
+            let data = await apolloClient.query({
+                query: GET_ALL_PRICES,
+                variables: status
+            });
+            let res = data.data.getAllPrices;
+            commit('SET_LIST_PRICE',res);
             return res;
         } catch (err) {
           console.log(err.message.split(': ')[1]);
@@ -201,6 +218,9 @@ import {
     },
     SET_IMAGE(state, payload){
         state.image = payload
+    },
+    SET_LIST_PRICE(state, payload){
+        state.lists = payload
     }
   };
   

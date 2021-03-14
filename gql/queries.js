@@ -184,8 +184,10 @@ export const BANK_BY_LIMIT_PAGE = gql`
 `;
 
 export const GET_ALL_PRICES = gql`
-  query GET_ALL_PRICES {
-    getAllPrices {
+  query GET_ALL_PRICES($status: Boolean) {
+    getAllPrices(
+      status : $status
+    ) {
       id
       name
       descriptions
@@ -201,6 +203,7 @@ export const GET_ALL_PRICES = gql`
         name
       }
       active
+      imagePath
     }
   }
 `;
@@ -265,6 +268,30 @@ export const PRICE_BY_LIMIT_PAGE = gql`
         perPage
         priceCount
       }
+    }
+  }
+`;
+
+export const GET_ALL_CART = gql`
+  query GET_ALL_CART{
+    getAllCarts{
+      id
+      vendor{
+        name
+      }
+      routeFrom{
+        name
+      }
+      routeTo{
+        name
+      }
+      pricing {
+        price
+        unit
+      }
+      qtyAdult
+      qtyChild
+      total
     }
   }
 `;
