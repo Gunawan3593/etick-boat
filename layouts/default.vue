@@ -6,12 +6,21 @@
         app
       >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>etick-boat</v-toolbar-title>
+      <v-toolbar-title>
+        <nuxt-link to="/">
+          etick-boat
+        </nuxt-link>
+      </v-toolbar-title>
       <v-spacer></v-spacer>
       Hallo {{ user.firstName }} <v-icon small class="ml-1">mdi-emoticon-happy-outline</v-icon>
       <nuxt-link to="/cart">
         <v-btn icon>
-          <v-icon>mdi-cart</v-icon>
+          <v-badge
+          :color="(cart>0)?'blue':'green'"
+          :content="cart"
+          >
+            <v-icon>mdi-cart</v-icon>
+          </v-badge>
         </v-btn>
       </nuxt-link>
       <v-btn icon>
@@ -153,11 +162,12 @@ export default {
   },
   computed: {
     ...mapGetters({
-      isAuth: "auth/isAuth", user: "auth/user"
+      isAuth: "auth/isAuth", user: "auth/user", cart: "cart/totalCart"
     }),
   },
   async created(){
-    await this.$store.dispatch('auth/getAuthUser')
+    await this.$store.dispatch('auth/getAuthUser');
+    await this.$store.dispatch('cart/getAllCarts');
   },
   methods: {
     logout() {

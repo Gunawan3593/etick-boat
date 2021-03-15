@@ -11,13 +11,15 @@ import {
   export const state = () => ({
     carts: [],
     currentCart: {},
-    errors: {}
+    errors: {},
+    totalCart: 0
   });
   
   export const getters = {
     carts: state => state.carts,
     errors: state=> state.errors,
-    currentCart: state=> state.currentCart
+    currentCart: state=> state.currentCart,
+    totalCart: state=> state.totalCart
   };
   
   export  const actions = {
@@ -161,9 +163,11 @@ import {
   export const mutations = {
     SET_CART(state, payload) {
         state.carts = payload;
+        state.totalCart = payload.length;
     },
     ADD_CART(state, payload) {
         state.carts.push(payload);
+        state.totalCart += 1;
     },
     SET_CURRENT_CART(state, payload) {
         state.currentCart =  payload
@@ -181,6 +185,7 @@ import {
             let index = state.carts.findIndex(cart => cart.id === payload.id);
             state.carts.splice(index, 1);
         }
+        state.totalCart -= 1;
     },
     SET_ERROR(state, payload){
         state.errors = payload;
