@@ -16,7 +16,7 @@
       <nuxt-link to="/cart">
         <v-btn icon>
           <v-badge
-          :color="(cart>0)?'blue':'green'"
+          color="red"
           :content="cart"
           >
             <v-icon>mdi-cart</v-icon>

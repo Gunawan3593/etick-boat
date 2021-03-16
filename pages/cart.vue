@@ -72,7 +72,12 @@
                       </v-row>
                   <v-card-actions>
                       <v-spacer></v-spacer>
-                      <v-btn large color="primary">Checkout</v-btn>
+                      <v-btn 
+                        large 
+                        color="primary"
+                        :disabled="isloading"
+                        @click="checkOut()"
+                       >Checkout</v-btn>
                   </v-card-actions>
                   </v-card-text>
               </v-card>
@@ -174,9 +179,12 @@ export default {
         return {
             carts: [],
             fields: {
+                leaveSchedule: Date.now,
+                gobackSchedule: null,
                 roundTrip : false,
                 total : 0,
-                subTotal: 0
+                subTotal: 0,
+                items : []
             },
             roundTrip: false,
             isloading: false,
@@ -184,12 +192,15 @@ export default {
                 id: '',
                 name: '',
                 vendor: {
+                    id: '',
                     name: ''
                 },
                 routeFrom: {
+                    id: '',
                     name: ''
                 },
                 routeTo: {
+                    id: '',
                     name: ''
                 },
                 qtyAdult: 0,
@@ -240,7 +251,6 @@ export default {
         }),
         async getData(){
             let data = await this.getCarts();
-            console.log(data);
             this.carts = data;
         },
         editItem(item){
@@ -265,6 +275,21 @@ export default {
         },
         async deleteItem(id){
             await this.deleteCart(id);
+        },
+        async checkOut(){
+            let items = [];
+            this.carts.forEach(item => {
+                items.push({
+                    pricing : item.pricing.id,
+                    vendor : item.vendor.id,
+                    routeFrom: item.routeFrom.id,
+                    routeTo: item.routeTo.id,
+                    qtyAdult: item.qtyAdult,
+                    qtyChild: item.qtyChild,
+                    total: item.total
+                });
+            });
+            this.fields.items = items;
         }
     },
     created(){

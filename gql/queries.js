@@ -277,15 +277,19 @@ export const GET_ALL_CART = gql`
     getAllCarts{
       id
       vendor{
+        id
         name
       }
       routeFrom{
+        id
         name
       }
       routeTo{
+        id
         name
       }
       pricing {
+        id
         price
         unit
       }
