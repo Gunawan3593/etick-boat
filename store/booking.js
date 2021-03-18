@@ -4,7 +4,8 @@ import {
     CREATE_NEW_BOOKING,
     EDIT_BOOKING_BY_ID,
     DELETE_BOOKING_BY_ID,
-    GET_ALL_BOOKINGS
+    GET_ALL_BOOKINGS,
+    GET_BOOKING_NO
   } from '../gql';
   
   import { Toast } from '../plugins/swal';
@@ -66,7 +67,6 @@ import {
                 type: 'success',
                 title: 'Booking added successfully'
             });
-            commit('ADD_BOOKING',data.data.createNewBooking)
         }
         return data;
       }catch(err){

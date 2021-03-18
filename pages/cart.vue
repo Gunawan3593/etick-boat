@@ -66,6 +66,82 @@
                           </v-col>
                       </v-row>
                       <v-row>
+                        <v-col
+                        lg="6"
+                        md="6"
+                        xs="6"
+                        >
+                        <v-menu
+                            :close-on-content-click="true"
+                            :nudge-right="40"
+                            transition="scale-transition"
+                            offset-y
+                            min-width="auto"
+                        >
+                            <template v-slot:activator="{ on, attrs }">
+                            <v-text-field
+                                v-model="fields.leaveSchedule"
+                                label="Leave"
+                                prepend-inner-icon="mdi-calendar"
+                                readonly
+                                v-bind="attrs"
+                                v-on="on"
+                                solo
+                            ></v-text-field>
+                            </template>
+                            <v-date-picker
+                            v-model="fields.leaveSchedule"
+                            ></v-date-picker>
+                        </v-menu>
+                        <div class="text-left caption" v-for="(error,index) in errors.leaveSchedule" :key="index">
+                            <span class="red--text"><v-icon color="error" small class="pb-1">mdi-alert-decagram</v-icon> {{ error[0] }}</span>
+                        </div>
+                        </v-col>
+                        <v-col
+                        lg="6"
+                        md="6"
+                        xs="6"
+                        >
+                        <v-menu
+                            :close-on-content-click="true"
+                            :nudge-right="40"
+                            transition="scale-transition"
+                            offset-y
+                            min-width="auto"
+                            v-if="fields.roundTrip"
+                        >
+                            <template v-slot:activator="{ on, attrs }">
+                            <v-text-field
+                                v-model="fields.gobackSchedule"
+                                label="Go Back"
+                                prepend-inner-icon="mdi-calendar"
+                                readonly
+                                v-bind="attrs"
+                                v-on="on"
+                                solo
+                            ></v-text-field>
+                            </template>
+                            <v-date-picker
+                            v-model="fields.gobackSchedule"
+                            ></v-date-picker>
+                        </v-menu>
+                        </v-col>
+                      </v-row>
+                      <v-row>
+                        <v-col
+                        cols="12"
+                        >
+                        <v-textarea
+                            v-model="fields.notes"
+                            prepend-inner-icon="mdi-notebook-outline"
+                            solo
+                            name="input-7-4"
+                            label="Notes"
+                            placeholder="Notes"
+                        ></v-textarea>
+                        </v-col>
+                    </v-row>
+                      <v-row>
                           <v-col cols="12" class="mt-3" align="right">
                             <span class="headline">Total : {{ fields.total | currency }} <span v-if="fields.roundTrip" class="caption">X2</span><span v-else class="caption">X1</span> = <span class="caption">Rp.</span>{{ fields.subTotal | currency }}</span>
                           </v-col>
@@ -172,19 +248,23 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 export default {
     middleware: 'authenticated',
     data(){
         return {
             carts: [],
             fields: {
-                leaveSchedule: Date.now,
+                transNo: '',
+                date: new Date().toISOString().substr(0, 10),
+                customer: '',
+                leaveSchedule: new Date().toISOString().substr(0, 10),
                 gobackSchedule: null,
                 roundTrip : false,
+                notes: '',
                 total : 0,
                 subTotal: 0,
-                items : []
+                items : ''
             },
             roundTrip: false,
             isloading: false,
@@ -215,6 +295,9 @@ export default {
         }
     },
     computed:{
+        ...mapGetters({
+            user: "auth/user"
+        }),
         errors () {
             return this.$store.state.cart.errors;
         },
@@ -240,14 +323,19 @@ export default {
         roundTrip() {
             this.fields.roundTrip = this.roundTrip;
             this.fields.subTotal = this.fields.total;
+            this.fields.gobackSchedule  = null;
             if(this.roundTrip){
                 this.fields.subTotal = this.fields.total * 2;
+                this.fields.gobackSchedule  = new Date().toISOString().substr(0, 10);
             }
+        },
+        user(){
+            this.fields.customer = this.user.id;
         }
     },
     methods: {
         ...mapActions({
-            getCarts : 'cart/getAllCarts', updateCart: 'cart/updateCart', deleteCart:'cart/deleteCart', refreshError: 'cart/refreshError'
+            getCarts : 'cart/getAllCarts', updateCart: 'cart/updateCart', newBooking: 'booking/getBookingNo' ,deleteCart:'cart/deleteCart', refreshError: 'cart/refreshError'
         }),
         async getData(){
             let data = await this.getCarts();
@@ -277,6 +365,7 @@ export default {
             await this.deleteCart(id);
         },
         async checkOut(){
+            this.isloading = true;
             let items = [];
             this.carts.forEach(item => {
                 items.push({
@@ -289,7 +378,8 @@ export default {
                     total: item.total
                 });
             });
-            this.fields.items = items;
+            this.fields.items = JSON.stringify(items);
+            this.isloading = false;
         }
     },
     created(){

@@ -311,3 +311,11 @@ export const CART_BY_PRICE_ID = gql`
     }
   }
 `;
+
+export const GET_BOOKING_NO = gql`
+  query GET_BOOKING_NO {
+    getBookingNo{
+      transNo
+    }
+  }
+`;

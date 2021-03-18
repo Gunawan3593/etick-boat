@@ -393,3 +393,31 @@ export const DELETE_CART_BY_ID = gql`
   }
 `;
 
+export const CREATE_NEW_BOOKING = gql`
+  mutation CREATE_NEW_BOOKING(
+    $transNo: String!
+    $date: String!
+    $customer: String! 
+    $leaveSchedule: String!
+    $gobackSchedule: String! 
+    $notes: String
+    $roundTrip: Boolean
+    $items: String
+  ){
+    createNewBooking(
+      newBank : {
+        transNo: $transNo
+        date: $date
+        customer: $customer
+        leaveSchedule: $leaveSchedule
+        gobackSchedule: $gobackSchedule
+        notes: $notes
+        roundTrip: $roundTrip
+        items: $items
+      }
+    ){
+      id
+    }
+  }
+`;
+
