@@ -319,3 +319,32 @@ export const GET_BOOKING_NO = gql`
     }
   }
 `;
+
+export const AUTHENTICATED_BOOKING_BY_LIMIT_PAGE = gql`
+  query AUTHENTICATED_BOOKING_BY_LIMIT_PAGE($page: Int!, $limit: Int!, $search: String) {
+    getAuthenticatedBookingsByLimitAndPage(
+      page: $page,
+      limit: $limit,
+      search: $search
+    ){
+      bookings{
+          id
+          transNo
+          date
+          dueDate
+          leaveSchedule
+          status
+      }
+      paginator{
+        currentPage,
+        pageCount,
+        prev,
+        next,
+        hasPrevPage
+        hasNextPage
+        perPage
+        bookingCount
+      }
+    }
+  }
+`;

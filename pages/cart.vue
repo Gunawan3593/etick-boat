@@ -151,7 +151,7 @@
                       <v-btn 
                         large 
                         color="primary"
-                        :disabled="isloading"
+                        :disabled="isloading || carts.length == 0"
                         @click="checkOut()"
                        >Checkout</v-btn>
                   </v-card-actions>
@@ -251,7 +251,7 @@
 import { mapActions, mapGetters } from 'vuex';
 export default {
     middleware: 'authenticated',
-    data(){
+    asyncData(){
         return {
             carts: [],
             fields: {
@@ -328,19 +328,16 @@ export default {
                 this.fields.subTotal = this.fields.total * 2;
                 this.fields.gobackSchedule  = new Date().toISOString().substr(0, 10);
             }
-        },
-        user(){
-            this.fields.customer = this.user.id;
         }
     },
     methods: {
         ...mapActions({
-            getCarts : 'cart/getAllCarts', updateCart: 'cart/updateCart', newBooking: 'booking/getBookingNo' ,deleteCart:'cart/deleteCart', refreshError: 'cart/refreshError'
+            getCarts : 'cart/getAllCarts', 
+            updateCart: 'cart/updateCart', 
+            newBooking: 'booking/newBooking',
+            deleteCart:'cart/deleteCart', 
+            refreshError: 'cart/refreshError'
         }),
-        async getData(){
-            let data = await this.getCarts();
-            this.carts = data;
-        },
         editItem(item){
             this.refreshError();
             this.item = { ...item };
@@ -379,13 +376,24 @@ export default {
                 });
             });
             this.fields.items = JSON.stringify(items);
+            let data = await this.newBooking(this.fields);
+            if(data){
+                let oldCarts = [{ ...this.carts }];
+                oldCarts.forEach(item => {
+                    this.deleteCart(item[0].id);
+                });
+                this.$router.push('/payment/register');
+            }
             this.isloading = false;
         }
     },
+    async fetch(){
+        this.$store.dispatch('cart/getAllCarts');
+    },
     created(){
-        this.getData();
-    }
-    
+        this.carts = this.$store.state.cart.carts;
+        this.fields.customer = this.user.id;
+    } 
 }
 </script>
 

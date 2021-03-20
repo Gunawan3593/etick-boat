@@ -115,6 +115,14 @@
           <v-list-item-title>Home</v-list-item-title>
         </v-list-item>
       </nuxt-link>
+      <nuxt-link v-if="isAuth" to="/booking">
+        <v-list-item link>
+          <v-list-item-icon>
+            <v-icon >mdi-clipboard-edit-outline</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>My Bookings</v-list-item-title>
+        </v-list-item>
+      </nuxt-link>
       <nuxt-link to="/about">
         <v-list-item link>
           <v-list-item-icon>

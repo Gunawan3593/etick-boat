@@ -22,7 +22,7 @@ import {
     totalCart: state=> state.totalCart
   };
   
-  export  const actions = {
+  export const actions = {
     async getAllCarts({ commit }) {
         try {
             let apolloClient = this.app.apolloProvider.defaultClient;
@@ -164,6 +164,10 @@ import {
     SET_CART(state, payload) {
         state.carts = payload;
         state.totalCart = payload.length;
+    },
+    REFRESH_CART(state){
+        state.carts = [];
+        state.totalCart = 0;
     },
     ADD_CART(state, payload) {
         state.carts.push(payload);

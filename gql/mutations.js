@@ -396,16 +396,16 @@ export const DELETE_CART_BY_ID = gql`
 export const CREATE_NEW_BOOKING = gql`
   mutation CREATE_NEW_BOOKING(
     $transNo: String!
-    $date: String!
+    $date: Date!
     $customer: String! 
-    $leaveSchedule: String!
-    $gobackSchedule: String! 
+    $leaveSchedule: Date!
+    $gobackSchedule: Date
     $notes: String
     $roundTrip: Boolean
-    $items: String
+    $items: String!
   ){
     createNewBooking(
-      newBank : {
+      newBooking : {
         transNo: $transNo
         date: $date
         customer: $customer

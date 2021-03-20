@@ -5,7 +5,8 @@ import {
     EDIT_BOOKING_BY_ID,
     DELETE_BOOKING_BY_ID,
     GET_ALL_BOOKINGS,
-    GET_BOOKING_NO
+    GET_BOOKING_NO,
+    AUTHENTICATED_BOOKING_BY_LIMIT_PAGE
   } from '../gql';
   
   import { Toast } from '../plugins/swal';
@@ -14,7 +15,9 @@ import {
     bookings: [],
     currentBooking: {},
     lists: [],
-    errors: {}
+    errors: {},
+    bookingNo: '',
+    myBookings: []
   });
   
   export const getters = {
@@ -39,6 +42,20 @@ import {
           console.log(err.message.split(': ')[1]);
         }
     },
+    async getAuthenticatedBookings({ commit }, pages) {
+        try {
+            let apolloClient = this.app.apolloProvider.defaultClient;
+            let data = await apolloClient.query({
+                query: AUTHENTICATED_BOOKING_BY_LIMIT_PAGE,
+                variables: pages
+            });
+            let res = data.data.getAuthenticatedBookingsByLimitAndPage;
+            commit('SET_MY_BOOKING',res);
+            return res;
+        } catch (err) {
+          console.log(err.message.split(': ')[1]);
+        }
+    },
     async getListBookings({ commit }, status) {
         try {
             let apolloClient = this.app.apolloProvider.defaultClient;
@@ -53,10 +70,25 @@ import {
           console.log(err.message.split(': ')[1]);
         }
     },
+    async getBookingNo({ commit }) {
+        try {
+            let apolloClient = this.app.apolloProvider.defaultClient;
+            let data = await apolloClient.query({
+                query: GET_BOOKING_NO
+            });
+            let res = data.data.getBookingNo;
+            commit('SET_BOOKING_NO',res);
+            return res;
+        } catch (err) {
+          console.log(err.message.split(': ')[1]);
+        }
+    },
     async newBooking({
-        commit 
+        commit, dispatch, state
     }, inputData) {
       try{
+        await dispatch('getBookingNo');
+        inputData.transNo = state.bookingNo;
         let apolloClient = this.app.apolloProvider.defaultClient;
         let data = await apolloClient.mutate({
             mutation: CREATE_NEW_BOOKING,
@@ -160,8 +192,14 @@ import {
     SET_BOOKING(state, payload) {
         state.bookings = payload.bookings;
     },
+    SET_MY_BOOKING(state, payload){
+        state.myBookings = payload.bookings;
+    },
     SET_LIST_BOOKING(state, payload) {
         state.lists = payload;
+    },
+    SET_BOOKING_NO(state, payload){
+        state.bookingNo = payload.transNo;
     },
     ADD_BOOKING(state, payload) {
         state.bookings.push(payload);
