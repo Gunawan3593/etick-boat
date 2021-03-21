@@ -15,13 +15,13 @@
                               {{ item.transNo }}
                           </v-col>
                           <v-col lg="2">
-                              {{ item.date }}
+                              {{ $moment(item.date).format('YYYY-MM-DD') }}
                           </v-col>
                           <v-col lg="1">
                               {{ item.dueDate }}
                           </v-col>
                           <v-col lg="1">
-                              {{ item.leaveSchedule }}
+                              {{ $moment(item.leaveSchedule).format('YYYY-MM-DD') }}
                           </v-col>
                           <v-col lg="3">
                               <span v-if="item.status == 0" class="red--text"><v-icon color="red">mdi-clock-alert</v-icon> Pending</span>

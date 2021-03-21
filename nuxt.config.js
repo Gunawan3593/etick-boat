@@ -59,6 +59,11 @@ export default {
       symbolSpacing: true,
       avoidEmptyDecimals: undefined,
     }],
+    // Simple usage
+    '@nuxtjs/moment',
+
+    // With options
+    ['@nuxtjs/moment', { /* module options */ }]
   ],
 
   apollo: {

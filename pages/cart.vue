@@ -256,10 +256,11 @@ export default {
             carts: [],
             fields: {
                 transNo: '',
-                date: new Date().toISOString().substr(0, 10),
+                date: '',
                 customer: '',
-                leaveSchedule: new Date().toISOString().substr(0, 10),
+                leaveSchedule: '',
                 gobackSchedule: null,
+                dueDate: null,
                 roundTrip : false,
                 notes: '',
                 total : 0,
@@ -303,9 +304,16 @@ export default {
         },
         totalItem() {
             return this.item.pricing.price * this.item.qtyAdult;
+        },
+        date(){
+            return this.$moment().format('YYYY-MM-DD');
         }
     },
     watch:{
+        date(){
+            this.fields.date = this.date;
+            this.fields.leaveSchedule = this.date;
+        },
         carts() {
             let total = 0;
             this.carts.forEach(item => {
@@ -376,11 +384,12 @@ export default {
                 });
             });
             this.fields.items = JSON.stringify(items);
+            this.fields.dueDate = this.$moment().add(7,'d').format('YYYY-MM-DD');
             let data = await this.newBooking(this.fields);
             if(data){
                 let oldCarts = [{ ...this.carts }];
-                oldCarts.forEach(item => {
-                    this.deleteCart(item[0].id);
+                oldCarts.forEach((item,index) => {
+                    this.deleteCart(item[index].id);
                 });
                 this.$router.push('/payment/register');
             }
