@@ -332,7 +332,10 @@ export const AUTHENTICATED_BOOKING_BY_LIMIT_PAGE = gql`
           transNo
           date
           dueDate
+          roundTrip
           leaveSchedule
+          gobackSchedule
+          subtotal
           status
       }
       paginator{

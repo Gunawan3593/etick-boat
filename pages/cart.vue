@@ -143,7 +143,7 @@
                     </v-row>
                       <v-row>
                           <v-col cols="12" class="mt-3" align="right">
-                            <span class="headline">Total : {{ fields.total | currency }} <span v-if="fields.roundTrip" class="caption">X2</span><span v-else class="caption">X1</span> = <span class="caption">Rp.</span>{{ fields.subTotal | currency }}</span>
+                            <span class="headline">Total : {{ fields.total | currency }} <span v-if="fields.roundTrip" class="caption">X2</span><span v-else class="caption">X1</span> = <span class="caption">Rp.</span>{{ fields.subtotal | currency }}</span>
                           </v-col>
                       </v-row>
                   <v-card-actions>
@@ -264,7 +264,7 @@ export default {
                 roundTrip : false,
                 notes: '',
                 total : 0,
-                subTotal: 0,
+                subtotal: 0,
                 items : ''
             },
             roundTrip: false,
@@ -304,25 +304,18 @@ export default {
         },
         totalItem() {
             return this.item.pricing.price * this.item.qtyAdult;
-        },
-        date(){
-            return this.$moment().format('YYYY-MM-DD');
         }
     },
     watch:{
-        date(){
-            this.fields.date = this.date;
-            this.fields.leaveSchedule = this.date;
-        },
         carts() {
             let total = 0;
             this.carts.forEach(item => {
                 total += item.total;
             });
             this.fields.total = total;
-            this.fields.subTotal = total;
+            this.fields.subtotal = total;
             if(this.roundTrip){
-                this.fields.subTotal = total * 2;
+                this.fields.subtotal = total * 2;
             }
         },
         totalItem(){
@@ -330,11 +323,11 @@ export default {
         },
         roundTrip() {
             this.fields.roundTrip = this.roundTrip;
-            this.fields.subTotal = this.fields.total;
+            this.fields.subtotal = this.fields.total;
             this.fields.gobackSchedule  = null;
             if(this.roundTrip){
-                this.fields.subTotal = this.fields.total * 2;
-                this.fields.gobackSchedule  = new Date().toISOString().substr(0, 10);
+                this.fields.subtotal = this.fields.total * 2;
+                this.fields.gobackSchedule  = this.fields.date;
             }
         }
     },
@@ -396,12 +389,13 @@ export default {
             this.isloading = false;
         }
     },
-    async fetch(){
-        this.$store.dispatch('cart/getAllCarts');
-    },
-    created(){
-        this.carts = this.$store.state.cart.carts;
+    async created(){
+        let data = await this.getCarts();
+        this.carts = data;
+        console.log(this.carts);
         this.fields.customer = this.user.id;
+        this.fields.date = this.$moment().format('YYYY-MM-DD');
+        this.fields.leaveSchedule = this.$moment().format('YYYY-MM-DD');
     } 
 }
 </script>

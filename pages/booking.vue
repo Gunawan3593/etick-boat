@@ -10,38 +10,59 @@
                   <v-divider class="mx-4"></v-divider>
                   <v-card-text>
                       <v-row v-if="bookings.length == 0"><v-col lg="12" align="center"><span class="red--text">You dont have any Booking.</span></v-col></v-row>
-                      <v-row v-for="item in bookings" :key="item.id">
-                          <v-col lg="2">
-                              {{ item.transNo }}
-                          </v-col>
-                          <v-col lg="2">
-                              {{ $moment(item.date).format('YYYY-MM-DD') }}
-                          </v-col>
-                          <v-col lg="1">
-                              {{ item.dueDate }}
-                          </v-col>
-                          <v-col lg="1">
-                              {{ $moment(item.leaveSchedule).format('YYYY-MM-DD') }}
-                          </v-col>
-                          <v-col lg="3">
-                              <span v-if="item.status == 0" class="red--text"><v-icon color="red">mdi-clock-alert</v-icon> Pending</span>
-                          </v-col>
-                          <v-col lg="3">
-                              <nuxt-link to="/payment/register">
-                              <v-tooltip top>
-                                <template v-slot:activator="{ on, attrs }">
-                                <v-btn text  
-                                v-on="on"
-                                v-bind="attrs"
-                                >
-                                <v-icon>mdi-cash-register</v-icon>
-                                </v-btn>
-                                </template>
-                                <span>Register payment</span>
-                              </v-tooltip>
-                              </nuxt-link>
-                          </v-col>
-                      </v-row>
+                      <v-card v-for="item in bookings" :key="item.id" elevation="3" class="mb-1">
+                        <v-card-text>
+                        <v-row class="caption">
+                            <v-col lg="2" md="6" sm="6" cols="6"> 
+                                {{ item.transNo }} <v-icon v-if="item.roundTrip" small color="primary">mdi-transit-transfer</v-icon>
+                            </v-col>
+                            <v-col lg="1" md="6" sm="6" cols="6">
+                                {{ $moment(item.date).format('YYYY-MM-DD') }}
+                            </v-col>
+                            <v-col lg="1" md="6" sm="6" cols="6">
+                                {{ $moment(item.dueDate).format('YYYY-MM-DD') }}
+                            </v-col>
+                            <v-col lg="1" md="6" sm="6" cols="6">
+                                {{ $moment(item.leaveSchedule).format('YYYY-MM-DD') }}
+                            </v-col>
+                            <v-col lg="1" md="6" sm="6" cols="6">
+                                {{ $moment(item.gobackSchedule).format('YYYY-MM-DD') }}
+                            </v-col>
+                            <v-col lg="1" md="6" sm="6" cols="6"> 
+                                {{ item.subtotal | currency }}
+                            </v-col>
+                            <v-col lg="3" md="6" sm="6" cols="6">
+                                <span v-if="item.status == 0" class="red--text"><v-icon color="red">mdi-clock-alert</v-icon> Pending</span>
+                            </v-col>
+                            <v-col lg="2" md="6" sm="6" cols="6">
+                                <nuxt-link to="/payment/register">
+                                <v-tooltip top>
+                                  <template v-slot:activator="{ on, attrs }">
+                                  <v-btn text  
+                                  v-on="on"
+                                  v-bind="attrs"
+                                  >
+                                  <v-icon color="primary">mdi-cash-register</v-icon>
+                                  </v-btn>
+                                  </template>
+                                  <span>Register payment</span>
+                                </v-tooltip>
+                                </nuxt-link>
+                                <v-tooltip top>
+                                  <template v-slot:activator="{ on, attrs }">
+                                  <v-btn text  
+                                  v-on="on"
+                                  v-bind="attrs"
+                                  >
+                                  <v-icon color="primary">mdi-eye</v-icon>
+                                  </v-btn>
+                                  </template>
+                                  <span>View</span>
+                                </v-tooltip>
+                            </v-col>
+                        </v-row>
+                        </v-card-text>
+                      </v-card>
                   <v-card-actions>
                   <v-row class="justify-right">
                     <v-spacer></v-spacer>

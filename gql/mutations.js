@@ -397,22 +397,28 @@ export const CREATE_NEW_BOOKING = gql`
   mutation CREATE_NEW_BOOKING(
     $transNo: String!
     $date: Date!
+    $dueDate: Date
     $customer: String! 
     $leaveSchedule: Date!
     $gobackSchedule: Date
     $notes: String
     $roundTrip: Boolean
+    $total: Int
+    $subtotal: Int
     $items: String!
   ){
     createNewBooking(
       newBooking : {
         transNo: $transNo
         date: $date
+        dueDate: $dueDate
         customer: $customer
         leaveSchedule: $leaveSchedule
         gobackSchedule: $gobackSchedule
         notes: $notes
         roundTrip: $roundTrip
+        total: $total
+        subtotal: $subtotal
         items: $items
       }
     ){

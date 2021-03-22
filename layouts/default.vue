@@ -18,6 +18,7 @@
           <v-badge
           color="red"
           :content="cart"
+          :value="cart"
           >
             <v-icon>mdi-cart</v-icon>
           </v-badge>
