@@ -129,8 +129,8 @@ export const ROUTE_BY_LIMIT_PAGE = gql`
 `;
 
 export const GET_ALL_BANKS = gql`
-  query GET_ALL_BANKS {
-    getAllBanks {
+  query GET_ALL_BANKS($status: Boolean) {
+    getAllBanks(status : $status) {
       id
       name
       itno

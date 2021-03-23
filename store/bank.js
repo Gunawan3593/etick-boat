@@ -3,19 +3,22 @@ import {
   BANK_BY_ID,
   CREATE_NEW_BANK,
   EDIT_BANK_BY_ID,
-  DELETE_BANK_BY_ID
+  DELETE_BANK_BY_ID,
+  GET_ALL_BANKS
 } from '../gql';
 
 import { Toast } from '../plugins/swal';
 
 export const state = () => ({
   banks: [],
+  lists: [],
   currentBank: {},
   errors: {}
 });
 
 export const getters = {
   banks: state => state.banks,
+  lists: state => state.lists,
   errors: state=> state.errors,
   currentBank: state=> state.currentBank
 };
@@ -34,6 +37,20 @@ export  const actions = {
       } catch (err) {
         console.log(err.message.split(': ')[1]);
       }
+  },
+  async getListBanks({ commit }, status) {
+    try {
+        let apolloClient = this.app.apolloProvider.defaultClient;
+        let data = await apolloClient.query({
+            query: GET_ALL_BANKS,
+            variables: status
+        });
+        let res = data.data.getAllBanks;
+        commit('SET_LIST_BANK',res);
+        return res;
+    } catch (err) {
+        console.log(err.message.split(': ')[1]);
+    }
   },
   async newBank({
       commit 
@@ -145,6 +162,9 @@ export const mutations = {
   },
   ADD_BANK(state, payload) {
       state.banks.push(payload);
+  },
+  SET_LIST_BANK(state, payload) {
+    state.lists = payload;
   },
   SET_CURRENT_BANK(state, payload) {
       state.currentBank =  payload
