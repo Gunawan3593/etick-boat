@@ -427,3 +427,42 @@ export const CREATE_NEW_BOOKING = gql`
   }
 `;
 
+export const CREATE_NEW_PAYMENT = gql`
+  mutation CREATE_NEW_PAYMENT(
+    $booking: String!
+    $bank: String!
+    $transferBy: String!
+    $fundSender: String!
+    $amount: Int!
+    $transferDate: Date
+    $transferEvidence: String!
+    $notes: String
+  ){
+    createNewPayment(
+      newPayment:{
+        booking: $booking
+        bank: $bank
+        fundSender: $fundSender
+        transferBy: $transferBy
+        amount: $amount
+        transferDate: $transferDate
+        transferEvidence: $transferEvidence
+        notes: $notes
+      }
+    ){
+      id
+    }
+  }
+`;
+
+export const UPDATE_STATUS_BOOKING = gql`
+  mutation UPDATE_STATUS_BOOKING($id: ID!, $paidDate: String! ,$status: Int!) {
+    updatedBookingStatus(bookingStatus: {
+      status: $status
+      paidDate: $paidDate
+    }, id: $id) {
+      id
+      status
+    }
+  }
+`;

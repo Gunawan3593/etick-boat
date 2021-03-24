@@ -6,7 +6,8 @@ import {
     DELETE_BOOKING_BY_ID,
     GET_ALL_BOOKINGS,
     GET_BOOKING_NO,
-    AUTHENTICATED_BOOKING_BY_LIMIT_PAGE
+    AUTHENTICATED_BOOKING_BY_LIMIT_PAGE,
+    UPDATE_STATUS_BOOKING
   } from '../gql';
   
   import { Toast } from '../plugins/swal';
@@ -185,6 +186,22 @@ import {
     },
     refreshError({ commit }){
         commit('REFRESH_ERROR');
+    },
+    async updateStatusBooking({ commit }, inputData){
+        try {
+            let apolloClient = this.app.apolloProvider.defaultClient;
+            let data = await apolloClient.mutate({
+                mutation: UPDATE_STATUS_BOOKING,
+                variables: inputData
+            });
+            let res = data.data.updatedBookingStatus;
+            if(res){
+                commit('UPDATE_STATUS_BOOKING',res);
+            }
+            return res;
+        } catch (err) {
+            console.log(err.message.split(': ')[1]);
+        }
     }
   };
   
@@ -214,6 +231,13 @@ import {
             dt[index].name = payload.name;
             dt[index].descriptions = payload.descriptions;
             dt[index].active = payload.active;
+        }
+    },
+    UPDATE_STATUS_BOOKING(state, payload){
+        let index = state.bookings.findIndex(booking => booking.id == payload.id);
+        let dt = state.bookings;
+        if(index >= 0){
+            dt[index].status = payload.status;
         }
     },
     DELETE_BOOKING(state, payload){

@@ -392,7 +392,6 @@ export default {
     async created(){
         let data = await this.getCarts();
         this.carts = data;
-        console.log(this.carts);
         this.fields.customer = this.user.id;
         this.fields.date = this.$moment().format('YYYY-MM-DD');
         this.fields.leaveSchedule = this.$moment().format('YYYY-MM-DD');
