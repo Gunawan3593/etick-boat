@@ -65,10 +65,6 @@ import {
             variables: inputData
         });
         if(data) {
-            Toast.fire({
-                type: 'success',
-                title: 'Payment added successfully'
-            });
             commit('ADD_PAYMENT',data.data.createNewPayment);
         }
         return data;

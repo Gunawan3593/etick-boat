@@ -35,7 +35,7 @@
                                 <span v-if="item.status == 0" class="red--text"><v-icon color="red">mdi-clock-alert</v-icon> Pending</span>
                             </v-col>
                             <v-col lg="2" md="6" sm="6" cols="6">
-                                <nuxt-link to="/payment/register">
+                                <nuxt-link :to="`/payment/register/${item.id}`">
                                 <v-tooltip top>
                                   <template v-slot:activator="{ on, attrs }">
                                   <v-btn text  

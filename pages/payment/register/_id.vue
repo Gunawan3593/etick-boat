@@ -116,7 +116,8 @@
                         v-model="imageUploader"
                         prepend-inner-icon="mdi-camera"
                         accept="image/*"
-                        label="Image Upload"
+                        label="Transfer Evidence"
+                        placeholder="Transfer Evidence"
                         @change="uploadImage"
                         prepend-icon
                         solo
@@ -180,7 +181,7 @@ export default {
   data(){
     return {
       fields: {
-        booking : '',
+        booking : this.$route.params.id,
         bank: '',
         transferBy: '',
         fundSender: '',
@@ -215,15 +216,15 @@ export default {
     },
     async saveData(){
       this.isloading = true;
-      let data = this.newPayment(this.fields);
-      if(data){
+      let data = await this.newPayment(this.fields);
+      if(data.id){
         let params = {
           id: data.id,
           paidDate: this.$moment().format('YYYY-MM-DD hh:mm:ss'),
           status: 1
         }
         let status = await this.bookingStatus(params);
-        if(status){
+        if(status.id){
           Toast.fire({
               type: 'success',
               title: 'Payment registered successfully'
