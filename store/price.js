@@ -184,7 +184,7 @@ import {
         state.prices = payload.prices;
     },
     ADD_PRICE(state, payload) {
-        state.prices.push(payload);
+        state.prices.unshift(payload);
     },
     SET_CURRENT_PRICE(state, payload) {
         state.currentPrice =  payload

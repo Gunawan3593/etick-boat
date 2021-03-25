@@ -164,7 +164,7 @@ import {
         state.lists = payload;
     },
     ADD_ROUTE(state, payload) {
-        state.routes.push(payload);
+        state.routes.unshift(payload);
     },
     SET_CURRENT_ROUTE(state, payload) {
         state.currentRoute =  payload

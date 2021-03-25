@@ -217,14 +217,14 @@ export default {
     async saveData(){
       this.isloading = true;
       let data = await this.newPayment(this.fields);
-      if(data.id){
+      if(data){
         let params = {
-          id: data.id,
+          id: this.fields.booking,
           paidDate: this.$moment().format('YYYY-MM-DD hh:mm:ss'),
           status: 1
         }
         let status = await this.bookingStatus(params);
-        if(status.id){
+        if(status){
           Toast.fire({
               type: 'success',
               title: 'Payment registered successfully'

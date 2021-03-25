@@ -12,19 +12,19 @@
                       <v-row v-if="carts.length == 0"><v-col lg="12" align="center"><span class="red--text">You dont have any order on Shopping Cart.</span></v-col></v-row>
                       <v-row v-for="item in carts" :key="item.id">
                           <v-col lg="2">
-                              {{ item.vendor.name }}
+                            Vendor :  {{ item.vendor.name }}
                           </v-col>
                           <v-col lg="3">
-                              {{ item.routeFrom.name }} - {{ item.routeTo.name }}
+                            Route :  {{ item.routeFrom.name }} - {{ item.routeTo.name }}
                           </v-col>
-                          <v-col lg="3">
+                          <v-col lg="2">
                               Adult : {{ item.qtyAdult}} - Child : {{ item.qtyChild}}
                           </v-col>
                           <v-col lg="2">
                               Price : {{ item.pricing.price | currency }} <span class="caption">/{{ item.pricing.unit }}</span>
                           </v-col>
-                          <v-col lg="1">
-                              {{ item.total | currency }}
+                          <v-col lg="2">
+                              Amount : {{ item.total | currency }}
                           </v-col>
                           <v-col lg="1" align="center">
                               <v-tooltip top>
@@ -71,6 +71,7 @@
                         md="6"
                         xs="6"
                         >
+                        <span class="caption">Leave Schedule</span>
                         <v-menu
                             :close-on-content-click="true"
                             :nudge-right="40"
@@ -91,6 +92,7 @@
                             </template>
                             <v-date-picker
                             v-model="fields.leaveSchedule"
+                            :min="minDate"
                             ></v-date-picker>
                         </v-menu>
                         <div class="text-left caption" v-for="(error,index) in errors.leaveSchedule" :key="index">
@@ -111,6 +113,7 @@
                             v-if="fields.roundTrip"
                         >
                             <template v-slot:activator="{ on, attrs }">
+                            <span class="caption">Go back Schedule</span>
                             <v-text-field
                                 v-model="fields.gobackSchedule"
                                 label="Go Back"
@@ -123,6 +126,7 @@
                             </template>
                             <v-date-picker
                             v-model="fields.gobackSchedule"
+                            :min="fields.leaveSchedule"
                             ></v-date-picker>
                         </v-menu>
                         </v-col>
@@ -292,7 +296,8 @@ export default {
                 },
                 total: 0
             },
-            dialog: false
+            dialog: false,
+            minDate: ''
         }
     },
     computed:{
@@ -327,7 +332,7 @@ export default {
             this.fields.gobackSchedule  = null;
             if(this.roundTrip){
                 this.fields.subtotal = this.fields.total * 2;
-                this.fields.gobackSchedule  = this.fields.date;
+                this.fields.gobackSchedule  = this.fields.leaveSchedule;
             }
         }
     },
@@ -377,14 +382,14 @@ export default {
                 });
             });
             this.fields.items = JSON.stringify(items);
-            this.fields.dueDate = this.$moment().add(7,'d').format('YYYY-MM-DD');
+            this.fields.dueDate = this.$moment(this.fields.leaveSchedule).add(-1,'d').format('YYYY-MM-DD');
             let data = await this.newBooking(this.fields);
             if(data){
                 let oldCarts = [{ ...this.carts }];
                 oldCarts.forEach((item,index) => {
                     this.deleteCart(item[index].id);
                 });
-                this.$router.push('/payment/register');
+                this.$router.push(`/payment/register/${data.id}`);
             }
             this.isloading = false;
         }
@@ -394,7 +399,8 @@ export default {
         this.carts = data;
         this.fields.customer = this.user.id;
         this.fields.date = this.$moment().format('YYYY-MM-DD');
-        this.fields.leaveSchedule = this.$moment().format('YYYY-MM-DD');
+        this.minDate = this.$moment().add(1,'d').format('YYYY-MM-DD');
+        this.fields.leaveSchedule = this.minDate;
     } 
 }
 </script>

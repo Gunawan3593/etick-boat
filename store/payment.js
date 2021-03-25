@@ -1,11 +1,7 @@
 import {
     PAYMENT_BY_LIMIT_PAGE,
-    PAYMENT_BY_ID,
     CREATE_NEW_PAYMENT,
-    EDIT_PAYMENT_BY_ID,
-    DELETE_PAYMENT_BY_ID,
-    UPLOAD_FILE,
-    GET_ALL_PAYMENTS
+    UPLOAD_FILE
   } from '../gql';
   
   import { Toast } from '../plugins/swal';
@@ -180,7 +176,7 @@ import {
         state.payments = payload.payments;
     },
     ADD_PAYMENT(state, payload) {
-        state.payments.push(payload);
+        state.payments.unshift(payload);
     },
     SET_CURRENT_PAYMENT(state, payload) {
         state.currentPayment =  payload

@@ -45,6 +45,7 @@
                   cols="12"
                   md="6"
                 >
+                  <span class="caption">Birth Date</span>
                   <v-menu
                     :close-on-content-click="true"
                     :nudge-right="40"
@@ -75,13 +76,13 @@
                   cols="12"
                   md="6"
                 >
+                  <span class="caption">Gender</span>
                   <v-select
                     v-model="fields.gender"
                     :items="genders"
                     item-text="desc"
                     item-value="id"
                     label="Gender"
-                    return-object
                     solo
                   ></v-select>
                   <div class="text-left caption" v-for="(error,index) in errors.gender" :key="index">

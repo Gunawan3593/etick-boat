@@ -161,7 +161,7 @@ export const mutations = {
       state.banks = payload.banks;
   },
   ADD_BANK(state, payload) {
-      state.banks.push(payload);
+      state.banks.unshift(payload);
   },
   SET_LIST_BANK(state, payload) {
     state.lists = payload;

@@ -1,10 +1,6 @@
 import {
     BOOKING_BY_LIMIT_PAGE,
-    BOOKING_BY_ID,
     CREATE_NEW_BOOKING,
-    EDIT_BOOKING_BY_ID,
-    DELETE_BOOKING_BY_ID,
-    GET_ALL_BOOKINGS,
     GET_BOOKING_NO,
     AUTHENTICATED_BOOKING_BY_LIMIT_PAGE,
     UPDATE_STATUS_BOOKING
@@ -95,13 +91,17 @@ import {
             mutation: CREATE_NEW_BOOKING,
             variables: inputData
         });
-        if(data) {
+        let res = data.data.createNewBooking;
+        if(res) {
             Toast.fire({
                 type: 'success',
                 title: 'Booking added successfully'
             });
+            commit('ADD_BOOKING',res);
+            commit('ADD_MY_BOOKING',res);
+            commit('RESET_BOOKING_NO');
         }
-        return data;
+        return res;
       }catch(err){
           let errors = err.message.split(': ')[1].split(',');
           let resErrors = [];
@@ -212,14 +212,20 @@ import {
     SET_MY_BOOKING(state, payload){
         state.myBookings = payload.bookings;
     },
+    ADD_MY_BOOKING(state, payload){
+        state.myBookings.unshift(payload);
+    },
     SET_LIST_BOOKING(state, payload) {
         state.lists = payload;
     },
     SET_BOOKING_NO(state, payload){
         state.bookingNo = payload.transNo;
     },
+    RESET_BOOKING_NO(state){
+        state.bookingNo = '';
+    },
     ADD_BOOKING(state, payload) {
-        state.bookings.push(payload);
+        state.bookings.unshift(payload);
     },
     SET_CURRENT_BOOKING(state, payload) {
         state.currentBooking =  payload

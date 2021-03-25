@@ -95,18 +95,22 @@
             </v-list-item-icon>
         </v-list-item>
         </nuxt-link>
+        <nuxt-link to="/admin/booking">
         <v-list-item link>
             <v-list-item-title>Booking</v-list-item-title>
             <v-list-item-icon>
               <v-icon >mdi-clipboard-edit-outline</v-icon>
             </v-list-item-icon>
         </v-list-item>
+        </nuxt-link>
+        <nuxt-link to="/admin/payment">
         <v-list-item link>
             <v-list-item-title>Payment</v-list-item-title>
             <v-list-item-icon>
               <v-icon >mdi-cash-register</v-icon>
             </v-list-item-icon>
         </v-list-item>
+        </nuxt-link>
       </v-list-group>
       <nuxt-link to="/">
         <v-list-item link>

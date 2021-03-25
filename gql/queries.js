@@ -351,3 +351,70 @@ export const AUTHENTICATED_BOOKING_BY_LIMIT_PAGE = gql`
     }
   }
 `;
+
+export const BOOKING_BY_LIMIT_PAGE = gql`
+  query BOOKING_BY_LIMIT_PAGE($page: Int!, $limit: Int!, $search: String) {
+    getBookingsByLimitAndPage(
+      page: $page,
+      limit: $limit,
+      search: $search
+    ){
+      bookings{
+        id
+        transNo
+        date
+        dueDate
+        roundTrip
+        leaveSchedule
+        gobackSchedule
+        subtotal
+        status
+      }
+      paginator{
+        currentPage,
+        pageCount,
+        prev,
+        next,
+        hasPrevPage
+        hasNextPage
+        perPage
+        bookingCount
+      }
+    }
+  }
+`;
+
+export const PAYMENT_BY_LIMIT_PAGE = gql`
+  query PAYMENT_BY_LIMIT_PAGE($page: Int!, $limit: Int!, $search: String) {
+    getPaymentsByLimitAndPage(
+      page: $page,
+      limit: $limit,
+      search: $search
+    ){
+      payments{
+        id
+        booking{
+          transNo
+        }
+        bank{
+          name
+        }
+        fundSender
+        transferBy
+        transferDate
+        amount
+        status
+      }
+      paginator{
+        currentPage,
+        pageCount,
+        prev,
+        next,
+        hasPrevPage
+        hasNextPage
+        perPage
+        paymentCount
+      }
+    }
+  }
+`;

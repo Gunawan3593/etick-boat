@@ -423,6 +423,14 @@ export const CREATE_NEW_BOOKING = gql`
       }
     ){
       id
+      transNo
+      date
+      dueDate
+      roundTrip
+      leaveSchedule
+      gobackSchedule
+      subtotal
+      status
     }
   }
 `;

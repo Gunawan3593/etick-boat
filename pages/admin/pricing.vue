@@ -167,7 +167,7 @@
                 </v-col>
               </v-row>
               <v-row>
-                <v-col cols="6">
+                <v-col cols="12" md="6">
                   <v-select
                     v-model="fields.routeFrom"
                     :items="routes"
@@ -181,7 +181,7 @@
                     <span class="red--text"><v-icon color="error" small class="pb-1">mdi-alert-decagram</v-icon> {{ error[0] }}</span>
                   </div>
                 </v-col>
-                <v-col cols="6">
+                <v-col cols="12" md="6">
                   <v-select
                     v-model="fields.routeTo"
                     :items="routes"
@@ -198,18 +198,21 @@
               </v-row>
               <v-row>
                 <v-col
-                  cols="6"
+                  cols="12" md="6"
                 >
+                  <span class="caption">Price</span>
                   <v-currency-field 
                   v-model="fields.price"
                   label="Price"
                   prepend-inner-icon="mdi-tag"
+                  placeholder="Price"
                   solo
                   />
                 </v-col>
                 <v-col
-                  cols="6"
+                  cols="12" md="6"
                 >
+                  <span class="caption">Unit</span>
                   <v-select
                     v-model="fields.unit"
                     :items="units"

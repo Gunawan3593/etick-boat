@@ -164,7 +164,7 @@ import {
         state.lists = payload;
     },
     ADD_VENDOR(state, payload) {
-        state.vendors.push(payload);
+        state.vendors.unshift(payload);
     },
     SET_CURRENT_VENDOR(state, payload) {
         state.currentVendor =  payload
