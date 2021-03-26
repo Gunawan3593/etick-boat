@@ -54,7 +54,7 @@
             </v-sheet>
           </v-col>
         </v-row>
-        <v-row>
+        <v-row justify="center">
           <v-col v-for="(item, index) in prices" :key="index" lg="3" md="6" xs="12">
             <v-card elevation="5">
             <v-card-title>{{ item.name }}</v-card-title>
@@ -76,6 +76,27 @@
                 </v-layout>
             </v-card-actions>
             </v-card>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="12">
+            <v-sheet
+              color="green"
+              elevation="9"
+              height="50"
+              dark
+            >
+              <v-row
+                  class="fill-height"
+                  align="center"
+                  justify="center"
+                >
+                  <div class="display-1">
+                    <v-icon large>mdi-head-question</v-icon>
+                    Why etick-boat ?
+                  </div>
+                </v-row>
+            </v-sheet>
           </v-col>
         </v-row>
         <v-dialog
@@ -167,7 +188,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 export default {
   data() {
     return {
@@ -217,6 +238,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      isAuth: "auth/isAuth"
+    }),
     errors () {
       return this.$store.state.cart.errors;
     },
@@ -240,6 +264,9 @@ export default {
       }
     },
     async orderTicket(id){
+      if(!this.isAuth) {
+        return this.$router.push('/auth/login');
+      }
       let exists = await this.cartByPriceId(id);
       if(exists.id != null){
         return;

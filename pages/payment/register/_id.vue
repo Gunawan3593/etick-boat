@@ -59,7 +59,7 @@
                     <v-col
                       cols="12"
                     >
-                      <span class="blue--text"><v-icon color="primary" small class="pb-1">mdi-alert-circle</v-icon> Booking Amount {{ booking.subtotal | currency }}</span>
+                      <span class="blue--text"><v-icon color="primary" small class="pb-1">mdi-alert-circle</v-icon> Booking Amount {{ booking.subtotal-booking.paidAmount | currency }}</span>
                       <v-currency-field 
                       v-model="fields.amount"
                       label="Amount"

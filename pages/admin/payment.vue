@@ -157,6 +157,7 @@
                   color="blue darken-1"
                   text
                   :disabled="isLoading"
+                  v-if="curPayment.status == 0"
                   @click="confirmData()"
               >
                   Confirm

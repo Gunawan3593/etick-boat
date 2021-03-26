@@ -430,6 +430,7 @@ export const CREATE_NEW_BOOKING = gql`
       leaveSchedule
       gobackSchedule
       subtotal
+      paidAmount
       status
     }
   }

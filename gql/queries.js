@@ -331,6 +331,7 @@ export const BOOKING_BY_ID = gql`
       leaveSchedule
       gobackSchedule
       subtotal
+      paidAmount
       status
     }
   }
@@ -352,6 +353,7 @@ export const AUTHENTICATED_BOOKING_BY_LIMIT_PAGE = gql`
           leaveSchedule
           gobackSchedule
           subtotal
+          paidAmount
           status
       }
       paginator{
@@ -384,6 +386,7 @@ export const BOOKING_BY_LIMIT_PAGE = gql`
         leaveSchedule
         gobackSchedule
         subtotal
+        paidAmount
         status
       }
       paginator{

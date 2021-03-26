@@ -85,7 +85,7 @@ export  const actions = {
       })
       this.$router.push('/admin/dashboard');
   },
-  async getAuthUser({ commit, dispatch }) {
+  async getAuthUser({ commit }) {
       try {
           let apolloClient = this.app.apolloProvider.defaultClient;
           let {
@@ -96,7 +96,7 @@ export  const actions = {
           let token = this.$apolloHelpers.getToken();
           commit('LOGIN_USER', { user: authUserProfile, token: token });
       } catch (err) {
-          dispatch('logoutUser')
+          console.log(err);
       }
   },
   logoutUser({ commit, state }) {

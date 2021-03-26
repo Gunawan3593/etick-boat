@@ -45,7 +45,7 @@
                             </v-col>
                             <v-col lg="2" md="6" sm="6" cols="6">
                                 <span class="font-weight-bold">Actions</span><br>
-                                <nuxt-link v-if="item.status == 0" :to="`/payment/register/${item.id}`">
+                                <nuxt-link v-if="item.paidAmount < item.subtotal" :to="`/payment/register/${item.id}`">
                                 <v-tooltip top>
                                   <template v-slot:activator="{ on, attrs }">
                                   <v-btn text  
