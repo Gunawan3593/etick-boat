@@ -156,6 +156,8 @@
               <v-btn
                   color="blue darken-1"
                   text
+                  :disabled="isLoading"
+                  @click="confirmData()"
               >
                   Confirm
               </v-btn>
@@ -195,6 +197,7 @@ export default {
           curPayment: {
             id: '',
             booking: {
+              id: '',
               transNo: '',
               subtotal: 0
             },
@@ -233,24 +236,34 @@ export default {
     },
     async confirmData(){
       this.isLoading = true;
-      let params = {
-        id : this.curPayment.id,
-        paidAmount : this.curPayment.amount
-      }
-      let data = await this.bookingPaid(params);
-      if(data){
-        if(data.paidAmount >= data.subtotal){
-          params = {
-            confirmDate: this.$moment().format('YYYY-MM-DD'),
-            status : 2
-          }
-          data = await this.bookingStatus(params);
-        }
+      let params, data;
+      try{
         params = {
-          confirmDate: this.$moment().format('YYYY-MM-DD'),
-          status : 2
+          id: this.curPayment.booking.id,
+          paidAmount : this.curPayment.amount
         }
-        data = await this.statusPayment()
+        data = await this.bookingPaid(params);
+        if(data){
+          if(data.paidAmount >= data.subtotal){
+            params = {
+              id: this.curPayment.booking.id,
+              confirmDate: this.$moment().format('YYYY-MM-DD'),
+              status : 2
+            }
+            data = await this.bookingStatus(params);
+          }
+          params = {
+            id: this.curPayment.id,
+            confirmDate: this.$moment().format('YYYY-MM-DD'),
+            status : 1
+          }
+          data = await this.statusPayment(params);
+          if(data){
+            this.dialog = false;
+          }
+        }
+      }catch(err){
+        this.isLoading = false;
       }
     }
   },

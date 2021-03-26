@@ -460,6 +460,7 @@ export const CREATE_NEW_PAYMENT = gql`
     ){
       id
       booking{
+        id
         transNo
         subtotal
       }
@@ -493,7 +494,7 @@ export const UPDATE_STATUS_BOOKING = gql`
 
 export const UPDATE_STATUS_PAYMENT = gql`
   mutation UPDATE_STATUS_PAYMENT($id: ID!, $confirmDate: String! ,$status: Int!) {
-    updatedBookingStatus(bookingStatus: {
+    updatedPaymentStatus(paymentStatus: {
       status: $status
       confirmDate: $confirmDate
     }, id: $id) {

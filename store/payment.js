@@ -213,7 +213,7 @@ import {
             dt[index].active = payload.active;
         }
     },
-    UPDATE_STATUS_BOOKING(state, payload){
+    UPDATE_STATUS_PAYMENT(state, payload){
         let index = state.payments.findIndex(booking => booking.id == payload.id);
         let dt = state.payments;
         if(index >= 0){

@@ -320,6 +320,22 @@ export const GET_BOOKING_NO = gql`
   }
 `;
 
+export const BOOKING_BY_ID = gql`
+  query BOOKING_BY_ID($id: ID!) {
+    getBookingById(id:$id) {
+      id
+      transNo
+      date
+      dueDate
+      roundTrip
+      leaveSchedule
+      gobackSchedule
+      subtotal
+      status
+    }
+  }
+`;
+
 export const AUTHENTICATED_BOOKING_BY_LIMIT_PAGE = gql`
   query AUTHENTICATED_BOOKING_BY_LIMIT_PAGE($page: Int!, $limit: Int!, $search: String) {
     getAuthenticatedBookingsByLimitAndPage(
@@ -394,6 +410,7 @@ export const PAYMENT_BY_LIMIT_PAGE = gql`
       payments{
         id
         booking{
+          id
           transNo
           subtotal
         }
@@ -425,6 +442,7 @@ export const PAYMENT_BY_ID = gql`
     getPaymentById(id:$id) {
       id
       booking{
+        id
         transNo
         subtotal
       }

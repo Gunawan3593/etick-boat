@@ -4,7 +4,8 @@ import {
     GET_BOOKING_NO,
     AUTHENTICATED_BOOKING_BY_LIMIT_PAGE,
     UPDATE_STATUS_BOOKING,
-    UPDATE_BOOKING_PAID
+    UPDATE_BOOKING_PAID,
+    BOOKING_BY_ID
   } from '../gql';
   
   import { Toast } from '../plugins/swal';

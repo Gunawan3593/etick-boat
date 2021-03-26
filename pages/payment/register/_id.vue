@@ -59,6 +59,7 @@
                     <v-col
                       cols="12"
                     >
+                      <span class="blue--text"><v-icon color="primary" small class="pb-1">mdi-alert-circle</v-icon> Booking Amount {{ booking.subtotal | currency }}</span>
                       <v-currency-field 
                       v-model="fields.amount"
                       label="Amount"
@@ -193,7 +194,8 @@ export default {
       trfCats: ['Internet Banking','Transfer Atm','Mobile Banking','Other'],
       banks: [],
       isloading: false,
-      imageUploader: []
+      imageUploader: [],
+      booking: {}
     }
   },
   computed: {
@@ -203,7 +205,15 @@ export default {
   },
   methods: {
      ...mapActions({
-      getPayments: 'payment/getAllPayments', listBanks: 'bank/getListBanks', refreshError: 'payment/refreshError', newPayment: 'payment/newPayment', updatePayment: 'payment/updatePayment', deletePayment: 'payment/deletePayment', imageUpload: 'payment/uploadPaymentImage', bookingStatus: 'booking/updateStatusBooking'
+      getPayments: 'payment/getAllPayments', 
+      listBanks: 'bank/getListBanks', 
+      refreshError: 'payment/refreshError', 
+      newPayment: 'payment/newPayment', 
+      updatePayment: 'payment/updatePayment', 
+      deletePayment: 'payment/deletePayment', 
+      imageUpload: 'payment/uploadPaymentImage', 
+      bookingStatus: 'booking/updateStatusBooking',
+      bookingById: 'booking/getBookingById'
     }),
     async uploadImage(){
       let data = await this.imageUpload(this.imageUploader);
@@ -213,6 +223,7 @@ export default {
     },
     async getData(){
         this.banks = await this.listBanks({ status: true });
+        this.booking = await this.bookingById(this.$route.params.id);
     },
     async saveData(){
       this.isloading = true;
