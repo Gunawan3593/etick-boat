@@ -1,7 +1,9 @@
 import {
     PAYMENT_BY_LIMIT_PAGE,
     CREATE_NEW_PAYMENT,
-    UPLOAD_FILE
+    PAYMENT_BY_ID,
+    UPLOAD_FILE,
+    UPDATE_STATUS_PAYMENT
   } from '../gql';
   
   import { Toast } from '../plugins/swal';
@@ -168,6 +170,22 @@ import {
         } catch (err) {
           console.log(err.message.split(': ')[1]);
         }
+    },
+    async updateStatusPayment({ commit }, inputData){
+        try {
+            let apolloClient = this.app.apolloProvider.defaultClient;
+            let data = await apolloClient.mutate({
+                mutation: UPDATE_STATUS_PAYMENT,
+                variables: inputData
+            });
+            let res = data.data.updatedPaymentStatus;
+            if(res){
+                commit('UPDATE_STATUS_PAYMENT',res);
+            }
+            return res;
+        } catch (err) {
+            console.log(err.message.split(': ')[1]);
+        }
     }
   };
   
@@ -193,6 +211,13 @@ import {
             dt[index].unit = payload.unit;
             dt[index].descriptions = payload.descriptions;
             dt[index].active = payload.active;
+        }
+    },
+    UPDATE_STATUS_BOOKING(state, payload){
+        let index = state.payments.findIndex(booking => booking.id == payload.id);
+        let dt = state.payments;
+        if(index >= 0){
+            dt[index].status = payload.status;
         }
     },
     DELETE_PAYMENT(state, payload){

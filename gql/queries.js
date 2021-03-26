@@ -395,6 +395,7 @@ export const PAYMENT_BY_LIMIT_PAGE = gql`
         id
         booking{
           transNo
+          subtotal
         }
         bank{
           name
@@ -415,6 +416,27 @@ export const PAYMENT_BY_LIMIT_PAGE = gql`
         perPage
         paymentCount
       }
+    }
+  }
+`;
+
+export const PAYMENT_BY_ID = gql`
+  query PAYMENT_BY_ID($id: ID!) {
+    getPaymentById(id:$id) {
+      id
+      booking{
+        transNo
+        subtotal
+      }
+      bank{
+        name
+      }
+      fundSender
+      transferBy
+      transferDate
+      transferEvidence
+      amount
+      status
     }
   }
 `;

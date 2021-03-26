@@ -459,18 +459,58 @@ export const CREATE_NEW_PAYMENT = gql`
       }
     ){
       id
+      booking{
+        transNo
+        subtotal
+      }
+      bank{
+        name
+      }
+      fundSender
+      transferBy
+      transferDate
+      amount
+      status
     }
   }
 `;
 
 export const UPDATE_STATUS_BOOKING = gql`
-  mutation UPDATE_STATUS_BOOKING($id: ID!, $paidDate: String! ,$status: Int!) {
+  mutation UPDATE_STATUS_BOOKING($id: ID!, $paidDate: String, $confirmDate: String, $voidDate: String, $leaveDate: String, $gobackDate: String, $status: Int!) {
     updatedBookingStatus(bookingStatus: {
       status: $status
       paidDate: $paidDate
+      confirmDate: $confirmDate
+      voidDate: $voidDate
+      leaveDate: $leaveDate
+      gobackDate: $gobackDate
     }, id: $id) {
       id
       status
+    }
+  }
+`;
+
+export const UPDATE_STATUS_PAYMENT = gql`
+  mutation UPDATE_STATUS_PAYMENT($id: ID!, $confirmDate: String! ,$status: Int!) {
+    updatedBookingStatus(bookingStatus: {
+      status: $status
+      confirmDate: $confirmDate
+    }, id: $id) {
+      id
+      status
+    }
+  }
+`;
+
+export const UPDATE_BOOKING_PAID = gql`
+  mutation UPDATE_BOOKING_PAID($id: ID!, $paidAmount: Int!) {
+    updatedBookingPaid(bookingPaid: {
+      paidAmount: $paidAmount
+    }, id: $id) {
+      id
+      subtotal
+      paidAmount
     }
   }
 `;
