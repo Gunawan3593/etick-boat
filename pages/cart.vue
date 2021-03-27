@@ -9,8 +9,8 @@
                   </v-card-title>
                   <v-divider class="mx-4"></v-divider>
                   <v-card-text>
-                      <v-row v-if="carts.length == 0"><v-col lg="12" align="center"><span class="red--text">You dont have any order on Shopping Cart.</span></v-col></v-row>
-                      <v-row v-for="item in carts" :key="item.id">
+                    <v-row v-if="carts.length == 0"><v-col lg="12" align="center"><span class="red--text">You dont have any order on Shopping Cart.</span></v-col></v-row>
+                    <v-row v-for="item in carts" :key="item.id">
                           <v-col lg="2">
                             Vendor :  {{ item.vendor.name }}
                           </v-col>

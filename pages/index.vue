@@ -99,6 +99,35 @@
             </v-sheet>
           </v-col>
         </v-row>
+        <v-row>
+          <v-col md="4" cols="12">
+            <v-card elevation="5" class="fill-height">
+              <v-img height="200" src="https://cache.careers360.mobi/media/article_images/2020/6/16/B-Tech_in-Computer-Science.jpg"></v-img>
+              <v-card-title>Easy to used</v-card-title>
+              <v-card-text>
+                Odering fast boat ticket by etick-boat is very easy. You can access etick-boat from every platform via web browser. Another that etick-boat have process registration account that easy for new user.
+              </v-card-text>
+            </v-card>
+          </v-col>
+          <v-col md="4" cols="12">
+            <v-card elevation="5" class="fill-height">
+              <v-img height="200" src="https://nhsportpress.com/wp-content/uploads/2019/11/district-tech.jpeg"></v-img>
+              <v-card-title>Fast processed</v-card-title>
+              <v-card-text>
+                Etick-boat have best performance in ordering ticket and managing data. Your order can be completed fastly until your ticket is ready to used. Easy process make everything is fast. So no doubt with that.
+              </v-card-text>
+            </v-card>
+          </v-col>
+          <v-col md="4" cols="12">
+            <v-card elevation="5" class="fill-height">
+              <v-img height="200" src="https://miro.medium.com/max/6300/1*DPFaYlA2OPTjOWHXpQ30JA.jpeg"></v-img>
+              <v-card-title>Secure</v-card-title>
+              <v-card-text>
+                Etick-boat keep user data with secure and secretly. Maintain your data so that it is not misused by irresponsible parties
+              </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
         <v-dialog
           v-model="dialog"
           persistent
@@ -310,8 +339,8 @@ export default {
       }
     }
   },
-  created(){
-    this.getPricing(true);
+  async fetch(){
+    await this.getPricing(true);
   }
 }
 </script>

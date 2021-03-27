@@ -60,12 +60,14 @@
                                 </nuxt-link>
                                 <v-tooltip top>
                                   <template v-slot:activator="{ on, attrs }">
-                                  <v-btn text  
-                                  v-on="on"
-                                  v-bind="attrs"
-                                  >
-                                  <v-icon color="primary">mdi-eye</v-icon>
-                                  </v-btn>
+                                  <nuxt-link :to="`/view-booking/${item.id}`">
+                                    <v-btn text  
+                                      v-on="on"
+                                      v-bind="attrs"
+                                    >
+                                    <v-icon color="primary">mdi-eye</v-icon>
+                                    </v-btn>
+                                  </nuxt-link>
                                   </template>
                                   <span>View</span>
                                 </v-tooltip>

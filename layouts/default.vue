@@ -184,7 +184,8 @@ export default {
   },
   methods: {
     logout() {
-      return this.$store.dispatch('auth/logoutUser')
+      this.$store.dispatch('auth/logoutUser');
+      this.$router.push('/auth/login');
     }
   }
 }

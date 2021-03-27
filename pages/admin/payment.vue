@@ -185,7 +185,7 @@
 import { mapActions } from 'vuex';
 export default {
   middleware: 'authenticated',
-  asyncData() {
+  data() {
       return {
           curpage: 1,
           search: '',

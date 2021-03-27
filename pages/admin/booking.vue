@@ -65,14 +65,16 @@
                     <td>
                       <v-tooltip top>
                         <template v-slot:activator="{ on, attrs }">
-                          <v-icon
-                            small
-                            class="mr-2"
-                            v-on="on"
-                            v-bind="attrs"
-                          >
-                            mdi-eye
-                          </v-icon>
+                          <nuxt-link :to="`/view-booking/${item.id}`">
+                            <v-icon
+                              smalls
+                              class="mr-2"
+                              v-on="on"
+                              v-bind="attrs"
+                            >
+                              mdi-eye
+                            </v-icon>
+                          </nuxt-link>
                         </template>
                         <span>View</span>
                       </v-tooltip>

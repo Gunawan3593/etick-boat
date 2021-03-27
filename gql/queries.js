@@ -461,3 +461,33 @@ export const PAYMENT_BY_ID = gql`
     }
   }
 `;
+
+export const GET_ALL_BOOKING_ITEMS = gql`
+  query GET_ALL_BOOKING_ITEMS($booking: String!){
+    getAllBookingItems(
+      booking: $booking
+    ){
+      id
+      vendor{
+        id
+        name
+      }
+      routeFrom{
+        id
+        name
+      }
+      routeTo{
+        id
+        name
+      }
+      pricing {
+        id
+        price
+        unit
+      }
+      qtyAdult
+      qtyChild
+      total
+    }
+  }
+`;

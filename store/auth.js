@@ -85,7 +85,7 @@ export  const actions = {
       })
       this.$router.push('/admin/dashboard');
   },
-  async getAuthUser({ commit }) {
+  async getAuthUser({ commit, dispatch }) {
       try {
           let apolloClient = this.app.apolloProvider.defaultClient;
           let {
@@ -96,7 +96,7 @@ export  const actions = {
           let token = this.$apolloHelpers.getToken();
           commit('LOGIN_USER', { user: authUserProfile, token: token });
       } catch (err) {
-          console.log(err);
+        dispatch('logoutUser');
       }
   },
   logoutUser({ commit, state }) {
@@ -110,7 +110,6 @@ export  const actions = {
       if (process.browser) {
         localStorage.removeItem('apollo-token');
         this.$apolloHelpers.onLogout();
-        this.$router.push('/auth/login');
       }
       commit('LOGOUT_USER');
   },
