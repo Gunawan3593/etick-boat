@@ -462,6 +462,28 @@ export const PAYMENT_BY_ID = gql`
   }
 `;
 
+export const PAYMENT_BY_BOOKING_ID = gql`
+  query PAYMENT_BY_BOOKING_ID($id: ID!) {
+    getPaymentByBookingId(id:$id) {
+      id
+      booking{
+        id
+        transNo
+        subtotal
+      }
+      bank{
+        name
+      }
+      fundSender
+      transferBy
+      transferDate
+      transferEvidence
+      amount
+      status
+    }
+  }
+`;
+
 export const GET_ALL_BOOKING_ITEMS = gql`
   query GET_ALL_BOOKING_ITEMS($booking: String!){
     getAllBookingItems(

@@ -24,13 +24,15 @@
                     <span class="caption font-weight-bold">Leave.</span><br> {{ this.$moment(booking.leaveSchedule).format('YYYY-MM-DD') }}
                   </v-col>
                   <v-col md="3" cols="6">
-                    <span class="caption font-weight-bold">Go back.</span><br> {{ this.$moment(booking.gobackSchedule).format('YYYY-MM-DD') }}
+                    <span class="caption font-weight-bold">Go back.</span><br> {{ (!booking.gobackSchedule) ? '-' : this.$moment(booking.gobackSchedule).format('YYYY-MM-DD') }}
                   </v-col>
                   <v-col md="3" cols="6">
                     <span class="caption font-weight-bold">Status</span><br>
                     <span v-if="booking.status == 0" class="red--text"><v-icon color="red">mdi-clock-alert</v-icon> Pending</span>
                     <span v-if="booking.status == 1" class="blue--text"><v-icon color="blue">mdi-cash-check</v-icon> Already Paid</span>
                     <span v-if="booking.status == 2" class="green--text"><v-icon color="green">mdi-checkbox-marked-circle</v-icon> Success</span>
+                    <span v-if="booking.status == 3" class="red--text"><v-icon color="red">mdi-close-circle</v-icon> Void</span>
+                    <span v-if="booking.status == 4" class="orange--text"><v-icon color="orange">mdi-cash-minus</v-icon> Paid not completed</span>
                   </v-col>
                   <v-col md="3" cols="6">
                     <span class="caption font-weight-bold">Subtotal</span><br> {{ booking.subtotal | currency }}
@@ -61,6 +63,10 @@
                       </v-col>
                   </v-row>
             </v-card-text>
+            <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn v-if="booking.status !== 3" small color="error" class="mr-3 mb-3" @click="voidData(booking.id)">Void</v-btn>
+            </v-card-actions>
           </v-card>
         </v-col>
       </v-row>
@@ -81,7 +87,11 @@ export default {
   methods: {
     ...mapActions({
       bookingById: 'booking/getBookingById',
-      bookingItem: 'bookingItem/getListBookingItems'
+      bookingItem: 'bookingItem/getListBookingItems',
+      bookingStatus: 'booking/updateStatusBooking',
+      paymentByBookingId: 'payment/getPaymentByBookingId',
+      statusPayment: 'payment/updateStatusPayment',
+      bookingPaid: 'booking/updateBookingPaid'
     }),
     async viewData(id){
         let data = await this.bookingById(id);
@@ -98,6 +108,27 @@ export default {
           this.items = data;
         }
     },
+    async voidData(id){
+      let params = {
+        id: id,
+        voidDate: this.$moment().format('YYYY-MM-DD'),
+        status: 3
+      }
+      let data = await this.bookingStatus(params);
+      if(data){
+        data = await this.paymentByBookingId(id);
+        if(data.length > 0){
+          data.forEach(item => {
+            let params = {
+              id: item.id,
+              voidDate: this.$moment().format('YYYY-MM-DD'),
+              status: 2
+            }
+            this.statusPayment(params);
+          });
+        }
+      }
+    }
   },
   created(){
     this.viewData(this.$route.params.id);

@@ -60,6 +60,7 @@
                     <td class="text-left">
                         <span v-if="item.status == 0" class="red--text"><v-icon color="red">mdi-clock-alert</v-icon> Pending</span>
                         <span v-if="item.status == 1" class="green--text"><v-icon color="green">mdi-checkbox-marked-circle</v-icon> Success</span>
+                        <span v-if="item.status == 2" class="red--text"><v-icon color="red">mdi-close-circle</v-icon> Void</span>
                     </td>
                     <td>
                       <v-tooltip top>
@@ -138,6 +139,7 @@
                     <span class="caption font-weight-bold">Status</span><br>
                     <span v-if="curPayment.status == 0" class="red--text"><v-icon color="red">mdi-clock-alert</v-icon> Pending</span>
                     <span v-if="curPayment.status == 1" class="green--text"><v-icon color="green">mdi-checkbox-marked-circle</v-icon> Success</span>
+                    <span v-if="curPayment.status == 2" class="red--text"><v-icon color="red">mdi-close-circle</v-icon> Void</span>
                   </v-col>
                   <v-col cols="6">
                     <span class="caption font-weight-bold">Subtotal</span><br> {{ curPayment.booking.subtotal | currency }}
@@ -165,6 +167,8 @@
               <v-btn
                   color="error"
                   text
+                  v-if="curPayment.status !== 2"
+                  @click="voidData()"
               >
                   Void
               </v-btn>
@@ -238,21 +242,23 @@ export default {
     async confirmData(){
       this.isLoading = true;
       let params, data;
-      try{
+      params = {
+        id: this.curPayment.booking.id,
+        paidAmount : this.curPayment.amount
+      }
+      data = await this.bookingPaid(params);
+      if(data){
+        let status = 4;
+        if(data.paidAmount >= data.subtotal){
+          status = 2;
+        }
         params = {
           id: this.curPayment.booking.id,
-          paidAmount : this.curPayment.amount
+          confirmDate: this.$moment().format('YYYY-MM-DD'),
+          status : status
         }
-        data = await this.bookingPaid(params);
+        data = await this.bookingStatus(params);
         if(data){
-          if(data.paidAmount >= data.subtotal){
-            params = {
-              id: this.curPayment.booking.id,
-              confirmDate: this.$moment().format('YYYY-MM-DD'),
-              status : 2
-            }
-            data = await this.bookingStatus(params);
-          }
           params = {
             id: this.curPayment.id,
             confirmDate: this.$moment().format('YYYY-MM-DD'),
@@ -263,9 +269,41 @@ export default {
             this.dialog = false;
           }
         }
-      }catch(err){
-        this.isLoading = false;
       }
+      this.isLoading = false;
+    },
+    async voidData(){
+      this.isLoading = true;
+      let params, data;
+      if(this.curPayment.status == 1){
+        params = {
+          id: this.curPayment.booking.id,
+          paidAmount : this.curPayment.amount *-1
+        }
+        data = await this.bookingPaid(params);
+        if(data){
+          let status = 4;
+          if(data.paidAmount == 0){
+            status = 0;
+          }
+          params = {
+            id: this.curPayment.booking.id,
+            voidDate: this.$moment().format('YYYY-MM-DD'),
+            status : status
+          }
+          data = await this.bookingStatus(params);
+        }
+      }
+      params = {
+        id: this.curPayment.id,
+        voidDate: this.$moment().format('YYYY-MM-DD'),
+        status : 2
+      }
+      data = await this.statusPayment(params);
+      if(data){
+        this.dialog = false;
+      }
+      this.isLoading = false;
     }
   },
   watch: {

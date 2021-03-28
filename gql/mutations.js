@@ -494,10 +494,11 @@ export const UPDATE_STATUS_BOOKING = gql`
 `;
 
 export const UPDATE_STATUS_PAYMENT = gql`
-  mutation UPDATE_STATUS_PAYMENT($id: ID!, $confirmDate: String! ,$status: Int!) {
+  mutation UPDATE_STATUS_PAYMENT($id: ID!, $confirmDate: String, $voidDate: String, $status: Int!) {
     updatedPaymentStatus(paymentStatus: {
       status: $status
       confirmDate: $confirmDate
+      voidDate: $voidDate
     }, id: $id) {
       id
       status

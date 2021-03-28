@@ -48,13 +48,11 @@ export default {
       valueAsInteger: false,
       allowNegative: true
     }],
-    'vue-currency-filter/nuxt',
-    // Or if you have custom options...
     ['vue-currency-filter/nuxt', {
       symbol: 'Rp',
-      thousandsSeparator: ',',
-      fractionCount: 2,
-      fractionSeparator: '.',
+      thousandsSeparator: '.',
+      fractionCount: 0,
+      fractionSeparator: ',',
       symbolPosition: 'front',
       symbolSpacing: true,
       avoidEmptyDecimals: undefined,

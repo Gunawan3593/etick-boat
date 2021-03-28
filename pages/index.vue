@@ -66,7 +66,7 @@
               <v-divider></v-divider>
               <span><v-icon>mdi-routes</v-icon> {{ item.routeFrom.name }} - {{ item.routeTo.name }}</span>
               <v-divider></v-divider>
-              <span class="display-1"><v-icon>mdi-tag</v-icon> <span class="caption">Rp.</span>{{ item.price | currency }}</span><span class="caption">/{{ item.unit }}</span>
+              <span class="display-1"><v-icon>mdi-tag</v-icon> {{ item.price | currency }}</span><span class="caption">/{{ item.unit }}</span>
               <v-divider></v-divider>
               </div>
             </v-card-text>
@@ -184,11 +184,11 @@
                     </v-col>
                     <v-col lg="6" md="12" xs="12" class="mb-6" align="center">
                       <span>Price</span><br>
-                      <span class="display-2"><span class="caption">Rp.</span>{{ fields.price | currency }}</span><span class="caption">/{{ fields.unit }}</span>
+                      <span class="display-2">{{ fields.price | currency }}</span><span class="caption">/{{ fields.unit }}</span>
                     </v-col>
                   </v-row>
                   <v-row justify="center">
-                    <span class="caption">Total</span><span class="display-2"><span class="caption">Rp.</span>{{ total | currency }}</span>
+                    <span class="caption">Total</span><span class="display-2">{{ total | currency }}</span>
                   </v-row>
                 </v-form>
                 </v-card-text>
@@ -339,8 +339,8 @@ export default {
       }
     }
   },
-  async fetch(){
-    await this.getPricing(true);
+  created(){
+    this.getPricing(true);
   }
 }
 </script>

@@ -12,7 +12,7 @@
         </nuxt-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      Hallo {{ user.firstName }} <v-icon small class="ml-1">mdi-emoticon-happy-outline</v-icon>
+      <span v-if="isAuth">Hallo {{ user.firstName }} <v-icon small class="ml-1">mdi-emoticon-happy-outline</v-icon></span>
       <nuxt-link to="/cart">
         <v-btn icon>
           <v-badge
@@ -178,7 +178,7 @@ export default {
       isAuth: "auth/isAuth", user: "auth/user", cart: "cart/totalCart"
     }),
   },
-  async created(){
+  async fetch(){
     await this.$store.dispatch('auth/getAuthUser');
     await this.$store.dispatch('cart/getAllCarts');
   },

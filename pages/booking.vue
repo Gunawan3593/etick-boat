@@ -42,6 +42,8 @@
                                 <span v-if="item.status == 0" class="red--text"><v-icon color="red">mdi-clock-alert</v-icon> Pending</span>
                                 <span v-if="item.status == 1" class="blue--text"><v-icon color="blue">mdi-cash-check</v-icon> Already Paid</span>
                                 <span v-if="item.status == 2" class="green--text"><v-icon color="green">mdi-checkbox-marked-circle</v-icon> Success</span>
+                                <span v-if="item.status == 3" class="red--text"><v-icon color="red">mdi-close-circle</v-icon> Void</span>
+                                <span v-if="item.status == 4" class="orange--text"><v-icon color="orange">mdi-cash-minus</v-icon> Paid not completed</span>
                             </v-col>
                             <v-col lg="2" md="6" sm="6" cols="6">
                                 <span class="font-weight-bold">Actions</span><br>

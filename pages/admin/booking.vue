@@ -37,6 +37,9 @@
                     <th class="text-left">
                         Amount
                     </th>
+                    <th class="text-left">
+                        Paid
+                    </th>
                     <th class="text-center">
                         Status
                     </th>
@@ -57,10 +60,13 @@
                     <td class="text-left">{{ $moment(item.leaveSchedule).format('YYYY-MM-DD') }}</td>
                     <td class="text-left">{{ (!item.gobackSchedule) ? '-' : $moment(item.gobackSchedule).format('YYYY-MM-DD') }}</td>
                     <td class="text-left">{{ item.subtotal | currency }}</td>
+                    <td class="text-left">{{ item.paidAmount | currency }}</td>
                     <td class="text-left">
                         <span v-if="item.status == 0" class="red--text"><v-icon color="red">mdi-clock-alert</v-icon> Pending</span>
                         <span v-if="item.status == 1" class="blue--text"><v-icon color="blue">mdi-cash-check</v-icon> Already Paid</span>
                         <span v-if="item.status == 2" class="green--text"><v-icon color="green">mdi-checkbox-marked-circle</v-icon> Success</span>
+                        <span v-if="item.status == 3" class="red--text"><v-icon color="red">mdi-close-circle</v-icon> Void</span>
+                        <span v-if="item.status == 4" class="orange--text"><v-icon color="orange">mdi-cash-minus</v-icon> Paid not completed</span>
                     </td>
                     <td>
                       <v-tooltip top>
