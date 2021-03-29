@@ -111,7 +111,7 @@ export default {
     async voidData(id){
       let params = {
         id: id,
-        voidDate: this.$moment().format('YYYY-MM-DD'),
+        voidDate: this.$moment().format('YYYY-MM-DD hh:mm:ss'),
         status: 3
       }
       let data = await this.bookingStatus(params);
@@ -121,7 +121,7 @@ export default {
           data.forEach(item => {
             let params = {
               id: item.id,
-              voidDate: this.$moment().format('YYYY-MM-DD'),
+              voidDate: this.$moment().format('YYYY-MM-DD hh:mm:ss'),
               status: 2
             }
             this.statusPayment(params);
