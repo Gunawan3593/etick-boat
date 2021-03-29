@@ -25,7 +25,7 @@
                   tile
                   size="80"
                   color="error"
-              ><span class="white--text font-weight-medium display-1">10</span></v-list-item-avatar>
+              ><span class="white--text font-weight-medium display-1">{{ pendingBooking }}</span></v-list-item-avatar>
               </v-list-item>
           </v-card>
       </v-col>
@@ -49,7 +49,7 @@
                   tile
                   size="80"
                   color="orange lighten-1"
-              ><span class="white--text font-weight-medium display-1">20</span></v-list-item-avatar>
+              ><span class="white--text font-weight-medium display-1">{{ pendingPayment }}</span></v-list-item-avatar>
               </v-list-item>
           </v-card>
       </v-col>
@@ -73,7 +73,7 @@
                   tile
                   size="80"
                   color="light-green"
-              ><span class="white--text font-weight-medium display-1">30</span></v-list-item-avatar>
+              ><span class="white--text font-weight-medium display-1">{{ bookingSuccess }}</span></v-list-item-avatar>
               </v-list-item>
           </v-card>
       </v-col>
@@ -158,8 +158,46 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 export default {
-  middleware: 'authenticated'
+  middleware: 'authenticated',
+  data(){
+      return {
+          pendingBooking: 0,
+          bookingSuccess: 0,
+          pendingPayment:0
+      }
+  },
+  methods: {
+    ...mapActions({
+      countBooking: 'booking/countBooking',
+      countPayment: 'payment/countPayment'
+    }),
+    async getData(){
+      let date = this.$moment().format('YYYY-MM-DD');
+      let params = {
+          date: date,
+          status: 0
+      }
+      let data = await this.countBooking(params);
+      this.pendingBooking = data.total;
+      params = {
+          date: date,
+          status: 2
+      }
+      data = await this.countBooking(params);
+      this.bookingSuccess = data.total;
+      params = {
+          date: date,
+          status: 0
+      }
+      data = await this.countPayment(params);
+      this.pendingPayment = data.total;
+    }
+  },
+  async fetch(){
+      await this.getData();
+  }
 }
 </script>
 

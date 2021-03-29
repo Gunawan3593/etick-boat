@@ -513,3 +513,31 @@ export const GET_ALL_BOOKING_ITEMS = gql`
     }
   }
 `;
+
+export const COUNT_BOOKING_BY_DATE = gql`
+  query COUNT_BOOKING_BY_DATE(
+    $date: String!
+    $status: Int!
+  ){
+    countBookingByDate(
+      date: $date,
+      status: $status
+    ){
+      total
+    }
+  }
+`;
+
+export const COUNT_PAYMENT_BY_DATE = gql`
+  query COUNT_PAYMENT_BY_DATE(
+    $date: String!
+    $status: Int!
+  ){
+    countPaymentByDate(
+      date: $date,
+      status: $status
+    ){
+      total
+    }
+  }
+`;

@@ -5,7 +5,8 @@ import {
     AUTHENTICATED_BOOKING_BY_LIMIT_PAGE,
     UPDATE_STATUS_BOOKING,
     UPDATE_BOOKING_PAID,
-    BOOKING_BY_ID
+    BOOKING_BY_ID,
+    COUNT_BOOKING_BY_DATE
   } from '../gql';
   
   import { Toast } from '../plugins/swal';
@@ -77,6 +78,19 @@ import {
             });
             let res = data.data.getBookingNo;
             commit('SET_BOOKING_NO',res);
+            return res;
+        } catch (err) {
+          console.log(err.message.split(': ')[1]);
+        }
+    },
+    async countBooking({}, inputData) {
+        try {
+            let apolloClient = this.app.apolloProvider.defaultClient;
+            let data = await apolloClient.query({
+                query: COUNT_BOOKING_BY_DATE,
+                variables: inputData
+            });
+            let res = data.data.countBookingByDate;
             return res;
         } catch (err) {
           console.log(err.message.split(': ')[1]);

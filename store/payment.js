@@ -4,7 +4,8 @@ import {
     PAYMENT_BY_ID,
     UPLOAD_FILE,
     UPDATE_STATUS_PAYMENT,
-    PAYMENT_BY_BOOKING_ID
+    PAYMENT_BY_BOOKING_ID,
+    COUNT_PAYMENT_BY_DATE
   } from '../gql';
   
   import { Toast } from '../plugins/swal';
@@ -105,6 +106,19 @@ import {
                 variables: { id: id }
             });
             let res = data.data.getPaymentByBookingId;
+            return res;
+        } catch (err) {
+          console.log(err.message.split(': ')[1]);
+        }
+    },
+    async countPayment({}, inputData) {
+        try {
+            let apolloClient = this.app.apolloProvider.defaultClient;
+            let data = await apolloClient.query({
+                query: COUNT_PAYMENT_BY_DATE,
+                variables: inputData
+            });
+            let res = data.data.countPaymentByDate;
             return res;
         } catch (err) {
           console.log(err.message.split(': ')[1]);

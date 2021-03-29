@@ -179,8 +179,10 @@ export default {
     }),
   },
   async fetch(){
-    await this.$store.dispatch('auth/getAuthUser');
-    await this.$store.dispatch('cart/getAllCarts');
+    let data = await this.$store.dispatch('auth/getAuthUser');
+    if(data){
+      await this.$store.dispatch('cart/getAllCarts');
+    }
   },
   methods: {
     logout() {
