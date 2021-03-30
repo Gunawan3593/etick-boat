@@ -12,7 +12,8 @@
             <v-card-text>
                 <v-row>
                   <v-col md="3" cols="6">
-                    <span class="caption font-weight-bold">No.</span><br> {{ booking.transNo }}
+                    <span class="caption font-weight-bold">No.</span><br> {{ booking.transNo }} 
+                    <v-icon v-if="booking.roundTrip" small color="primary">mdi-transit-transfer</v-icon>
                   </v-col>
                   <v-col md="3" cols="6">
                     <span class="caption font-weight-bold">Date.</span><br> {{ this.$moment(booking.date).format('YYYY-MM-DD') }}
