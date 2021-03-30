@@ -91,7 +91,7 @@
             <v-list-item-content>
                 <v-list-item-title class="headline mb-1">Booking</v-list-item-title>
                 <v-list-item-subtitle>Total booking on March</v-list-item-subtitle>
-                {{ 100000| currency }}
+                {{ totalPending| currency }}
             </v-list-item-content>
 
             <v-list-item-avatar
@@ -116,7 +116,7 @@
             <v-list-item-content>
                 <v-list-item-title class="headline mb-1">Sold</v-list-item-title>
                 <v-list-item-subtitle>Total booking sold on March</v-list-item-subtitle>
-                {{ 100000 | currency }}
+                {{ totalSuccess | currency }}
             </v-list-item-content>
 
             <v-list-item-avatar
@@ -165,13 +165,16 @@ export default {
       return {
           pendingBooking: 0,
           bookingSuccess: 0,
-          pendingPayment:0
+          pendingPayment:0,
+          totalPending:0,
+          totalSuccess:0
       }
   },
   methods: {
     ...mapActions({
       countBooking: 'booking/countBooking',
-      countPayment: 'payment/countPayment'
+      countPayment: 'payment/countPayment',
+      totalBooking: 'booking/totalBooking'
     }),
     async getData(){
       let date = this.$moment().format('YYYY-MM-DD');
@@ -193,6 +196,18 @@ export default {
       }
       data = await this.countPayment(params);
       this.pendingPayment = data.total;
+      params = {
+          date: date,
+          status: 0
+      }
+      data = await this.totalBooking(params);
+      this.totalPending = data.total;
+      params = {
+          date: date,
+          status: 2
+      }
+      data = await this.totalBooking(params);
+      this.totalSuccess = data.total;
     }
   },
   async fetch(){

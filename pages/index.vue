@@ -339,7 +339,8 @@ export default {
       }
     }
   },
-  created(){
+  async fetch(){
+    await this.$store.dispatch('auth/getAuthUser');
     this.getPricing(true);
   }
 }

@@ -106,11 +106,11 @@ export  const actions = {
               type: 'success',
               title: 'You are now logged out.'
           });
-      }
+        }
       if (process.browser) {
         localStorage.removeItem('apollo-token');
-        this.$apolloHelpers.onLogout();
       }
+      this.$apolloHelpers.onLogout();
       commit('LOGOUT_USER');
   },
   refreshError({ commit }){
