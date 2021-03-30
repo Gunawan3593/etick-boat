@@ -555,3 +555,18 @@ export const GET_TOTAL_BOOKING_BY_DATE = gql`
     }
   }
 `;
+
+export const TOP_BOOKING_BY_DATE = gql`
+  query TOP_BOOKING_BY_DATE(
+    $date: String!
+    $status: Int!
+  ){
+    getTopBookingByDate(
+      date: $date,
+      status: $status
+    ){
+      name
+      total
+    }
+  }
+`;

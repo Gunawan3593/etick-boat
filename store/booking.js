@@ -7,7 +7,8 @@ import {
     UPDATE_BOOKING_PAID,
     BOOKING_BY_ID,
     COUNT_BOOKING_BY_DATE,
-    GET_TOTAL_BOOKING_BY_DATE
+    GET_TOTAL_BOOKING_BY_DATE,
+    TOP_BOOKING_BY_DATE
   } from '../gql';
   
   import { Toast } from '../plugins/swal';
@@ -105,6 +106,19 @@ import {
                 variables: inputData
             });
             let res = data.data.getTotalBookingByDate;
+            return res;
+        } catch (err) {
+          console.log(err.message.split(': ')[1]);
+        }
+    },
+    async topBooking({}, inputData) {
+        try {
+            let apolloClient = this.app.apolloProvider.defaultClient;
+            let data = await apolloClient.query({
+                query: TOP_BOOKING_BY_DATE,
+                variables: inputData
+            });
+            let res = data.data.getTopBookingByDate;
             return res;
         } catch (err) {
           console.log(err.message.split(': ')[1]);

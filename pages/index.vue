@@ -341,7 +341,7 @@ export default {
   },
   async fetch(){
     await this.$store.dispatch('auth/getAuthUser');
-    this.getPricing(true);
+    await this.getPricing(true);
   }
 }
 </script>

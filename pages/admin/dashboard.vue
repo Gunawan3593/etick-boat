@@ -18,7 +18,7 @@
               <v-list-item three-line>
               <v-list-item-content>
                   <v-list-item-title class="headline mb-1">Pending <span class="caption font-weight-bold">Order</span></v-list-item-title>
-                  <v-list-item-subtitle>Total Pending Booking order today</v-list-item-subtitle>
+                  <v-list-item-subtitle>Counter Pending Booking order no {{ month }}</v-list-item-subtitle>
               </v-list-item-content>
 
               <v-list-item-avatar
@@ -42,7 +42,7 @@
               <v-list-item three-line>
               <v-list-item-content>
                   <v-list-item-title class="headline mb-1">Pending <span class="caption font-weight-bold">Payment</span></v-list-item-title>
-                  <v-list-item-subtitle>Total pending payment today</v-list-item-subtitle>
+                  <v-list-item-subtitle>Counter pending payment on {{ month }}</v-list-item-subtitle>
               </v-list-item-content>
 
               <v-list-item-avatar
@@ -66,7 +66,7 @@
               <v-list-item three-line>
               <v-list-item-content>
                   <v-list-item-title class="headline mb-1">Booking <span class="caption font-weight-bold">Success</span></v-list-item-title>
-                  <v-list-item-subtitle>Total Booking Success today</v-list-item-subtitle>
+                  <v-list-item-subtitle>Counter Booking Success on {{ month }}</v-list-item-subtitle>
               </v-list-item-content>
 
               <v-list-item-avatar
@@ -89,8 +89,8 @@
         >
             <v-list-item three-line>
             <v-list-item-content>
-                <v-list-item-title class="headline mb-1">Booking</v-list-item-title>
-                <v-list-item-subtitle>Total booking on March</v-list-item-subtitle>
+                <v-list-item-title class="headline mb-1">Pending</v-list-item-title>
+                <v-list-item-subtitle>Total pending booking on {{ month }}</v-list-item-subtitle>
                 {{ totalPending| currency }}
             </v-list-item-content>
 
@@ -115,7 +115,7 @@
             <v-list-item three-line>
             <v-list-item-content>
                 <v-list-item-title class="headline mb-1">Sold</v-list-item-title>
-                <v-list-item-subtitle>Total booking sold on March</v-list-item-subtitle>
+                <v-list-item-subtitle>Total booking sold on {{ month }}</v-list-item-subtitle>
                 {{ totalSuccess | currency }}
             </v-list-item-content>
 
@@ -139,9 +139,9 @@
         >
             <v-list-item three-line>
             <v-list-item-content>
-                <v-list-item-title class="headline mb-1">TOP PRODUCT</v-list-item-title>
-                <v-list-item-subtitle>Top Product on March</v-list-item-subtitle>
-                Yamuna - 100.000
+                <v-list-item-title class="headline mb-1">Top Booked</v-list-item-title>
+                <v-list-item-subtitle>Top booked on {{ month }}</v-list-item-subtitle>
+                {{ topBooked.name }} - {{ topBooked.total | currency }}
             </v-list-item-content>
 
             <v-list-item-avatar
@@ -163,18 +163,24 @@ export default {
   middleware: 'authenticated',
   data(){
       return {
+          month: this.$moment().format('MMMM'),
           pendingBooking: 0,
           bookingSuccess: 0,
           pendingPayment:0,
           totalPending:0,
-          totalSuccess:0
+          totalSuccess: 0,
+          topBooked: {
+              name: '',
+              total: 0
+          }
       }
   },
   methods: {
     ...mapActions({
       countBooking: 'booking/countBooking',
       countPayment: 'payment/countPayment',
-      totalBooking: 'booking/totalBooking'
+      totalBooking: 'booking/totalBooking',
+      topBooking: 'booking/topBooking'
     }),
     async getData(){
       let date = this.$moment().format('YYYY-MM-DD');
@@ -208,6 +214,12 @@ export default {
       }
       data = await this.totalBooking(params);
       this.totalSuccess = data.total;
+      params = {
+          date: date,
+          status: 2
+      }
+      data = await this.topBooking(params);
+      this.topBooked = data;
     }
   },
   async fetch(){
