@@ -315,7 +315,6 @@ export default {
                 status : 2
             }
             let data = await this.bookingWeekly(params);
-            console.log(data);
             if (data){
                 let dows = [];
                 let date = new Date();
@@ -374,11 +373,7 @@ export default {
                             this.dayValue[i] += row.total;
                         }else{
                             if(this.dayValue[i] == undefined) {
-                                if(i==dows.length){
-                                    this.dayValue.push(null)
-                                }else{
-                                    this.dayValue.push(0)
-                                }
+                                this.dayValue.push(0)
                             }
                         }
                     });

@@ -231,7 +231,7 @@ export default {
       if(data){
         let params = {
           id: this.fields.booking,
-          paidDate: this.$moment().format('YYYY-MM-DD hh:mm:ss'),
+          paidDate: new Date(),
           status: 1
         }
         let status = await this.bookingStatus(params);

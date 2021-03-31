@@ -254,14 +254,14 @@ export default {
         }
         params = {
           id: this.curPayment.booking.id,
-          confirmDate: this.$moment().format('YYYY-MM-DD hh:mm:ss'),
+          confirmDate: new Date(),
           status : status
         }
         data = await this.bookingStatus(params);
         if(data){
           params = {
             id: this.curPayment.id,
-            confirmDate: this.$moment().format('YYYY-MM-DD hh:mm:ss'),
+            confirmDate: new Date(),
             status : 1
           }
           data = await this.statusPayment(params);
@@ -288,7 +288,7 @@ export default {
           }
           params = {
             id: this.curPayment.booking.id,
-            voidDate: this.$moment().format('YYYY-MM-DD hh:mm:ss'),
+            voidDate: new Date(),
             status : status
           }
           data = await this.bookingStatus(params);
@@ -296,7 +296,7 @@ export default {
       }
       params = {
         id: this.curPayment.id,
-        voidDate: this.$moment().format('YYYY-MM-DD hh:mm:ss'),
+        voidDate: new Date(),
         status : 2
       }
       data = await this.statusPayment(params);

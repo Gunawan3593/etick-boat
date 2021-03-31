@@ -394,14 +394,14 @@ export default {
             this.isloading = false;
         }
     },
-    async created(){
+    async fetch(){
         let data = await this.getCarts();
         this.carts = data;
         this.fields.customer = this.user.id;
-        this.fields.date = this.$moment().format('YYYY-MM-DD hh:mm:ss');
+        this.fields.date = new Date();
         this.minDate = this.$moment().add(1,'d').format('YYYY-MM-DD');
         this.fields.leaveSchedule = this.minDate;
-    } 
+    }
 }
 </script>
 
