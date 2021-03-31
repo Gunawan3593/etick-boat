@@ -570,3 +570,35 @@ export const TOP_BOOKING_BY_DATE = gql`
     }
   }
 `;
+
+export const GET_BOOKING_BY_TIME = gql`
+  query GET_BOOKING_BY_TIME(
+    $date: String!
+    $status: Int!
+  ){
+    getBookingByTime(
+      date: $date,
+      status: $status
+    ){
+      hour
+      total
+    }
+  }
+`;
+
+export const GET_BOOKING_WEEKLY = gql`
+  query GET_BOOKING_WEEKLY(
+    $monday: String!
+    $sunday: String!
+    $status: Int!
+  ){
+    getBookingWeekly(
+      monday: $monday
+      sunday: $sunday
+      status: $status
+    ){
+      day
+      total
+    }
+  }
+`;

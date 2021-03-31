@@ -8,7 +8,9 @@ import {
     BOOKING_BY_ID,
     COUNT_BOOKING_BY_DATE,
     GET_TOTAL_BOOKING_BY_DATE,
-    TOP_BOOKING_BY_DATE
+    TOP_BOOKING_BY_DATE,
+    GET_BOOKING_WEEKLY,
+    GET_BOOKING_BY_TIME
   } from '../gql';
   
   import { Toast } from '../plugins/swal';
@@ -119,6 +121,32 @@ import {
                 variables: inputData
             });
             let res = data.data.getTopBookingByDate;
+            return res;
+        } catch (err) {
+          console.log(err.message.split(': ')[1]);
+        }
+    },
+    async bookingByTime({}, inputData) {
+        try {
+            let apolloClient = this.app.apolloProvider.defaultClient;
+            let data = await apolloClient.query({
+                query: GET_BOOKING_BY_TIME,
+                variables: inputData
+            });
+            let res = data.data.getBookingByTime;
+            return res;
+        } catch (err) {
+          console.log(err.message.split(': ')[1]);
+        }
+    },
+    async bookingWeekly({}, inputData) {
+        try {
+            let apolloClient = this.app.apolloProvider.defaultClient;
+            let data = await apolloClient.query({
+                query: GET_BOOKING_WEEKLY,
+                variables: inputData
+            });
+            let res = data.data.getBookingWeekly;
             return res;
         } catch (err) {
           console.log(err.message.split(': ')[1]);
