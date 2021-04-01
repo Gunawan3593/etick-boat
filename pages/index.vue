@@ -347,7 +347,7 @@ export default {
 </script>
 
 <style>
-  @media screen and (max-width: 375px) {
+@media screen and (max-width: 375px) {
     body {
       max-width: 375px;
     }

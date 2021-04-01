@@ -182,7 +182,6 @@ export default {
     await this.$store.dispatch('auth/getAuthUser');
     await this.$store.dispatch('cart/getAllCarts');
   },
-  fetchOnServer: false,
   methods: {
     logout() {
       this.$store.dispatch('auth/logoutUser');
