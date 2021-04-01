@@ -193,24 +193,13 @@ export default {
 </script>
 
 <style>
-@media screen and (max-width: 375px) {
-  body {
-    max-width: 375px;
-  }
-  .v-card {
-    max-width: 350px;
-  }
-  .v-card__text {
-    min-width: 330px;
-  }
-}
 a {
   text-decoration: none;
   color: white !important;
 }
 .swal2-popup {
-    font-family: "Roboto", sans-serif !important;
-  }
+  font-family: "Roboto", sans-serif !important;
+}
 
 .container {
   min-height: 0px !important;
