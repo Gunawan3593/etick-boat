@@ -229,12 +229,12 @@
                 <v-col
                   cols="12"
                 >
-                  <!-- <input
+                  <input
                     v-model="fields.imagePath"
                     label="Image Path"
                     placeholder="Image Path"
                     type="hidden"
-                  > -->
+                  >
                   <v-file-input
                     v-model="imageUploader"
                     prepend-inner-icon="mdi-camera"

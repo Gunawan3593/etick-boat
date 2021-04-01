@@ -28,7 +28,7 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
-    '@nuxtjs/vuetify'
+    ['@nuxtjs/vuetify', { treeShake: true}]
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -39,7 +39,7 @@ export default {
     '@nuxtjs/pwa',
     '@nuxtjs/apollo',
     'nuxt-sweetalert2',
-    ['v-currency-field/nuxt', {
+    ['v-currency-field/nuxt-treeshaking', {
       locale: 'pt-BR',
       decimalLength: 0,
       autoDecimalMode: true,
