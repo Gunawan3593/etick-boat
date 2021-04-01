@@ -52,7 +52,7 @@ export default {
     ['vue-currency-filter/nuxt', {
       symbol: 'Rp',
       thousandsSeparator: '.',
-      fractionCount: 0,
+      fractionCount: 2,
       fractionSeparator: ',',
       symbolPosition: 'front',
       symbolSpacing: true,
@@ -64,11 +64,10 @@ export default {
     // With options
     ['@nuxtjs/moment', { /* module options */ }]
   ],
-
   apollo: {
     clientConfigs: {
       default: {
-        httpEndpoint: 'https://etick-boat-server.herokuapp.com/graphql' || 'http://localhost:4000/graphql',
+        httpEndpoint: (process.env.NODE_ENV === 'production') ? 'https://etick-boat-server.herokuapp.com/graphql' : 'http://localhost:4000/graphql',
       }
     }
   },
