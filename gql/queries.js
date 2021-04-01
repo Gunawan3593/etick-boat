@@ -602,3 +602,18 @@ export const GET_BOOKING_WEEKLY = gql`
     }
   }
 `;
+
+export const GET_BOOKING_MONTLY = gql`
+  query GET_BOOKING_MONTLY(
+    $date: String!
+    $status: Int!
+  ){
+    getBookingMonthly(
+      date: $date,
+      status: $status
+    ){
+      month
+      total
+    }
+  }
+`;

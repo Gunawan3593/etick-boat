@@ -12,6 +12,7 @@ import {
     GET_BOOKING_WEEKLY,
     GET_BOOKING_BY_TIME
   } from '../gql';
+import { GET_BOOKING_MONTLY } from '../gql/queries';
   
   import { Toast } from '../plugins/swal';
   
@@ -147,6 +148,19 @@ import {
                 variables: inputData
             });
             let res = data.data.getBookingWeekly;
+            return res;
+        } catch (err) {
+          console.log(err.message.split(': ')[1]);
+        }
+    },
+    async bookingMonthly({}, inputData) {
+        try {
+            let apolloClient = this.app.apolloProvider.defaultClient;
+            let data = await apolloClient.query({
+                query: GET_BOOKING_MONTLY,
+                variables: inputData
+            });
+            let res = data.data.getBookingMonthly;
             return res;
         } catch (err) {
           console.log(err.message.split(': ')[1]);
