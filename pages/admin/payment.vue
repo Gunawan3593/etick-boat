@@ -1,6 +1,6 @@
 <template>
+<v-layout>
 <v-container class="mt-10">
-    <v-layout>
       <v-row class="justify-center">
         <v-col cols="12">
           <v-card elevation="2" > 
@@ -113,12 +113,15 @@
         persistent
         max-width="600px"
       >
-          <v-card>
-              <v-card-title>
-              <span class="headline">Payment</span>
-              </v-card-title>
-              <v-divider class="mx-4 mb-4"></v-divider>
-              <v-card-text>
+          <v-sheet>
+        <v-layout>
+        <v-container class="mb-2">
+          <v-row>
+            <v-col cols="12">
+              <span class="headline">Payment Detail</span>
+            </v-col>
+            <v-divider class="mx-4 mb-4"></v-divider>
+          </v-row>
                 <v-row>
                   <v-col cols="6">
                     <span class="caption font-weight-bold">No.</span><br> {{ curPayment.booking.transNo }}
@@ -152,8 +155,7 @@
                     <v-img :src="curPayment.transferEvidence"></v-img>
                   </v-col>
                 </v-row>
-              </v-card-text>
-              <v-card-actions>
+              <v-row>
               <v-spacer></v-spacer>
               <v-btn
                   color="blue darken-1"
@@ -179,11 +181,13 @@
               >
                   Close
               </v-btn>
-              </v-card-actions>
-          </v-card>
+              </v-row>
+          </v-container>
+        </v-layout>
+        </v-sheet>
       </v-dialog>
-    </v-layout>
 </v-container>
+</v-layout>
 </template>
 <script> 
 import { mapActions } from 'vuex';

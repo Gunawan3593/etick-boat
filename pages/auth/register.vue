@@ -1,6 +1,6 @@
 <template>
+ <v-layout>
 <v-container class="mt-10">
-    <v-layout>
       <v-row class="justify-center">
         <v-col cols="12" md="6">
         <v-card elevation="2" > 
@@ -268,8 +268,8 @@
         </v-card>
         </v-col>
       </v-row>
-    </v-layout>
 </v-container>
+</v-layout>
 </template>
 
 <script>

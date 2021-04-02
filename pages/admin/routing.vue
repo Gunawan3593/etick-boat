@@ -1,6 +1,6 @@
 <template>
+<v-layout>
 <v-container class="mt-10">
-    <v-layout>
       <v-row class="justify-center">
         <v-col cols="12">
           <v-card elevation="2" > 
@@ -111,13 +111,15 @@
     persistent
     max-width="600px"
     >
-        <v-card>
-            <v-card-title>
-            <span class="headline"><span v-if="!fields.id">New</span><span v-else>Edit</span> Route</span>
-            </v-card-title>
+       <v-sheet>
+        <v-layout>
+        <v-container class="mb-2">
+          <v-row>
+            <v-col cols="12">
+              <span class="headline"><span v-if="!fields.id">New</span><span v-else>Edit</span> Route</span>
+            </v-col>
             <v-divider class="mx-4 mb-4"></v-divider>
-            <v-card-text>
-            <v-form>
+          </v-row>
               <v-row>
                 <v-col
                   cols="12"
@@ -159,9 +161,7 @@
                         ></v-switch>
                   </v-col>
               </v-row>
-            </v-form>
-            </v-card-text>
-            <v-card-actions>
+           <v-row>
             <v-spacer></v-spacer>
             <v-btn
                 color="blue darken-1"
@@ -178,11 +178,13 @@
             >
                 Save
             </v-btn>
-            </v-card-actions>
-        </v-card>
+           </v-row>
+        </v-container>
+        </v-layout>
+       </v-sheet>
     </v-dialog>
-    </v-layout>
 </v-container>
+</v-layout>
 </template>
 
 <script> 

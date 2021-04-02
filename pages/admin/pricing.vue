@@ -1,6 +1,6 @@
 <template>
+<v-layout>
 <v-container class="mt-10">
-    <v-layout>
       <v-row class="justify-center">
         <v-col cols="12">
           <v-card elevation="2" > 
@@ -120,190 +120,193 @@
             </v-card-text>
           </v-card>
         </v-col>
-        
       </v-row>
     <v-dialog
     v-model="dialog"
     persistent
     max-width="600px"
     >
-        <v-card>
-            <v-card-title>
-            <span class="headline"><span v-if="!fields.id">New</span><span v-else>Edit</span> Price</span>
-            </v-card-title>
+        <v-sheet>
+        <v-layout>
+        <v-container class="mb-2">
+          <v-row>
+            <v-col cols="12">
+              <span class="headline"><span v-if="!fields.id">New</span><span v-else>Edit</span> Price</span>
+            </v-col>
             <v-divider class="mx-4 mb-4"></v-divider>
-            <v-card-text>
-            <v-form>
-              <v-row>
-                <v-col
-                  cols="6"
-                >
-                  <v-text-field
-                    v-model="fields.name"
-                    prepend-inner-icon="mdi-card-account-details-outline"
-                    label="Name"
-                    placeholder="Name"
-                    solo
-                  ></v-text-field>
-                  <div class="text-left caption" v-for="(error,index) in errors.name" :key="index">
-                    <span class="red--text"><v-icon color="error" small class="pb-1">mdi-alert-decagram</v-icon> {{ error[0] }}</span>
-                  </div>
-                </v-col>
-                <v-col
-                  cols="6"
-                >
-                  <v-select
-                    v-model="fields.vendor"
-                    :items="vendors"
-                    item-text="name"
-                    item-value="id"
-                    label="Select Vendor"
-                    prepend-inner-icon="mdi-sail-boat"
-                    solo
-                  ></v-select>
-                  <div class="text-left caption" v-for="(error,index) in errors.vendor" :key="index">
-                    <span class="red--text"><v-icon color="error" small class="pb-1">mdi-alert-decagram</v-icon> {{ error[0] }}</span>
-                  </div>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col cols="12" md="6">
-                  <v-select
-                    v-model="fields.routeFrom"
-                    :items="routes"
-                    item-text="name"
-                    item-value="id"
-                    label="Route from"
-                    prepend-inner-icon="mdi-routes"
-                    solo
-                  ></v-select>
-                  <div class="text-left caption" v-for="(error,index) in errors.routeFrom" :key="index">
-                    <span class="red--text"><v-icon color="error" small class="pb-1">mdi-alert-decagram</v-icon> {{ error[0] }}</span>
-                  </div>
-                </v-col>
-                <v-col cols="12" md="6">
-                  <v-select
-                    v-model="fields.routeTo"
-                    :items="routes"
-                    item-text="name"
-                    item-value="id"
-                    label="Route to"
-                    prepend-inner-icon="mdi-routes"
-                    solo
-                  ></v-select>
-                  <div class="text-left caption" v-for="(error,index) in errors.routeTo" :key="index">
-                    <span class="red--text"><v-icon color="error" small class="pb-1">mdi-alert-decagram</v-icon> {{ error[0] }}</span>
-                  </div>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col
-                  cols="12" md="6"
-                >
-                  <span class="caption">Price</span>
-                  <v-currency-field 
-                  v-model="fields.price"
-                  label="Price"
-                  prepend-inner-icon="mdi-tag"
-                  placeholder="Price"
-                  solo
-                  />
-                </v-col>
-                <v-col
-                  cols="12" md="6"
-                >
-                  <span class="caption">Unit</span>
-                  <v-select
-                    v-model="fields.unit"
-                    :items="units"
-                    label="Select Unit"
-                    prepend-inner-icon="mdi-account"
-                    solo
-                  ></v-select>
-                  <div class="text-left caption" v-for="(error,index) in errors.unit" :key="index">
-                    <span class="red--text"><v-icon color="error" small class="pb-1">mdi-alert-decagram</v-icon> {{ error[0] }}</span>
-                  </div>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col
-                  cols="12"
-                >
-                  <input
-                    v-model="fields.imagePath"
-                    label="Image Path"
-                    placeholder="Image Path"
-                    type="hidden"
-                  >
-                  <v-file-input
-                    v-model="imageUploader"
-                    prepend-inner-icon="mdi-camera"
-                    accept="image/*"
-                    label="Image Upload"
-                    @change="uploadImage"
-                    prepend-icon
-                    solo
-                  ></v-file-input>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col
-                  cols="12"
-                  class="text-center"
-                >
-                  <v-img
-                    max-height="150"
-                    max-width="250"
-                    :src="(fields.imagePath) ? fields.imagePath : 'https://p2t.jatimprov.go.id/assets/upload/berita/default-cover.png'"
-                  ></v-img>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col
-                  cols="12"
-                >
-                  <v-textarea
-                    v-model="fields.descriptions"
-                    prepend-inner-icon="mdi-notebook-outline"
-                    solo
-                    name="input-7-4"
-                    label="Descriptions"
-                    placeholder="Descriptions"
-                  ></v-textarea>
-                </v-col>
-              </v-row>
-              <v-row>
-                  <v-col cols="12">
-                      <v-switch
-                        v-model="fields.active"
-                        label="Active"
-                        ></v-switch>
-                  </v-col>
-              </v-row>
-            </v-form>
-            </v-card-text>
-            <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-                color="blue darken-1"
-                text
-                @click="dialog = false"
+          </v-row>
+          <v-row>
+            <v-col
+              cols="12"
+              md="6"
             >
-                Close
-            </v-btn>
-            <v-btn
-                color="blue darken-1"
-                text
-                :disabled="isloading"
-                @click="saveData()"
+              <v-text-field
+                v-model="fields.name"
+                prepend-inner-icon="mdi-card-account-details-outline"
+                label="Name"
+                placeholder="Name"
+                solo
+              ></v-text-field>
+              <div class="text-left caption" v-for="(error,index) in errors.name" :key="index">
+                <span class="red--text"><v-icon color="error" small class="pb-1">mdi-alert-decagram</v-icon> {{ error[0] }}</span>
+              </div>
+            </v-col>
+            <v-col
+              cols="12"
+              md="6"
             >
-                Save
-            </v-btn>
-            </v-card-actions>
-        </v-card>
+              <v-select
+                v-model="fields.vendor"
+                :items="vendors"
+                item-text="name"
+                item-value="id"
+                label="Select Vendor"
+                prepend-inner-icon="mdi-sail-boat"
+                solo
+              ></v-select>
+              <div class="text-left caption" v-for="(error,index) in errors.vendor" :key="index">
+                <span class="red--text"><v-icon color="error" small class="pb-1">mdi-alert-decagram</v-icon> {{ error[0] }}</span>
+              </div>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" md="6">
+              <v-select
+                v-model="fields.routeFrom"
+                :items="routes"
+                item-text="name"
+                item-value="id"
+                label="Route from"
+                prepend-inner-icon="mdi-routes"
+                solo
+              ></v-select>
+              <div class="text-left caption" v-for="(error,index) in errors.routeFrom" :key="index">
+                <span class="red--text"><v-icon color="error" small class="pb-1">mdi-alert-decagram</v-icon> {{ error[0] }}</span>
+              </div>
+            </v-col>
+            <v-col cols="12" md="6">
+              <v-select
+                v-model="fields.routeTo"
+                :items="routes"
+                item-text="name"
+                item-value="id"
+                label="Route to"
+                prepend-inner-icon="mdi-routes"
+                solo
+              ></v-select>
+              <div class="text-left caption" v-for="(error,index) in errors.routeTo" :key="index">
+                <span class="red--text"><v-icon color="error" small class="pb-1">mdi-alert-decagram</v-icon> {{ error[0] }}</span>
+              </div>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col
+              cols="12" md="6"
+            >
+              <span class="caption">Price</span>
+              <v-currency-field 
+              v-model="fields.price"
+              label="Price"
+              prepend-inner-icon="mdi-tag"
+              placeholder="Price"
+              solo
+              />
+            </v-col>
+            <v-col
+              cols="12" md="6"
+            >
+              <span class="caption">Unit</span>
+              <v-select
+                v-model="fields.unit"
+                :items="units"
+                label="Select Unit"
+                prepend-inner-icon="mdi-account"
+                solo
+              ></v-select>
+              <div class="text-left caption" v-for="(error,index) in errors.unit" :key="index">
+                <span class="red--text"><v-icon color="error" small class="pb-1">mdi-alert-decagram</v-icon> {{ error[0] }}</span>
+              </div>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col
+              cols="12"
+            >
+              <input
+                v-model="fields.imagePath"
+                label="Image Path"
+                placeholder="Image Path"
+                type="hidden"
+              >
+              <v-file-input
+                v-model="imageUploader"
+                prepend-inner-icon="mdi-camera"
+                accept="image/*"
+                label="Image Upload"
+                @change="uploadImage"
+                prepend-icon
+                solo
+              ></v-file-input>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col
+              cols="12"
+              class="text-center"
+            >
+              <v-img
+                max-height="150"
+                max-width="250"
+                :src="(fields.imagePath) ? fields.imagePath : 'https://p2t.jatimprov.go.id/assets/upload/berita/default-cover.png'"
+              ></v-img>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col
+              cols="12"
+            >
+              <v-textarea
+                v-model="fields.descriptions"
+                prepend-inner-icon="mdi-notebook-outline"
+                solo
+                name="input-7-4"
+                label="Descriptions"
+                placeholder="Descriptions"
+              ></v-textarea>
+            </v-col>
+          </v-row>
+          <v-row>
+              <v-col cols="12">
+                  <v-switch
+                    v-model="fields.active"
+                    label="Active"
+                    ></v-switch>
+              </v-col>
+          </v-row>
+          <v-row>
+        <v-spacer></v-spacer>
+        <v-btn
+            color="blue darken-1"
+            text
+            @click="dialog = false"
+        >
+            Close
+        </v-btn>
+        <v-btn
+            color="blue darken-1"
+            text
+            :disabled="isloading"
+            @click="saveData()"
+        >
+            Save
+        </v-btn>
+        </v-row>
+        </v-container>
+        </v-layout>
+        </v-sheet>
     </v-dialog>
-    </v-layout>
 </v-container>
+ </v-layout>
 </template>
 
 <script> 

@@ -1,6 +1,6 @@
 <template>
+<v-layout>
 <v-container class="mt-10">
-    <v-layout>
       <v-row class="justify-center">
         <v-col cols="12">
           <v-card elevation="2" > 
@@ -115,16 +115,19 @@
     persistent
     max-width="600px"
     >
-        <v-card>
-            <v-card-title>
-            <span class="headline"><span v-if="!fields.id">New</span><span v-else>Edit</span> Bank</span>
-            </v-card-title>
+        <v-sheet>
+        <v-layout>
+        <v-container class="mb-2">
+          <v-row>
+            <v-col cols="12">
+              <span class="headline"><span v-if="!fields.id">New</span><span v-else>Edit</span> Bank</span>
+            </v-col>
             <v-divider class="mx-4 mb-4"></v-divider>
-            <v-card-text>
-            <v-form>
+          </v-row>
               <v-row>
                 <v-col
-                  cols="6"
+                  md="6"
+                  cols="12"
                 >
                   <v-text-field
                     v-model="fields.name"
@@ -138,7 +141,8 @@
                   </div>
                 </v-col>
                 <v-col
-                  cols="6"
+                  md="6"
+                  cols="12"
                 >
                   <v-text-field
                     v-model="fields.itno"
@@ -190,30 +194,30 @@
                         ></v-switch>
                   </v-col>
               </v-row>
-            </v-form>
-            </v-card-text>
-            <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-                color="blue darken-1"
-                text
-                @click="dialog = false"
-            >
-                Close
-            </v-btn>
-            <v-btn
-                color="blue darken-1"
-                text
-                :disabled="isloading"
-                @click="saveData()"
-            >
-                Save
-            </v-btn>
-            </v-card-actions>
-        </v-card>
+            <v-row>
+        <v-spacer></v-spacer>
+        <v-btn
+            color="blue darken-1"
+            text
+            @click="dialog = false"
+        >
+            Close
+        </v-btn>
+        <v-btn
+            color="blue darken-1"
+            text
+            :disabled="isloading"
+            @click="saveData()"
+        >
+            Save
+        </v-btn>
+        </v-row>
+        </v-container>
+        </v-layout>
+        </v-sheet>
     </v-dialog>
-    </v-layout>
 </v-container>
+</v-layout>
 </template>
 
 <script> 
