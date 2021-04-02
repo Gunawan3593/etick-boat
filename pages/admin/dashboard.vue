@@ -705,5 +705,27 @@ export default {
 </script>
 
 <style>
+@media screen and (max-width: 375px) {
+    body {
+      max-width: 375px;
+    }
+    .v-card {
+      max-width: 350px;
+    }
+    .v-card__text {
+      min-width: 330px;
+    }
+  }
 
+@media screen and (max-width: 340px) {
+    body {
+      max-width: 340px;
+    }
+    .v-card {
+      max-width: 320px;
+    }
+    .v-card__text {
+      min-width: 320px;
+    }
+  }
 </style>

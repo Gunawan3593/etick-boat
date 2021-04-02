@@ -347,15 +347,4 @@ export default {
 </script>
 
 <style>
-@media screen and (max-width: 375px) {
-    body {
-      max-width: 375px;
-    }
-    .v-card {
-      max-width: 350px;
-    }
-    .v-card__text {
-      min-width: 330px;
-    }
-  }
 </style>
