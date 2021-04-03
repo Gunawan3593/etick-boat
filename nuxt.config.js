@@ -69,7 +69,18 @@ export default {
       default: {
         httpEndpoint: (process.env.NODE_ENV === 'production') ? 'https://etick-boat-server.herokuapp.com/graphql' : 'http://localhost:4000/graphql',
       }
-    }
+    },
+    /**
+     * default 'apollo' definition
+     */
+     defaultOptions: {
+      // See 'apollo' definition
+      // For example: default query options
+      $query: {
+        loadingKey: 'loading',
+        fetchPolicy: 'cache-and-network',
+      },
+    },
   },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
