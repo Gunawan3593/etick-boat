@@ -60,9 +60,10 @@ export default {
     }],
     // Simple usage
     '@nuxtjs/moment',
-
-    // With options
-    ['@nuxtjs/moment', { /* module options */ }]
+    ['@nuxtjs/proxy', { ws: false }]
+  ],
+  proxy: [
+    'http://etick-boat-server.herokuapp.com',
   ],
   apollo: {
     clientConfigs: {
