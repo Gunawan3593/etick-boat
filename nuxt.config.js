@@ -65,12 +65,6 @@ export default {
     clientConfigs: {
       default: {
         httpEndpoint: (process.env.NODE_ENV === 'production') ? 'https://etick-boat-server.herokuapp.com/graphql' : 'http://localhost:4000/graphql',
-        httpLinkOptions: {
-          fetchOptions: {
-            mode: 'cors' //Cors Needed for external Cross origins, need to allow headers from server
-          },
-          credentials: "omit" //must be omit to support application/json content type 
-        }
       }
     },
     /**
