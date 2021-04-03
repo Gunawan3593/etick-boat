@@ -63,7 +63,7 @@ export default {
     ['@nuxtjs/proxy', { ws: false }]
   ],
   proxy: [
-    'http://etick-boat-server.herokuapp.com',
+    'http://etick-boat.herokuapp.com',
   ],
   apollo: {
     clientConfigs: {
