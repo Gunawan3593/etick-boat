@@ -257,7 +257,7 @@
               <v-img
                 max-height="150"
                 max-width="250"
-                :src="(fields.imagePath) ? fields.imagePath : 'https://p2t.jatimprov.go.id/assets/upload/berita/default-cover.png'"
+                :src="(fields.imagePath) ? fields.imagePath : 'https://rumushitung.com/forum/wp-content/themes/qaengine/img/default-thumbnail.jpg'"
               ></v-img>
             </v-col>
           </v-row>

@@ -52,7 +52,7 @@ export default {
     ['vue-currency-filter/nuxt', {
       symbol: 'Rp',
       thousandsSeparator: '.',
-      fractionCount: 2,
+      fractionCount: 0,
       fractionSeparator: ',',
       symbolPosition: 'front',
       symbolSpacing: true,
