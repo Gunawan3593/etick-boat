@@ -59,7 +59,7 @@
             <v-card elevation="5">
             <v-card-title>{{ item.name }}</v-card-title>
             <v-card-text>
-              <v-img height="200" :src="(item.imagePath) ? item.imagePath : 'https://p2t.jatimprov.go.id/assets/upload/berita/default-cover.png'" />
+              <v-img height="200" :src="(item.imagePath) ? item.imagePath : 'https://rumushitung.com/forum/wp-content/themes/qaengine/img/default-thumbnail.jpg'" />
               <div class="text-center">
               <v-divider class="mt-4"></v-divider>
               <span><v-icon>mdi-sail-boat</v-icon> {{ item.vendor.name }}</span>
