@@ -1,6 +1,6 @@
-export default function ({ app, redirect }) {
-    const hasToken = !!app.$apolloHelpers.getToken();
-    if (!hasToken) {
-      return redirect('/auth/login')
-    }
+export default async function ({ app, redirect }) {
+  await app.store.dispatch('auth/getAuthUser');
+  if(!app.store.state.auth.authStatus){
+    return redirect('/auth/login')
+  }
 }

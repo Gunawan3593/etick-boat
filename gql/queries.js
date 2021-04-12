@@ -9,6 +9,7 @@ query AUTH_USER {
         firstName
         lastName
         avatarImage
+        role
     }
 }`;
 
@@ -28,6 +29,7 @@ query AUTHENTICATE_USER(
         firstName
         lastName
         avatarImage
+        role
       }
       token
     }

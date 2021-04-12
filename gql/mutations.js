@@ -49,6 +49,7 @@ export const REGISTER_USER = gql`
         username
         firstName
         avatarImage
+        role
       }
     }
   }

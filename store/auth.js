@@ -75,15 +75,17 @@ export  const actions = {
   async setAuthUserData({ commit }, payload) {
       commit('LOGIN_USER', payload);
       commit('SET_TOKEN', payload);
-      //Set token in local storage
-      localStorage.setItem('apollo-token', payload.token.split(' ')[1]);
       this.$apolloHelpers.onLogin(payload.token.split(' ')[1]);
       //Redirect the user to the dashboard
       Toast.fire({
         type: 'success',
         title: 'Login successfully'
-      })
-      this.$router.push('/admin/dashboard');
+      });
+      if(payload.user.role == 1){
+        this.$router.push('/admin/dashboard');
+      }else{
+        this.$router.push('/');
+      }
   },
   async getAuthUser({ commit, dispatch }) {
       try {
@@ -94,6 +96,9 @@ export  const actions = {
               query: AUTHENTICATED_USER
           });
           let token = this.$apolloHelpers.getToken();
+          if (!authUserProfile){
+            dispatch('logoutUser');
+          }
           commit('LOGIN_USER', { user: authUserProfile, token: token });
       } catch (err) {
         dispatch('logoutUser');
@@ -107,9 +112,6 @@ export  const actions = {
               title: 'You are now logged out.'
           });
         }
-      if (process.browser) {
-        localStorage.removeItem('apollo-token');
-      }
       this.$apolloHelpers.onLogout();
       commit('LOGOUT_USER');
   },

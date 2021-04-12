@@ -50,7 +50,7 @@
         :value="true"
         color="white"
         prepend-icon="mdi-account-supervisor-circle"
-        v-if="isAuth"
+        v-if="user.role == 1"
       >
         <template v-slot:activator>
             <v-list-item-title>Admin</v-list-item-title>
@@ -179,8 +179,10 @@ export default {
     }),
   },
   async fetch(){
-    await this.$store.dispatch('auth/getAuthUser');
-    await this.$store.dispatch('cart/getAllCarts');
+    let data = await this.$store.dispatch('auth/getAuthUser');
+    if(data){
+      await this.$store.dispatch('cart/getAllCarts');
+    }
   },
   methods: {
     logout() {
@@ -192,29 +194,6 @@ export default {
 </script>
 
 <style>
-@media screen and (max-width: 375px) {
-    body {
-      max-width: 375px;
-    }
-    .v-card {
-      max-width: 350px;
-    }
-    .v-card__text {
-      min-width: 330px;
-    }
-  }
-
-@media screen and (max-width: 340px) {
-    body {
-      max-width: 340px;
-    }
-    .v-card {
-      max-width: 320px;
-    }
-    .v-card__text {
-      min-width: 320px;
-    }
-  }
 a {
   text-decoration: none;
   color: white !important;
